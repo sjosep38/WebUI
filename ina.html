@@ -1,0 +1,547 @@
+#include <Arduino.h>
+#include <ESP8266WiFi.h>
+#include <ESPAsyncTCP.h>
+#include <ESPAsyncWebServer.h>
+#include <ArduinoJson.h>
+
+// ===== WiFi Station CONFIG =====
+const char* sta_ssid = "iPhone 16 Pro Max _Ext";
+const char* sta_password = "@1111111";
+
+// ===== Server =====
+AsyncWebServer server(80);
+AsyncWebSocket ws("/ws");
+
+// ===== CD4051 MUX Pins =====
+#define muxS0 D5
+#define muxS1 D6
+#define muxS2 D7
+const int muxOutput = A0; // MUX output wired to ADC
+
+// ===== ACS712 Setup =====
+const int sensorCount = 3; // PV, Battery, Load
+const float sensitivity = 0.066f; // 66 mV/A for 30A module
+const float vRef = 1.0f;         // ADC reference voltage (0-1V for bare ESP8266)
+const float adcMax = 1023.0f;
+float offsetVoltage[sensorCount] = {vRef/2, vRef/2, vRef/2};
+
+// ===== Battery Setup =====
+float batterySoc = 50.0f;
+const float batteryCapacityAh = 100.0f;
+const float batteryVoltageNom = 50.0f;
+float batteryVolt = batteryVoltageNom;
+float batteryCurrent = 0.0f;
+const float lowVoltageThreshold = 42.0f;
+bool alertSent = false;
+
+// ===== Energy Tracking =====
+float pvEnergyWh = 0.0f;
+float pvTotalEnergyWh = 0.0f;
+float loadEnergyWh = 0.0f;
+float loadTotalEnergyWh = 0.0f;
+
+// ===== PV & Grid =====
+float pvVolt = 0.05f;
+const float inverterEff = 0.85f;
+float gridVolt = 230.0f;
+
+// ===== Timing =====
+unsigned long lastTime = 0;
+const long timerDelay = 1000; // 1s
+unsigned long lastMidnight = 0;
+const unsigned long DAY_MS = 24UL * 60UL * 60UL * 1000UL;
+
+// small helper to throttle logs
+unsigned long lastLogSent = 0;
+const unsigned long logIntervalMs = 10000; // send a log line every 10s
+
+// ===== Cached sensor values =====
+float pvCurrent = 0.0f;
+float batCurrent = 0.0f;
+float loadCurrentMeasured = 0.0f;
+
+// ===== HTML Dashboard =====
+const char index_html[] PROGMEM = R"rawliteral(
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>SeanSo SolarPH</title>
+<style>
+body { font-family: Arial; background: linear-gradient(to bottom right, #000000, #4B0082); color: #eee; margin:2px; padding:10px; }
+.container { max-width:1200px; margin: auto; padding:20px; }
+.cards { display:flex; flex-wrap:wrap; justify-content:center; gap:20px; min-height:250px; }
+.card { background: rgba(255, 255, 255, 0.1); box-shadow: 0 4px 12px rgba(0,0,0,0.3); color: white; backdrop-filter: blur(6px);
+      transition: transform 0.3s ease, box-shadow 0.3s ease; padding:20px; flex:1 1 320px; max-width:420px; min-height:250px; }
+.card:hover { transform: translateY(-10px) scale(1.03); box-shadow: 0 8px 20px rgba(255, 255, 255, 0.3); }
+.title { font-size:50px; font-weight:bold; margin-bottom:10px; color:#16a085; }
+.title-circle { font-size:50px; font-weight:bold; margin-bottom:10px; color: Violet; }
+.value { font-size:40px; margin:4px 0; }
+#soc { width:100%; background:#ddd; border-radius:8px; height:16px; margin-top:8px; overflow:hidden; }
+#soc div { height:100%; width:0; background:linear-gradient(90deg,#27ae60,#2ecc71); transition:width 0.5s; }
+#logBoxModal { background: rgba(255, 255, 255, 0.02); font-family:monospace; padding:20px; height:1500px; overflow-y:auto; border-radius:12px; color: #00ff0d; }
+.navbar { background-color: #222; color: white; display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; }
+.navbar .logo { font-size: 40px; font-weight: bold; }
+.navbar .links { display: flex; gap: 20px; }
+.navbar button { background: none; border: none; color: white; font-size: 40px; cursor: pointer; padding:6px 12px; }
+.navbar button:hover { color: #0dcaf0; }
+.modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; color: #00ff0d;}
+.modal-content { background: rgba(255, 255, 255, 0.05); margin: 60px auto; padding: 20px; border-radius: 6px; width: 90%; max-width: 900px; min-height:200px;}
+.modal-header { display: flex; justify-content: space-between; align-items: center; font-size: 20px; font-weight: bold; color: white; }
+.close { font-size: 20px; cursor: pointer; color: #888; padding:4px; }
+.close:hover { color: #fff; }
+.card-circle { display:inline-block; color: white; padding: 2px; width: 200px; height: 200px; border-radius: 12px; text-align: center; margin: 5px;}
+.circle-svg { transform: rotate(-0deg); }
+.circle-bg, .circle-fg { fill: none; stroke-width: 10; }
+.circle-bg { stroke: rgba(255,255,255,0.2);}
+.circle-fg { stroke-linecap: round; transition: stroke-dashoffset 0.5s; }
+.circle-text { font-size: 24px; fill: white; text-anchor: middle; dominant-baseline: middle; }
+</style>
+</head>
+<body>
+  <div class="navbar">
+    <div class="logo">SeanSolarPH</div>
+    <div class="links">
+      <button onclick="openModal('logModal')">Log</button>
+      <button onclick="openModal('weatherModal')">Weather</button>
+      <button onclick="openModal('settingsModal')">Settings</button>
+      <button onclick="openModal('helpModal')">Help</button>
+    </div>
+  </div>
+<div class="container">
+  <br><br>
+  <div class="cards">
+    <div class="card">
+      <div class="title">☀️ PANEL</div>
+      <div id="pvW" class="value">Power: -- W</div>
+      <div id="pvV" class="value">Voltage: -- V</div>
+      <div id="pvA" class="value">Current: -- A</div>
+      <div id="pvE" class="value">Daily: -- kWh</div>
+      <div id="pvEtot" class="value">Total: -- kWh</div>
+    </div>
+    <div class="card">
+      <div class="title">🔋 BATTERY</div>
+      <div id="batV" class="value">Voltage: -- V</div>
+      <div id="batA" class="value">Current: -- A</div>
+      <div id="batSOC" class="value">SoC: -- %</div>
+      <div id="batStatus" class="value">Status: --</div>
+      <div id="soc"><div></div></div>
+    </div>
+    <div class="card">
+      <div class="title">🌍 GRID</div>
+      <div id="gridV" class="value">Voltage: -- V</div>
+      <div id="gridA" class="value">Current: -- A</div>
+      <div id="gridS" class="value">Status: --</div>
+    </div>
+    <div class="card">
+      <div class="title">💡 LOAD</div>
+      <div id="loadW" class="value">Power: -- W</div>
+      <div id="loadA" class="value">Current: -- A</div>
+      <div id="loadE" class="value">Daily: -- kWh</div>
+      <div id="loadEtot" class="value">Total: -- kWh</div>
+    </div>
+  </div>
+
+<div style="text-align:center;">
+<div class="container" style="margin-top:20px;">
+<div class="card-circle">
+    <div class="title-circle ">PV</div>
+    <svg class="circle-svg" width="200" height="200">
+      <circle class="circle-bg" cx="100" cy="100" r="90"></circle>
+      <circle id="pvCircle" class="circle-fg" cx="100" cy="100" r="90" stroke="lime" stroke-dasharray="565" stroke-dashoffset="565"></circle>
+      <text id="pvCircleText" class="circle-text" x="100" y="100">0W</text>
+    </svg>
+ </div>
+
+<div class="card-circle">
+    <div class="title-circle ">SOC</div>
+    <svg class="circle-svg" width="200" height="200">
+      <circle class="circle-bg" cx="100" cy="100" r="90"></circle>
+      <circle id="batCircle" class="circle-fg" cx="100" cy="100" r="90" stroke="#27ae60" stroke-dasharray="565" stroke-dashoffset="565"></circle>
+      <text id="batCircleText" class="circle-text" x="100" y="100">0%</text>
+    </svg>
+ </div>
+
+<div class="card-circle">
+    <div class="title-circle ">GRID</div>
+    <svg class="circle-svg" width="200" height="200">
+      <circle class="circle-bg" cx="100" cy="100" r="90"></circle>
+      <circle id="gridCircle" class="circle-fg" cx="100" cy="100" r="90" stroke="#3498db" stroke-dasharray="565" stroke-dashoffset="565"></circle>
+      <text id="gridCircleText" class="circle-text" x="100" y="100">0W</text>
+    </svg>
+ </div>
+
+<div class="card-circle">
+    <div class="title-circle ">LOAD</div>
+    <svg class="circle-svg" width="200" height="200">
+      <circle class="circle-bg" cx="100" cy="100" r="90"></circle>
+      <circle id="loadCircle" class="circle-fg" cx="100" cy="100" r="90" stroke="#e74c3c" stroke-dasharray="565" stroke-dashoffset="565"></circle>
+      <text id="loadCircleText" class="circle-text" x="100" y="100">0W</text>
+    </svg>
+ </div>
+ </div>
+ </div>
+</div>
+
+<!-- ====== Modals ====== -->
+<div id="logModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header"><span>System Log</span><span class="close" onclick="closeModal('logModal')">&times;</span></div>
+    <div id="logBoxModal"></div>
+  </div>
+</div>
+
+<div id="weatherModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header"><span>Weather</span><span class="close" onclick="closeModal('weatherModal')">&times;</span></div>
+    <div style="color:white">Weather info here…</div>
+  </div>
+</div>
+
+<div id="settingsModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header"><span>Settings</span><span class="close" onclick="closeModal('settingsModal')">&times;</span></div>
+    <div style="color:white">Settings go here…</div>
+  </div>
+</div>
+
+<div id="helpModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header"><span>Help</span><span class="close" onclick="closeModal('helpModal')">&times;</span></div>
+    <div style="color:white">Help info here…</div>
+  </div>
+</div>
+
+<script>
+function openModal(id){ document.getElementById(id).style.display="block"; }
+function closeModal(id){ document.getElementById(id).style.display="none"; }
+window.onclick=function(event){ document.querySelectorAll(".modal").forEach(m=>{ if(event.target===m) m.style.display="none"; }); }
+
+let socBar=null;
+window.onload=()=>{ socBar=document.querySelector("#soc div"); };
+
+let logBoxModal=document.getElementById("logBoxModal");
+let ws = new WebSocket("ws://" + window.location.hostname + "/ws");  // uses same host as page
+
+function beep(duration=200,frequency=1000,volume=1.0){
+  try {
+    const ctx=new(window.AudioContext||window.webkitAudioContext)();
+    const oscillator=ctx.createOscillator();
+    const gain=ctx.createGain();
+    oscillator.connect(gain);
+    gain.connect(ctx.destination);
+    oscillator.type="square";
+    oscillator.frequency.value=frequency;
+    gain.gain.value=volume;
+    oscillator.start();
+    setTimeout(()=>oscillator.stop(),duration);
+  } catch(e) { /* audio not available */ }
+}
+
+ws.onopen = () => {
+  if(logBoxModal) logBoxModal.innerHTML += "[WS] Connected to server<br><br>";
+}
+
+ws.onclose = () => {
+  if(logBoxModal) logBoxModal.innerHTML += "[WS] Disconnected<br><br>";
+}
+
+ws.onerror = (err) => {
+  if(logBoxModal) logBoxModal.innerHTML += "[WS] Error<br><br>";
+}
+
+ws.onmessage=(event)=>{
+  let d=JSON.parse(event.data);
+
+  if(d.logClear){ if(logBoxModal) logBoxModal.innerHTML = ""; }
+
+  if(d.pv){
+    document.getElementById("pvW").innerText="Power: "+d.pv.watt.toFixed(0)+" W";
+    document.getElementById("pvV").innerText="Voltage: "+d.pv.volt.toFixed(1)+" V";
+    document.getElementById("pvA").innerText="Current: "+d.pv.amp.toFixed(1)+" A";
+    document.getElementById("pvE").innerText="Daily: "+d.pv.energy.toFixed(3)+" kWh";
+    document.getElementById("pvEtot").innerText="Total: "+d.pv.total.toFixed(3)+" kWh";
+  }
+
+  if(d.battery){
+    document.getElementById("batV").innerText="Voltage: "+d.battery.volt.toFixed(1)+" V";
+    document.getElementById("batA").innerText="Current: "+d.battery.amp.toFixed(1)+" A";
+    document.getElementById("batSOC").innerText="SoC: "+d.battery.soc.toFixed(1)+" %";
+    document.getElementById("batStatus").innerText="Status: "+d.battery.status;
+    if(socBar) {
+      socBar.style.width=d.battery.soc+"%";
+      if(d.battery.soc < 20) socBar.style.background = "linear-gradient(90deg,#e74c3c,#c0392b)";
+      else if(d.battery.soc < 50) socBar.style.background = "linear-gradient(90deg,#f39c12,#e67e22)";
+      else socBar.style.background = "linear-gradient(90deg,#27ae60,#2ecc71)";
+    }
+  }
+
+  if(d.grid){
+    document.getElementById("gridV").innerText="Voltage: "+d.grid.volt+" V";
+    document.getElementById("gridA").innerText="Current: "+d.grid.amp.toFixed(1)+" A";
+    document.getElementById("gridS").innerText="Status: "+d.grid.status;
+  }
+
+  if(d.load){
+    document.getElementById("loadW").innerText="Power: "+d.load.watt.toFixed(0)+" W";
+    document.getElementById("loadA").innerText="Current: "+d.load.amp.toFixed(1)+" A";
+    document.getElementById("loadE").innerText="Daily: "+d.load.energy.toFixed(3)+" kWh";
+    document.getElementById("loadEtot").innerText="Total: "+d.load.total.toFixed(3)+" kWh";
+  }
+
+  if(d.logLine && logBoxModal){
+    logBoxModal.innerHTML+=d.logLine + "<br><br>";
+    logBoxModal.scrollTop = logBoxModal.scrollHeight;
+  }
+
+  if(d.alert){
+    if("vibrate" in navigator) navigator.vibrate([200,100,200]);
+    beep();
+    alert(d.alert);
+  }
+
+  // update circles (simple)
+  function formatValue(val) {
+    if (val >= 10000) return (val / 1000).toFixed(1) + "k";
+    return Math.round(val);
+  }
+
+  function updateCircle(circleId, textId, value, maxValue, label, color) {
+    const circle = document.getElementById(circleId);
+    const text = document.getElementById(textId);
+    if (!circle || !text) return;
+    const r = parseFloat(circle.getAttribute('r')) || 90;
+    const circumference = 2 * Math.PI * r;
+    circle.style.strokeDasharray = circumference;
+    const percent = Math.min(Math.max(value / maxValue, 0), 1);
+    const offset = circumference * (1 - percent);
+    circle.style.strokeDashoffset = offset;
+    circle.style.stroke = color;
+    const displayValue = formatValue(value);
+    text.textContent = label ? `${displayValue}${label}` : displayValue;
+  }
+
+  if(d.pv) updateCircle("pvCircle","pvCircleText",d.pv.watt,2000,"W","lime");
+  if(d.battery) updateCircle("batCircle","batCircleText",d.battery.soc,100,"%","#27ae60");
+  if(d.grid) updateCircle("gridCircle","gridCircleText",d.grid.watt || (d.grid.amp*d.grid.volt),5000,"W","#3498db");
+  if(d.load) updateCircle("loadCircle","loadCircleText",d.load.watt,3000,"W","#e74c3c");
+};
+</script>
+</body>
+</html>
+)rawliteral";
+
+// ===== Helper Functions =====
+void selectMux(int channel){
+  digitalWrite(muxS0, channel & 0x01);
+  digitalWrite(muxS1, (channel>>1) & 0x01);
+  digitalWrite(muxS2, (channel>>2) & 0x01);
+  delayMicroseconds(200); // allow mux to settle
+}
+
+float readCurrentRawADC(int channel){
+  selectMux(channel);
+  long sum=0;
+  const int samples=50;
+  for(int i=0;i<samples;i++){
+    sum += analogRead(muxOutput);
+    delayMicroseconds(100);
+  }
+  float adc = sum / (float)samples;
+  return adc * (vRef / adcMax);
+}
+
+float getCurrentACS(int channel){
+  float v = readCurrentRawADC(channel);
+  float diff = v - offsetVoltage[channel];
+  return diff / sensitivity;
+}
+
+void logEvent(const String &msg){
+  StaticJsonDocument<256> doc;
+  doc["logLine"] = msg;
+  String json;
+  serializeJson(doc, json);
+  ws.textAll(json);
+}
+
+void notifyClients(){
+  StaticJsonDocument<1536> doc; // keep reasonably sized
+  JsonObject pv = doc.createNestedObject("pv");
+  pv["volt"] = pvVolt;
+  pv["amp"] = pvCurrent;
+  pv["watt"] = pvVolt * pvCurrent;
+  pv["energy"] = pvEnergyWh / 1000.0f;
+  pv["total"] = pvTotalEnergyWh / 1000.0f;
+
+  JsonObject battery = doc.createNestedObject("battery");
+  battery["volt"] = batteryVolt;
+  battery["amp"] = batteryCurrent;
+  battery["soc"] = batterySoc;
+  battery["status"] = (batteryCurrent > 0.1) ? "Charging" :
+                      (batteryCurrent < -0.1) ? "Discharging" : "Idle";
+
+  JsonObject grid = doc.createNestedObject("grid");
+  grid["volt"] = gridVolt;
+  grid["amp"] = 0.0;
+  grid["status"] = (batteryVolt < lowVoltageThreshold) ? "Active" : "Standby";
+
+  JsonObject load = doc.createNestedObject("load");
+  load["amp"] = loadCurrentMeasured;
+  load["watt"] = loadCurrentMeasured * gridVolt;
+  load["energy"] = loadEnergyWh / 1000.0f;
+  load["total"] = loadTotalEnergyWh / 1000.0f;
+
+  String json;
+  serializeJson(doc, json);
+  ws.textAll(json);
+}
+
+// Calibrate zero-offsets for ACS readings
+void calibrateOffsets() {
+  Serial.println("Calibrating offsets...");
+  for (int ch = 0; ch < sensorCount; ch++) {
+    long sum = 0;
+    const int samples = 200;
+    for (int i = 0; i < samples; i++) {
+      sum += readCurrentRawADC(ch) / (vRef / adcMax); // readCurrentRawADC returns voltage, convert back to raw to average stable value
+      delay(5);
+    }
+    float avgRaw = sum / (float)samples;
+    // convert raw ADC average to voltage
+    offsetVoltage[ch] = avgRaw * (vRef / adcMax);
+    Serial.print("Offset ch ");
+    Serial.print(ch);
+    Serial.print(" = ");
+    Serial.println(offsetVoltage[ch], 4);
+  }
+  Serial.println("Calibration done.");
+}
+
+// WebSocket event - we keep it simple
+void onWsEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType type, void *arg, uint8_t *data, size_t len){
+  if(type == WS_EVT_CONNECT){
+    Serial.print("WS client #");
+    Serial.print(client->id());
+    Serial.println(" connected");
+    // send an initial log entry to that client
+    StaticJsonDocument<128> doc;
+    doc["logLine"] = String("[Client ") + client->id() + " connected]";
+    String json;
+    serializeJson(doc, json);
+    client->text(json);
+  } else if(type == WS_EVT_DISCONNECT){
+    Serial.print("WS client disconnected\n");
+  }
+}
+
+void setup(){
+  Serial.begin(115200);
+  delay(100);
+
+  pinMode(muxS0, OUTPUT);
+  pinMode(muxS1, OUTPUT);
+  pinMode(muxS2, OUTPUT);
+
+  WiFi.mode(WIFI_STA);
+  WiFi.begin(sta_ssid, sta_password);
+
+  Serial.print("Connecting to WiFi...");
+  unsigned long start = millis();
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+    // time out after ~20 seconds to avoid lock
+    if (millis() - start > 20000) break;
+  }
+
+  if (WiFi.status() == WL_CONNECTED) {
+    Serial.println("\nConnected!");
+    Serial.print("ESP IP Address: ");
+    Serial.println(WiFi.localIP());
+  } else {
+    Serial.println("\nFailed to connect to WiFi. Check credentials / AP.");
+    // still start AP fallback? For now we will continue (you can add fallback if needed)
+  }
+
+  // calibrate offsets (only at boot)
+  calibrateOffsets();
+
+  ws.onEvent(onWsEvent);
+  server.addHandler(&ws);
+
+  server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
+    request->send_P(200, "text/html", index_html);
+  });
+
+  server.begin();
+  lastMidnight = millis();
+
+  // initial log
+  logEvent(String("[System] Started. IP: ") + WiFi.localIP().toString());
+}
+
+// ===== Arduino Loop =====
+void loop(){
+  unsigned long now = millis();
+  ws.cleanupClients();
+
+  if(now - lastTime > timerDelay){
+    lastTime = now;
+
+    // === SENSOR UPDATES ===
+    pvCurrent = getCurrentACS(0);
+    batteryCurrent = getCurrentACS(1); // NOTE: reverse sign if ACS712 orientation is flipped
+    loadCurrentMeasured = getCurrentACS(2);
+
+    float pvPower = pvVolt * pvCurrent;
+    float loadPower = gridVolt * loadCurrentMeasured;
+
+    float dtH = timerDelay / 3600000.0f; // hours
+    pvEnergyWh += pvPower * dtH;
+    loadEnergyWh += loadPower * dtH;
+    pvTotalEnergyWh += pvPower * dtH;
+    loadTotalEnergyWh += loadPower * dtH;
+
+    // === SOC UPDATE (simple coulomb-ish) ===
+    batterySoc += (batteryCurrent * batteryVolt * dtH) / (batteryCapacityAh * batteryVoltageNom) * 100.0f;
+    if(batterySoc > 100.0f) batterySoc = 100.0f;
+    if(batterySoc < 0.0f) batterySoc = 0.0f;
+
+    // === ALERTS ===
+    if(batteryVolt < lowVoltageThreshold && !alertSent){
+      StaticJsonDocument<256> adoc;
+      adoc["alert"] = "Battery voltage critically low!";
+      String j;
+      serializeJson(adoc, j);
+      ws.textAll(j);
+      alertSent = true;
+      logEvent("[ALERT] Battery voltage critically low!");
+    }
+
+    // === SEND DATA ===
+    notifyClients();
+
+    // send periodic log lines (throttled)
+    if (now - lastLogSent >= logIntervalMs) {
+      lastLogSent = now;
+      String msg = String("[DATA] PV: ") + String(pvPower,1) + "W, Load: " + String(loadPower,1) + "W, SoC: " + String(batterySoc,1) + "%";
+      logEvent(msg);
+    }
+
+    // === DAILY RESET ===
+    if(now - lastMidnight >= DAY_MS){
+      pvEnergyWh = 0;
+      loadEnergyWh = 0;
+      lastMidnight = now;
+
+      StaticJsonDocument<128> doc;
+      doc["logClear"] = true;
+      String json;
+      serializeJson(doc, json);
+      ws.textAll(json);
+
+      logEvent("[SYSTEM] Daily counters reset.");
+    }
+  }
+}
