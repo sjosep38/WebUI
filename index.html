@@ -313,7 +313,7 @@ body {
             <div class="error-msg" id="login-error" style="display: none; color: var(--danger); margin-bottom: 12px; font-size: 13px;">
                 <i class="fa-solid fa-circle-exclamation"></i> Incorrect Terminal Password
             </div>
-            <input type="password" id="password-input" placeholder="" Value="" autocomplete="off" style="text-align:center;  font-size:20px; width: 100%; box-sizing: border-box; padding: 6px; margin-bottom: 16px; border: 1px solid var(--border-color); border-radius: 6px;">
+            <input type="password" id="password-input" placeholder="" Value="2026" autocomplete="off" style="text-align:center;  font-size:20px; width: 100%; box-sizing: border-box; padding: 6px; margin-bottom: 16px; border: 1px solid var(--border-color); border-radius: 6px;">
             <button id="login-btn" onclick="checkLogin()" style="width: 100%; padding: 12px; background: var(--primary); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer;">Unlock Terminal</button>
         </div>
     </div>
@@ -336,7 +336,7 @@ body {
 
     <main class="app-container" style="display: flex; flex-direction: row;">
         
-        <section class="column products-panel"style="display: flex; flex-direction: column; height: 100%; box-sizing: border-box; overflow: hidden; padding: 14px 16px;">
+        <section class="column products-panel"style="display: flex; flex-direction: column; min-height: 550px; box-sizing: border-box; overflow: hidden; padding: 14px 16px;">
             <h3 id="formTitle" style="margin-top: 0; margin-bottom: 12px;">Inventory Manager</h3>
             <input type="hidden" id="pId">
             <div class="input-group">
@@ -371,7 +371,7 @@ body {
             </div>
         </section>
 
-        <section class="column cart-panel"style="display: flex; flex-direction: column; height: 100%;  width:70%; box-sizing: border-box; overflow: hidden; padding: 14px 16px;">
+        <section class="column cart-panel"style="display: flex; flex-direction: column; min-height: 550px;  width:70%; box-sizing: border-box; overflow: hidden; padding: 14px 16px;">
             <h3 style="margin-top: 0; margin-bottom: 12px;">Active Cart</h3>
             <input type="text" id="cartScanner" placeholder="⚡ Scan barcode laser here..." style="font-size:16px; border-radius:6px;padding:5px; " autocomplete="off">
             
@@ -393,7 +393,7 @@ body {
                 </div>
         </section>
 
-   <section class="column checkout-panel" style="display: flex; flex-direction: column; min-height: 600px; box-sizing: border-box; overflow: hidden; padding: 14px 16px;">
+   <section class="column checkout-panel" style="display: flex; flex-direction: column; min-height: 550px; box-sizing: border-box; overflow: hidden; padding: 14px 16px;">
             <h3 style="margin-top: 0; margin-bottom: 10px;"> CheckOut </h3>
            <div>
                     <label style="display: block; font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px;">Payment Option</label>
