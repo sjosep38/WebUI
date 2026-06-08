@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>[Inamo Store] POS - Full Enterprise Suite</title>
+    <title>[Your Store] POS - Full Enterprise Suite</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
     <style>
         :root {
@@ -362,7 +362,7 @@
 <div id="auth-screen">
     <div class="auth-wrapper">
         <div class="auth-logo">
-            <h1>Inamo Store POS</h1>
+            <h1>[Your Store] POS</h1>
             <p>Enterprise Point of Sale System</p>
         </div>
         <div class="auth-card">
@@ -426,7 +426,7 @@
 <!-- MAIN APP -->
 <div id="app-main">
 <header>
-    <div class="logo-area"><h1 id="store-header-name">Inamo Store POS</h1></div>
+    <div class="logo-area"><h1 id="store-header-name">[Your Store] POS</h1></div>
     <div class="header-actions">
         <span class="logged-in-badge" id="logged-in-badge">👤 User</span>
         <button class="btn-csv" onclick="openGcashModal()">
@@ -492,8 +492,14 @@
             <input type="password" class="form-control" id="admin-gate-password" style="text-align:center;" placeholder="Enter admin password" onkeydown="if(event.key==='Enter')verifyAdminPassword()">
         </div>
         <div style="display:flex;gap:10px;margin-top:16px;">
-            <button class="btn-modal cancel" style="flex:1;" onclick="closeAdminGate()">Cancel</button>
-            <button class="btn-modal confirm" style="flex:1;" onclick="verifyAdminPassword()">Unlock</button>
+			<button class="btn-modal cancel" style="flex:1;" onclick="closeAdminGate()">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                Cancel
+            </button>
+            <button class="btn-modal confirm" style="flex:1;" onclick="verifyAdminPassword()">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Unlock
+            </button>
         </div>
         <div class="admin-gate-error" id="admin-gate-error">Incorrect password. Try again.</div>
     </div>
