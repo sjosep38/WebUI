@@ -1,9 +1,11 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>[Inamo Store] POS - Full Enterprise Suite</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
     <style>
         :root {
             --bg-color: #121212;
@@ -19,7 +21,6 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: var(--bg-color); color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; }
 
-        /* ICONS */
         .btn-icon { display: inline-flex; align-items: center; gap: 6px; }
         .btn-icon svg { flex-shrink: 0; }
 
@@ -49,6 +50,10 @@
         .auth-error { background: rgba(255,71,87,0.15); border: 1px solid var(--danger-color); color: var(--danger-color); padding: 10px 14px; border-radius: 6px; font-size: 0.85rem; margin-bottom: 14px; display: none; }
         .auth-success { background: rgba(46,213,115,0.15); border: 1px solid var(--success-color); color: var(--success-color); padding: 10px 14px; border-radius: 6px; font-size: 0.85rem; margin-bottom: 14px; display: none; }
 
+        /* SIGNUP ADMIN GATE */
+        .signup-admin-gate { background: rgba(255,165,2,0.1); border: 1px solid var(--warning-color); border-radius: 8px; padding: 12px 14px; margin-bottom: 16px; font-size: 0.85rem; color: var(--warning-color); }
+        .signup-admin-gate strong { display: block; margin-bottom: 4px; }
+
         /* MAIN APP */
         #app-main { display: none; flex-direction: column; min-height: 100vh; }
         #app-main.visible { display: flex; }
@@ -56,7 +61,7 @@
         header { background-color: var(--panel-bg); padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); flex-wrap: wrap; gap: 10px; }
         .logo-area h1 { font-size: 1.2rem; color: var(--accent-color); font-weight: bold; letter-spacing: 0.5px; }
         .header-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
-        .system-status { font-size: 0.85rem; color: var(--text-muted); font-variant-numeric: tabular-nums; text-align: right;margin-right:10px; }
+        .system-status { font-size: 0.85rem; color: var(--text-muted); font-variant-numeric: tabular-nums; text-align: right; margin-right: 10px; }
         .btn-admin-trigger { background: #222; color: var(--accent-color); border: 1px solid var(--accent-color); padding: 8px 16px; border-radius: 4px; cursor: pointer; font-size: 0.85rem; font-weight: bold; transition: all 0.2s; display: inline-flex; align-items: center; gap: 6px; }
         .btn-admin-trigger:hover { background: var(--accent-color); color: #000; }
         .btn-logout { background: #222; color: var(--danger-color); border: 1px solid var(--danger-color); padding: 8px 16px; border-radius: 4px; cursor: pointer; font-size: 0.85rem; font-weight: bold; transition: all 0.2s; display: inline-flex; align-items: center; gap: 6px; }
@@ -75,7 +80,6 @@
         .product-stock { font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; }
 
         .cart-side { display: flex; flex-direction: column; background: var(--panel-bg); overflow: hidden; }
-        /* AUTO-SCROLL: flex:1, overflow-y:auto, scroll-behavior:smooth */
         .cart-items-list { flex: 1; overflow-y: auto; padding: 1px; min-height: 0; scroll-behavior: smooth; max-height: 380px; }
         .cart-items-list::-webkit-scrollbar { width: 4px; }
         .cart-items-list::-webkit-scrollbar-track { background: transparent; }
@@ -83,7 +87,7 @@
         .cart-items-list::-webkit-scrollbar-thumb:hover { background: var(--accent-color); }
         .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 8px; border-bottom: 1px solid var(--border-color); font-size: 0.95rem; }
         .cart-item-details { flex: 1; min-width: 0; }
-        .cart-item-name { text-overflow: ellipsis; overflow: hidden;  font-weight: 500; }
+        .cart-item-name { text-overflow: ellipsis; overflow: hidden; font-weight: 500; }
         .cart-item-qty-controls { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
         .qty-btn { background: #333; border: none; color: white; width: 24px; height: 24px; border-radius: 4px; cursor: pointer; font-weight: bold; display: inline-flex; align-items: center; justify-content: center; }
         .qty-btn:hover { background: var(--accent-color); color: #000; }
@@ -116,6 +120,31 @@
         .admin-body { flex: 1; padding: 20px; overflow-y: auto; background: #141414; }
         .tab-panel { display: none; }
         .tab-panel.active { display: block; }
+
+        /* SALES SUMMARY CARDS */
+        .sales-summary-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 20px; }
+        .sales-card { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 10px; padding: 16px 18px; position: relative; overflow: hidden; }
+        .sales-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+        .sales-card.today::before { background: var(--success-color); }
+        .sales-card.week::before { background: var(--accent-color); }
+        .sales-card.month::before { background: var(--warning-color); }
+        .sales-card.year::before { background: #a29bfe; }
+        .sales-card-label { font-size: 0.75rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px; }
+        .sales-card-amount { font-size: 1.4rem; font-weight: 800; color: #fff; }
+        .sales-card-sub { font-size: 0.78rem; color: var(--text-muted); margin-top: 4px; }
+        .sales-card.today .sales-card-amount { color: var(--success-color); }
+        .sales-card.week .sales-card-amount { color: var(--accent-color); }
+        .sales-card.month .sales-card-amount { color: var(--warning-color); }
+        .sales-card.year .sales-card-amount { color: #a29bfe; }
+
+        /* CHART AREA */
+        .sales-chart-wrapper { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 10px; padding: 18px; margin-bottom: 20px; }
+        .sales-chart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; }
+        .sales-chart-title { font-size: 0.95rem; font-weight: 700; color: var(--text-main); }
+        .chart-period-tabs { display: flex; gap: 4px; background: #111; border-radius: 6px; padding: 3px; }
+        .chart-period-btn { padding: 5px 12px; border: none; background: transparent; color: var(--text-muted); font-size: 0.78rem; font-weight: 600; border-radius: 4px; cursor: pointer; transition: all 0.15s; }
+        .chart-period-btn.active { background: var(--accent-color); color: #000; }
+        .chart-canvas-wrap { position: relative; height: 220px; }
 
         .report-controls { display: flex; gap: 12px; margin-bottom: 20px; align-items: center; background: var(--panel-bg); padding: 15px; border-radius: 8px; border: 1px solid var(--border-color); flex-wrap: wrap; }
         .report-controls label { font-size: 0.85rem; color: var(--text-muted); font-weight: 500; }
@@ -152,7 +181,7 @@
         .btn-filter { background: transparent; border: none; padding: 8px 16px; font-size: 0.875rem; font-weight: 600; color: var(--text-muted); border-radius: 6px; cursor: pointer; transition: all 0.2s; }
         .btn-filter:hover { color: var(--text-main); }
         .btn-filter.active { background: var(--panel-bg); color: var(--accent-color); box-shadow: 0 1px 3px rgba(0,0,0,0.4); }
-        .gcash-header-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 16px;  }
+        .gcash-header-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 16px; }
         .gcash-table-container { max-height: 340px; min-height: 120px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 6px; }
         .gcash-summary-container { margin-top: 12px; border: 1px solid var(--border-color); border-radius: 6px; background: #1a1a1a; }
         .gcash-summary-container table { min-width: unset; }
@@ -201,12 +230,43 @@
         .btn-backup-all:hover { opacity: 0.88; }
         .restore-log { background: #111; border: 1px solid var(--border-color); border-radius: 6px; padding: 12px; max-height: 120px; overflow-y: auto; font-size: 0.8rem; color: var(--text-muted); font-family: monospace; margin-top: 10px; }
 
-        /* USERS TABLE */
         .users-table-wrapper { overflow-x: auto; background: var(--panel-bg); border-radius: 6px; border: 1px solid var(--border-color); }
 
-        /* ══════════════════════════════════
-           CUSTOM ALERT/CONFIRM MODAL
-        ══════════════════════════════════ */
+        /* ACTIVITY LOG MODAL */
+        #activity-log-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.88); display: none; justify-content: center; align-items: center; z-index: 6000; padding: 10px; }
+        #activity-log-modal.active { display: flex; }
+        .activity-log-box { background: #111; border: 1px solid #2a2a2a; border-radius: 12px; width: 100%; max-width: 780px; max-height: 90vh; display: flex; flex-direction: column; box-shadow: 0 24px 60px rgba(0,0,0,0.8); overflow: hidden; }
+        .activity-log-header { background: #1a1a1a; padding: 18px 24px; border-bottom: 1px solid #2a2a2a; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+        .activity-log-header h2 { color: var(--accent-color); font-size: 1.1rem; display: flex; align-items: center; gap: 8px; }
+        .activity-log-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+        .activity-log-body { flex: 1; overflow-y: auto; padding: 16px; }
+        .activity-log-body::-webkit-scrollbar { width: 4px; }
+        .activity-log-body::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+        .log-entry { display: flex; gap: 12px; padding: 10px 12px; border-radius: 6px; margin-bottom: 6px; background: #1a1a1a; border: 1px solid #242424; font-size: 0.85rem; transition: background 0.1s; }
+        .log-entry:hover { background: #222; }
+        .log-entry-time { color: var(--text-muted); white-space: nowrap; font-family: monospace; min-width: 150px; font-size: 0.8rem; }
+        .log-entry-user { color: var(--accent-color); font-weight: 600; min-width: 90px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .log-entry-msg { color: var(--text-main); flex: 1; }
+        .log-entry-type { padding: 2px 8px; border-radius: 10px; font-size: 0.72rem; font-weight: 700; white-space: nowrap; }
+        .log-type-sale { background: rgba(46,213,115,0.15); color: var(--success-color); }
+        .log-type-auth { background: rgba(0,173,181,0.15); color: var(--accent-color); }
+        .log-type-admin { background: rgba(255,165,2,0.15); color: var(--warning-color); }
+        .log-type-gcash { background: rgba(96,165,250,0.15); color: #60a5fa; }
+        .log-type-system { background: rgba(160,160,160,0.15); color: #aaa; }
+        .log-empty { text-align: center; color: var(--text-muted); padding: 40px; }
+        .telegram-config-bar { background: #1a2233; border: 1px solid #2a3a5c; border-radius: 8px; padding: 14px 16px; margin-bottom: 14px; }
+        .telegram-config-bar h4 { color: #60a5fa; font-size: 0.85rem; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+        .telegram-config-inputs { display: flex; gap: 8px; flex-wrap: wrap; align-items: flex-end; }
+        .telegram-config-inputs input { flex: 1; min-width: 140px; padding: 8px 10px; background: #252525; border: 1px solid #334; color: white; border-radius: 6px; font-size: 0.85rem; }
+        .telegram-config-inputs input:focus { outline: 1px solid var(--accent-color); }
+        .btn-tg-save { background: #0088cc; color: white; border: none; padding: 8px 14px; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 0.82rem; white-space: nowrap; display: inline-flex; align-items: center; gap: 5px; }
+        .btn-tg-send { background: #0088cc; color: white; border: none; padding: 8px 14px; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 0.82rem; white-space: nowrap; display: inline-flex; align-items: center; gap: 5px; }
+        .btn-tg-send:hover, .btn-tg-save:hover { opacity: 0.85; }
+        .log-filter-bar { display: flex; gap: 6px; margin-bottom: 12px; background: #1a1a1a; padding: 5px; border-radius: 8px; flex-wrap: wrap; }
+        .log-filter-btn { background: transparent; border: none; padding: 5px 12px; font-size: 0.8rem; font-weight: 600; color: var(--text-muted); border-radius: 5px; cursor: pointer; transition: all 0.15s; }
+        .log-filter-btn.active { background: var(--panel-bg); color: var(--accent-color); }
+
+        /* CUSTOM DIALOG */
         #app-dialog-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.75);
@@ -227,14 +287,8 @@
             transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1);
         }
         #app-dialog-overlay.show .app-dialog-box { transform: scale(1) translateY(0); }
-        .app-dialog-icon-bar {
-            padding: 20px 24px 0;
-            display: flex; align-items: center; gap: 12px;
-        }
-        .app-dialog-icon {
-            width: 40px; height: 40px; border-radius: 10px;
-            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-        }
+        .app-dialog-icon-bar { padding: 20px 24px 0; display: flex; align-items: center; gap: 12px; }
+        .app-dialog-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
         .app-dialog-icon.info    { background: rgba(0,173,181,0.15); color: var(--accent-color); }
         .app-dialog-icon.danger  { background: rgba(255,71,87,0.15);  color: var(--danger-color); }
         .app-dialog-icon.warning { background: rgba(255,165,2,0.15);  color: var(--warning-color); }
@@ -242,23 +296,14 @@
         .app-dialog-title { font-size: 1rem; font-weight: 700; color: var(--text-main); }
         .app-dialog-body { padding: 12px 24px 20px; }
         .app-dialog-message { color: var(--text-muted); font-size: 0.92rem; line-height: 1.5; }
-        .app-dialog-actions {
-            padding: 12px 24px 20px;
-            display: flex; gap: 10px; justify-content: flex-end;
-            border-top: 1px solid var(--border-color);
-        }
-        .app-dialog-btn {
-            padding: 10px 20px; border: none; border-radius: 7px;
-            font-size: 0.9rem; font-weight: 700; cursor: pointer;
-            display: inline-flex; align-items: center; gap: 6px;
-            transition: opacity 0.15s;
-        }
+        .app-dialog-actions { padding: 12px 24px 20px; display: flex; gap: 10px; justify-content: flex-end; border-top: 1px solid var(--border-color); }
+        .app-dialog-btn { padding: 10px 20px; border: none; border-radius: 7px; font-size: 0.9rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: opacity 0.15s; }
         .app-dialog-btn:hover { opacity: 0.85; }
         .app-dialog-btn.primary   { background: var(--accent-color); color: #000; }
         .app-dialog-btn.secondary { background: #2e2e2e; color: var(--text-main); border: 1px solid var(--border-color); }
         .app-dialog-btn.danger    { background: var(--danger-color); color: #fff; }
 
-        @media (max-width: 1024px) { .pos-container { grid-template-columns: 1fr 380px; } }
+        @media (max-width: 1024px) { .pos-container { grid-template-columns: 1fr 380px; } .sales-summary-cards { grid-template-columns: 1fr 1fr; } }
         @media (max-width: 768px) {
             body { overflow-y: auto; }
             .pos-container { display: flex; flex-direction: column; height: auto; overflow: visible; }
@@ -270,6 +315,7 @@
             .admin-tabs { width: 100%; overflow-x: auto; }
             .tab-btn { flex-shrink: 0; padding: 12px 10px; font-size: 0.8rem; }
             .close-admin { width: 100%; text-align: center; background: #0a0a0a; padding: 12px; }
+            .sales-summary-cards { grid-template-columns: 1fr 1fr; }
         }
         @media (max-width: 600px) {
             .report-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
@@ -282,6 +328,9 @@
             .action-pad { padding: 10px; gap: 8px; }
             .btn-action { padding: 12px 5px; font-size: 0.85rem; }
             .backup-grid { grid-template-columns: 1fr; }
+            .sales-summary-cards { grid-template-columns: 1fr 1fr; }
+            .log-entry { flex-wrap: wrap; }
+            .log-entry-time { min-width: auto; }
         }
         @media print {
             body * { display: none !important; }
@@ -295,13 +344,11 @@
 </head>
 <body>
 
-<!-- ══════════════════════════ CUSTOM DIALOG MODAL ══════════════════════════ -->
+<!-- CUSTOM DIALOG -->
 <div id="app-dialog-overlay">
     <div class="app-dialog-box">
         <div class="app-dialog-icon-bar">
-            <div class="app-dialog-icon info" id="dialog-icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-            </div>
+            <div class="app-dialog-icon info" id="dialog-icon"></div>
             <div class="app-dialog-title" id="dialog-title">Notice</div>
         </div>
         <div class="app-dialog-body">
@@ -311,11 +358,11 @@
     </div>
 </div>
 
-<!-- ══════════════════════════ AUTH SCREEN ══════════════════════════ -->
+<!-- AUTH SCREEN -->
 <div id="auth-screen">
     <div class="auth-wrapper">
         <div class="auth-logo">
-            <h1>Inamo Store POS </h1>
+            <h1>Inamo Store POS</h1>
             <p>Enterprise Point of Sale System</p>
         </div>
         <div class="auth-card">
@@ -342,9 +389,18 @@
             <div class="auth-form" id="signup-form">
                 <div class="auth-error" id="signup-error"></div>
                 <div class="auth-success" id="signup-success"></div>
+                <!-- Admin gate for signup -->
+                <div class="signup-admin-gate" id="signup-admin-gate">
+                    <strong>🔐 Admin Authorization Required</strong>
+                    <span style="font-size:0.82rem;">Enter the admin password to create a new account.</span>
+                </div>
+                <div class="auth-field" id="signup-admin-pw-field">
+                    <label>Admin Password</label>
+                    <input type="password" id="signup-admin-pw" placeholder="Enter admin password" style="text-align:center;">
+                </div>
                 <div class="auth-field">
                     <label>Full Name</label>
-                    <input type="text" id="signup-fullname" style="text-align:center;"  placeholder="Juan Dela Cruz">
+                    <input type="text" id="signup-fullname" style="text-align:center;" placeholder="Juan Dela Cruz">
                 </div>
                 <div class="auth-field">
                     <label>Username</label>
@@ -367,17 +423,17 @@
     </div>
 </div>
 
-<!-- ══════════════════════════ MAIN APP ══════════════════════════ -->
+<!-- MAIN APP -->
 <div id="app-main">
 <header>
-    <div class="logo-area"><h1 id="store-header-name">[YOUR STORENAME] POS</h1></div>
+    <div class="logo-area"><h1 id="store-header-name">Inamo Store POS</h1></div>
     <div class="header-actions">
-        
         <span class="logged-in-badge" id="logged-in-badge">👤 User</span>
         <button class="btn-csv" onclick="openGcashModal()">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
             New GCash Transaction
         </button>
+
         <button class="btn-admin-trigger" onclick="requireAdminPassword()">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
             Administrator Panel
@@ -417,10 +473,9 @@
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
                 VOID CART ITEMS
             </button>
-			  
         </div>
-		<div class="system-status" id="clock">Loading...</div>
-    </div>	
+        <div class="system-status" id="clock">Loading...</div>
+    </div>
 </div>
 </div>
 
@@ -437,14 +492,8 @@
             <input type="password" class="form-control" id="admin-gate-password" style="text-align:center;" placeholder="Enter admin password" onkeydown="if(event.key==='Enter')verifyAdminPassword()">
         </div>
         <div style="display:flex;gap:10px;margin-top:16px;">
-            <button class="btn-modal cancel" style="flex:1;" onclick="closeAdminGate()">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-                Cancel
-            </button>
-            <button class="btn-modal confirm" style="flex:1;" onclick="verifyAdminPassword()">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                Unlock
-            </button>
+            <button class="btn-modal cancel" style="flex:1;" onclick="closeAdminGate()">Cancel</button>
+            <button class="btn-modal confirm" style="flex:1;" onclick="verifyAdminPassword()">Unlock</button>
         </div>
         <div class="admin-gate-error" id="admin-gate-error">Incorrect password. Try again.</div>
     </div>
@@ -493,6 +542,46 @@
 
             <!-- TAB 0: SALES -->
             <div class="tab-panel active" id="admin-tab-sales">
+                <!-- SUMMARY CARDS -->
+                <div class="sales-summary-cards">
+                    <div class="sales-card today">
+                        <div class="sales-card-label">📅 Today</div>
+                        <div class="sales-card-amount" id="card-today-amt">₱0.00</div>
+                        <div class="sales-card-sub" id="card-today-cnt">0 transactions</div>
+                    </div>
+                    <div class="sales-card week">
+                        <div class="sales-card-label">📆 This Week</div>
+                        <div class="sales-card-amount" id="card-week-amt">₱0.00</div>
+                        <div class="sales-card-sub" id="card-week-cnt">0 transactions</div>
+                    </div>
+                    <div class="sales-card month">
+                        <div class="sales-card-label">🗓️ This Month</div>
+                        <div class="sales-card-amount" id="card-month-amt">₱0.00</div>
+                        <div class="sales-card-sub" id="card-month-cnt">0 transactions</div>
+                    </div>
+                    <div class="sales-card year">
+                        <div class="sales-card-label">📊 This Year</div>
+                        <div class="sales-card-amount" id="card-year-amt">₱0.00</div>
+                        <div class="sales-card-sub" id="card-year-cnt">0 transactions</div>
+                    </div>
+                </div>
+
+                <!-- CHART -->
+                <div class="sales-chart-wrapper">
+                    <div class="sales-chart-header">
+                        <span class="sales-chart-title">📈 Sales Revenue Chart</span>
+                        <div class="chart-period-tabs">
+                            <button class="chart-period-btn active" onclick="switchChartPeriod('week',this)">7 Days</button>
+                            <button class="chart-period-btn" onclick="switchChartPeriod('month',this)">30 Days</button>
+                            <button class="chart-period-btn" onclick="switchChartPeriod('year',this)">12 Months</button>
+                        </div>
+                    </div>
+                    <div class="chart-canvas-wrap">
+                        <canvas id="salesChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- TABLE -->
                 <div class="report-controls">
                     <label>Filter Date Range:</label>
                     <select class="select-filter" id="sales-date-filter" onchange="renderSalesDashboardTable()">
@@ -509,7 +598,7 @@
                 </div>
                 <div class="table-wrapper">
                     <table>
-                        <thead><tr><th>Date & Time</th><th>Transaction Ref</th><th>Items</th><th>Payment</th><th>Total</th></tr></thead>
+                        <thead><tr><th>Date &amp; Time</th><th>Transaction Ref</th><th>Items</th><th>Payment</th><th>Total</th></tr></thead>
                         <tbody id="sales-table-body"></tbody>
                     </table>
                 </div>
@@ -518,7 +607,7 @@
             <!-- TAB 1: INVENTORY -->
             <div class="tab-panel" id="admin-tab-inventory">
                 <div class="report-controls">
-                    <button class="btn-csv " onclick="openProductCrudModal(false)" style="background-color:green;">
+                    <button class="btn-csv" onclick="openProductCrudModal(false)" style="background-color:green;">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                         Add New Product
                     </button>
@@ -531,18 +620,17 @@
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                         Export Data (CSV)
                     </button>
-					
-					<label style="">Sort Stock:</label>
+                    <label>Sort Stock:</label>
                     <select class="select-filter" id="inventory-sort-filter" onchange="renderInventoryDashboardTable()">
                         <option value="normal">Default SKU</option>
                         <option value="qty-asc">Stock (Lowest First)</option>
                         <option value="qty-desc">Stock (Highest First)</option>
                     </select>
-                    <button class="btn-csv btn-danger" onclick="wipeAndResetDatabaseSuite()" style="margin-left:0;">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+                    <button class="btn-csv btn-danger" onclick="wipeAndResetDatabaseSuite()">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
                         Clear &amp; Reset DB
                     </button>
-				</div>
+                </div>
                 <div class="table-wrapper">
                     <table>
                         <thead><tr><th>SKU/ID</th><th>Name</th><th>Barcode</th><th>Price</th><th>Stock</th><th>Actions</th></tr></thead>
@@ -555,10 +643,7 @@
             <div class="tab-panel" id="admin-tab-ledger">
                 <div class="report-controls">
                     <span style="font-size:0.9rem; color:var(--warning-color); font-weight:bold;">Unresolved Credit Liabilities</span>
-                    <button class="btn-csv" style="margin-left:auto;" onclick="exportCreditLedgerToCSV()">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                        Export Ledger (CSV)
-                    </button>
+                    <button class="btn-csv" style="margin-left:auto;" onclick="exportCreditLedgerToCSV()">Export Ledger (CSV)</button>
                 </div>
                 <div class="table-wrapper">
                     <table>
@@ -581,18 +666,11 @@
                         <button class="btn-filter" onclick="gcashChangeFilter('monthly',this)">Monthly</button>
                         <button class="btn-filter" onclick="gcashChangeFilter('yearly',this)">Yearly</button>
                         <button class="btn-filter" onclick="gcashChangeFilter('all',this)">All Time</button>
-                 
-                    <button class="btn-csv" onclick="openGcashModal()" style="margin-left:auto; background-color:green;">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                        New Transaction
-                    </button>
-                    <button class="btn-csv" onclick="exportGcashToCSV()">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                        Export CSV
-                    </button>
+                        <button class="btn-csv" onclick="openGcashModal()" style="margin-left:auto; background-color:green;">+ New Transaction</button>
+                        <button class="btn-csv" onclick="exportGcashToCSV()">Export CSV</button>
+                    </div>
                 </div>
-				   </div>
-                <div class="gcash-table-container" style="max-height:230px;" >
+                <div class="gcash-table-container" style="max-height:230px;">
                     <table style="min-width:600px;">
                         <thead><tr><th style="width:18%">Date/Time</th><th style="width:12%">Type</th><th style="width:14%">Amount</th><th style="width:16%">Mobile</th><th style="width:26%">Name / Reference</th><th style="width:14%">Profit</th></tr></thead>
                         <tbody id="gcash-table-body"></tbody>
@@ -652,20 +730,18 @@
             <div class="tab-panel" id="admin-tab-users">
                 <div class="report-controls">
                     <span style="color:var(--accent-color);font-weight:bold;">Registered Users</span>
-                    <button class="btn-csv btn-danger" style="margin-left:auto;" onclick="exportUsersToCSV()">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                        Export Users (CSV)
-                    </button>
+                    <button class="btn-csv btn-danger" style="margin-left:auto;" onclick="exportUsersToCSV()">Export Users (CSV)</button>
                 </div>
                 <div style="background:#1a2233;border:1px solid #2a3a5c;border-radius:8px;padding:14px;margin-bottom:16px;font-size:0.85rem;color:#60a5fa;">
                     ⚙️ <strong>Change Admin Password:</strong>
                     <div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;">
                         <input type="password" id="new-admin-pw-1" class="form-control" style="max-width:200px;font-size:0.9rem;" placeholder="New admin password">
                         <input type="password" id="new-admin-pw-2" class="form-control" style="max-width:200px;font-size:0.9rem;" placeholder="Confirm new password">
-                        <button class="btn-csv" onclick="changeAdminPassword()">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                            Update Password
-                        </button>
+                        <button class="btn-csv" onclick="changeAdminPassword()">Update Password</button>
+						        <button style="background:#1a2a3a;color:#60a5fa;border:1px solid #2a4a6a;padding:8px 16px;border-radius:4px;cursor:pointer;font-size:0.85rem;font-weight:bold;display:inline-flex;align-items:center;gap:6px;" onclick="openActivityLogModal()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            Activity Log
+        </button>
                     </div>
                     <div id="admin-pw-change-msg" style="margin-top:8px;font-size:0.82rem;"></div>
                 </div>
@@ -685,85 +761,82 @@
                 </button>
                 <div class="backup-section-title">Individual Exports</div>
                 <div class="backup-grid">
-                    <div class="backup-card">
-                        <h4>📊 Sales Report</h4>
-                        <p>All transaction records including cash and credit sales.</p>
-                        <button class="btn-csv" onclick="exportSalesJournalToCSV('all')" style="width:100%">
-                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                            Download CSV
-                        </button>
-                    </div>
-                    <div class="backup-card">
-                        <h4>📦 Inventory</h4>
-                        <p>Current product catalog with SKUs, prices, and stock levels.</p>
-                        <button class="btn-csv" onclick="exportInventoryCatalogToCSV()" style="width:100%">
-                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                            Download CSV
-                        </button>
-                    </div>
-                    <div class="backup-card">
-                        <h4>💳 Credit Ledger</h4>
-                        <p>All outstanding and settled credit accounts (utang).</p>
-                        <button class="btn-csv" onclick="exportCreditLedgerToCSV()" style="width:100%">
-                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                            Download CSV
-                        </button>
-                    </div>
-                    <div class="backup-card">
-                        <h4>📱 GCash Logs</h4>
-                        <p>Complete GCash Cash-In and Cash-Out transaction history.</p>
-                        <button class="btn-csv" onclick="exportGcashFullToCSV()" style="width:100%">
-                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                            Download CSV
-                        </button>
-                    </div>
-                    <div class="backup-card">
-                        <h4>🏆 Best Sellers</h4>
-                        <p>All-time top-selling products with revenue data.</p>
-                        <button class="btn-csv" onclick="exportBestSellersToCSV()" style="width:100%">
-                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                            Download CSV
-                        </button>
-                    </div>
-                    <div class="backup-card">
-                        <h4>👥 User Accounts</h4>
-                        <p>Registered users list (passwords are not exported).</p>
-                        <button class="btn-csv" onclick="exportUsersToCSV()" style="width:100%">
-                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                            Download CSV
-                        </button>
-                    </div>
+                    <div class="backup-card"><h4>📊 Sales Report</h4><p>All transaction records including cash and credit sales.</p><button class="btn-csv" onclick="exportSalesJournalToCSV('all')" style="width:100%">Download CSV</button></div>
+                    <div class="backup-card"><h4>📦 Inventory</h4><p>Current product catalog with SKUs, prices, and stock levels.</p><button class="btn-csv" onclick="exportInventoryCatalogToCSV()" style="width:100%">Download CSV</button></div>
+                    <div class="backup-card"><h4>💳 Credit Ledger</h4><p>All outstanding and settled credit accounts.</p><button class="btn-csv" onclick="exportCreditLedgerToCSV()" style="width:100%">Download CSV</button></div>
+                    <div class="backup-card"><h4>📱 GCash Logs</h4><p>Complete GCash Cash-In and Cash-Out transaction history.</p><button class="btn-csv" onclick="exportGcashFullToCSV()" style="width:100%">Download CSV</button></div>
+                    <div class="backup-card"><h4>🏆 Best Sellers</h4><p>All-time top-selling products with revenue data.</p><button class="btn-csv" onclick="exportBestSellersToCSV()" style="width:100%">Download CSV</button></div>
+                    <div class="backup-card"><h4>👥 User Accounts</h4><p>Registered users list (passwords are not exported).</p><button class="btn-csv" onclick="exportUsersToCSV()" style="width:100%">Download CSV</button></div>
                 </div>
                 <div class="backup-section-title">Restore from Backup</div>
                 <div style="background:#1a2233;border:1px solid #2a3a5c;border-radius:8px;padding:14px;margin-bottom:14px;font-size:0.85rem;color:#60a5fa;">
-                    ℹ️ <strong>How to Restore:</strong> Upload the CSV backup file for the matching data type below. Inventory CSV will re-import products. Sales/GCash CSVs will re-import records.
+                    ℹ️ <strong>How to Restore:</strong> Upload the CSV backup file for the matching data type below.
                 </div>
                 <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:16px;">
-                    <div>
-                        <p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:6px;">Restore Inventory</p>
-                        <label class="restore-zone" onclick="this.querySelector('input').click()">
-                            <div>📦 Drop or click to upload<br><span style="font-size:0.75rem;">InventoryMatrix.csv</span></div>
-                            <input type="file" accept=".csv" onchange="restoreFromCSV(event,'inventory')">
-                        </label>
-                    </div>
-                    <div>
-                        <p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:6px;">Restore Sales</p>
-                        <label class="restore-zone" onclick="this.querySelector('input').click()">
-                            <div>📊 Drop or click to upload<br><span style="font-size:0.75rem;">SalesJournal.csv</span></div>
-                            <input type="file" accept=".csv" onchange="restoreFromCSV(event,'sales')">
-                        </label>
-                    </div>
-                    <div>
-                        <p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:6px;">Restore GCash</p>
-                        <label class="restore-zone" onclick="this.querySelector('input').click()">
-                            <div>📱 Drop or click to upload<br><span style="font-size:0.75rem;">GCash_Transactions.csv</span></div>
-                            <input type="file" accept=".csv" onchange="restoreFromCSV(event,'gcash')">
-                        </label>
-                    </div>
+                    <div><p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:6px;">Restore Inventory</p><label class="restore-zone" onclick="this.querySelector('input').click()"><div>📦 Drop or click to upload<br><span style="font-size:0.75rem;">InventoryMatrix.csv</span></div><input type="file" accept=".csv" onchange="restoreFromCSV(event,'inventory')"></label></div>
+                    <div><p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:6px;">Restore Sales</p><label class="restore-zone" onclick="this.querySelector('input').click()"><div>📊 Drop or click to upload<br><span style="font-size:0.75rem;">SalesJournal.csv</span></div><input type="file" accept=".csv" onchange="restoreFromCSV(event,'sales')"></label></div>
+                    <div><p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:6px;">Restore GCash</p><label class="restore-zone" onclick="this.querySelector('input').click()"><div>📱 Drop or click to upload<br><span style="font-size:0.75rem;">GCash_Transactions.csv</span></div><input type="file" accept=".csv" onchange="restoreFromCSV(event,'gcash')"></label></div>
                 </div>
                 <div class="restore-log" id="restore-log">Restore log will appear here...</div>
             </div>
+        </div>
+    </div>
+</div>
 
+<!-- ACTIVITY LOG MODAL -->
+<div id="activity-log-modal">
+    <div class="activity-log-box">
+        <div class="activity-log-header">
+            <h2>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                Activity Log
+            </h2>
+            <div class="activity-log-actions">
+                <button class="btn-tg-send" onclick="sendLogToTelegram()">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                    Send to Telegram
+                </button>
+                <button class="btn-csv" onclick="exportActivityLogToCSV()">Export CSV</button>
+                <button onclick="clearActivityLog()" style="background:#2a1a1a;color:var(--danger-color);border:1px solid var(--danger-color);padding:8px 12px;border-radius:6px;cursor:pointer;font-size:0.82rem;font-weight:700;">Clear Log</button>
+                <button onclick="closeActivityLogModal()" style="background:#222;color:var(--text-muted);border:1px solid #333;padding:8px 14px;border-radius:6px;cursor:pointer;font-size:0.85rem;font-weight:700;">✕ Close</button>
+            </div>
+        </div>
+        <!-- Telegram Config -->
+        <div style="padding:12px 16px; border-bottom:1px solid #222;">
+            <div class="telegram-config-bar">
+                <h4>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                    Telegram Configuration
+                </h4>
+                <div class="telegram-config-inputs">
+                    <div style="flex:1;">
+                        <label style="display:block;font-size:0.75rem;color:#6b7280;margin-bottom:4px;">Bot Token</label>
+                        <input type="text" id="tg-bot-token" placeholder="123456789:ABCDEFabcdef..." style="width:100%;">
+                    </div>
+                    <div style="flex:1;">
+                        <label style="display:block;font-size:0.75rem;color:#6b7280;margin-bottom:4px;">Chat ID</label>
+                        <input type="text" id="tg-chat-id" placeholder="-100123456789" style="width:100%;">
+                    </div>
+                    <button class="btn-tg-save" onclick="saveTelegramConfig()">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                        Save Config
+                    </button>
+                </div>
+                <div id="tg-config-msg" style="font-size:0.78rem;margin-top:6px;"></div>
+            </div>
+        </div>
+        <div style="padding:12px 16px 6px;">
+            <div class="log-filter-bar">
+                <button class="log-filter-btn active" onclick="setLogFilter('all',this)">All</button>
+                <button class="log-filter-btn" onclick="setLogFilter('auth',this)">Auth</button>
+                <button class="log-filter-btn" onclick="setLogFilter('sale',this)">Sales</button>
+                <button class="log-filter-btn" onclick="setLogFilter('gcash',this)">GCash</button>
+                <button class="log-filter-btn" onclick="setLogFilter('admin',this)">Admin</button>
+                <button class="log-filter-btn" onclick="setLogFilter('system',this)">System</button>
+            </div>
+        </div>
+        <div class="activity-log-body" id="activity-log-body">
+            <div class="log-empty">No activity recorded yet.</div>
         </div>
     </div>
 </div>
@@ -779,28 +852,16 @@
         </div>
         <div class="gcash-type-row">
             <label id="gcash-in-label" class="gcash-type-label selected-in" onclick="selectGcashType('GCASH IN')">
-                <input type="radio" name="gcashType" value="GCASH IN" checked style="margin:0; accent-color:#1d4ed8;"> Cash In
+                <input type="radio" name="gcashType" value="GCASH IN" checked style="margin:0;"> Cash In
             </label>
             <label id="gcash-out-label" class="gcash-type-label" onclick="selectGcashType('GCASH OUT')">
-                <input type="radio" name="gcashType" value="GCASH OUT" style="margin:0; accent-color:#dc2626;"> Cash Out
+                <input type="radio" name="gcashType" value="GCASH OUT" style="margin:0;"> Cash Out
             </label>
         </div>
-        <div class="gcash-field">
-            <label>Mobile Number</label>
-            <input type="tel" id="gcash-mobile" required placeholder="09171234567" maxlength="13">
-        </div>
-        <div class="gcash-field">
-            <label>Amount (₱)</label>
-            <input type="number" id="gcash-amount" step="0.01" min="0.01" required placeholder="0.00">
-        </div>
-        <div class="gcash-field">
-            <label>Customer Name</label>
-            <input type="text" id="gcash-customer-name" required placeholder="Juan Dela Cruz">
-        </div>
-        <div class="gcash-field">
-            <label>Reference Number</label>
-            <input type="text" id="gcash-ref-no" placeholder="e.g., 0123 456 789123">
-        </div>
+        <div class="gcash-field"><label>Mobile Number</label><input type="tel" id="gcash-mobile" required placeholder="09171234567" maxlength="13"></div>
+        <div class="gcash-field"><label>Amount (₱)</label><input type="number" id="gcash-amount" step="0.01" min="0.01" required placeholder="0.00"></div>
+        <div class="gcash-field"><label>Customer Name</label><input type="text" id="gcash-customer-name" required placeholder="Juan Dela Cruz"></div>
+        <div class="gcash-field"><label>Reference Number</label><input type="text" id="gcash-ref-no" placeholder="e.g., 0123 456 789123"></div>
         <button class="gcash-submit-btn" onclick="handleGcashSubmit()">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
             Save Transaction
@@ -819,14 +880,8 @@
         <div class="form-group"><label>Price (PHP)</label><input type="number" class="form-control" id="crud-product-price" step="0.01"></div>
         <div class="form-group"><label>Stock Quantity</label><input type="number" class="form-control" id="crud-product-stock"></div>
         <div class="modal-buttons">
-            <button class="btn-modal cancel" onclick="closeModal('product-crud-modal')">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-                Cancel
-            </button>
-            <button class="btn-modal confirm" onclick="saveProductCrudData()">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
-                Save
-            </button>
+            <button class="btn-modal cancel" onclick="closeModal('product-crud-modal')">Cancel</button>
+            <button class="btn-modal confirm" onclick="saveProductCrudData()">Save</button>
         </div>
     </div>
 </div>
@@ -834,22 +889,13 @@
 <!-- CASH MODAL -->
 <div class="modal-overlay" id="cash-modal">
     <div class="modal-box">
-        <h2 style="display:flex;align-items:center;gap:8px;">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg>
-            Cash Settlement
-        </h2>
+        <h2>Cash Settlement</h2>
         <div class="form-group"><label>Total Due</label><input type="text" class="form-control" id="cash-modal-total" readonly style="color:var(--success-color);font-weight:bold;"></div>
         <div class="form-group"><label>Cash Tendered</label><input type="number" class="form-control" id="cash-tendered" step="0.01" autocomplete="off"></div>
         <div class="form-group"><label>Change Due</label><input type="text" class="form-control" id="cash-change" readonly style="font-weight:bold;"></div>
         <div class="modal-buttons">
-            <button class="btn-modal cancel" onclick="closeModal('cash-modal')">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-                Close
-            </button>
-            <button class="btn-modal confirm" id="process-cash-sale-btn">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
-                Finalize &amp; Print
-            </button>
+            <button class="btn-modal cancel" onclick="closeModal('cash-modal')">Close</button>
+            <button class="btn-modal confirm" id="process-cash-sale-btn">Finalize &amp; Print</button>
         </div>
     </div>
 </div>
@@ -857,21 +903,12 @@
 <!-- CREDIT MODAL -->
 <div class="modal-overlay" id="credit-modal">
     <div class="modal-box">
-        <h2 style="display:flex;align-items:center;gap:8px;">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-            Bind to Credit (Utang)
-        </h2>
+        <h2>Bind to Credit (Utang)</h2>
         <div class="form-group"><label>Customer Name</label><input type="text" class="form-control" id="credit-customer-name" placeholder="Ex: Juan Dela Cruz" autocomplete="off"></div>
         <div class="form-group"><label>Total Liability</label><input type="text" class="form-control" id="credit-modal-total" readonly style="color:var(--warning-color);font-weight:bold;"></div>
         <div class="modal-buttons">
-            <button class="btn-modal cancel" onclick="closeModal('credit-modal')">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-                Cancel
-            </button>
-            <button class="btn-modal confirm" id="process-credit-sale-btn">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-                Post Entry
-            </button>
+            <button class="btn-modal cancel" onclick="closeModal('credit-modal')">Cancel</button>
+            <button class="btn-modal confirm" id="process-credit-sale-btn">Post Entry</button>
         </div>
     </div>
 </div>
@@ -879,22 +916,13 @@
 <!-- SETTLEMENT MODAL -->
 <div class="modal-overlay" id="settlement-modal">
     <div class="modal-box">
-        <h2 style="display:flex;align-items:center;gap:8px;">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-            Collect Credit Payment
-        </h2>
+        <h2>Collect Credit Payment</h2>
         <div class="form-group"><label>Account Holder</label><input type="text" class="form-control" id="settle-customer-name" readonly style="font-weight:bold;color:var(--warning-color);"></div>
         <div class="form-group"><label>Outstanding Balance</label><input type="text" class="form-control" id="settle-outstanding-total" readonly style="font-weight:bold;color:var(--danger-color);"></div>
         <div class="form-group"><label>Payment Amount</label><input type="number" class="form-control" id="settle-cash-input" step="0.01" placeholder="0.00" autocomplete="off"></div>
         <div class="modal-buttons">
-            <button class="btn-modal cancel" onclick="closeModal('settlement-modal')">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-                Cancel
-            </button>
-            <button class="btn-modal confirm" id="process-settlement-btn">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
-                Post &amp; Print
-            </button>
+            <button class="btn-modal cancel" onclick="closeModal('settlement-modal')">Cancel</button>
+            <button class="btn-modal confirm" id="process-settlement-btn">Post &amp; Print</button>
         </div>
     </div>
 </div>
@@ -902,83 +930,192 @@
 <div id="receipt-print-area" style="display:none;"></div>
 
 <script>
-/* ─────────────────────────────────────────────
-   CUSTOM DIALOG SYSTEM (replaces alert/confirm)
-───────────────────────────────────────────── */
+/* ══════════════════════════════════════════════
+   CUSTOM DIALOG
+══════════════════════════════════════════════ */
 const ICONS = {
     info:    `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`,
     danger:  `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`,
     warning: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`,
     success: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>`,
 };
-
 function showDialog({ title, message, type = 'info', buttons = [] }) {
     const overlay = document.getElementById('app-dialog-overlay');
-    const iconEl  = document.getElementById('dialog-icon');
-    const titleEl = document.getElementById('dialog-title');
-    const msgEl   = document.getElementById('dialog-message');
-    const actEl   = document.getElementById('dialog-actions');
-
-    iconEl.className = `app-dialog-icon ${type}`;
-    iconEl.innerHTML = ICONS[type] || ICONS.info;
-    titleEl.textContent = title;
-    msgEl.innerHTML = message;
+    document.getElementById('dialog-icon').className = `app-dialog-icon ${type}`;
+    document.getElementById('dialog-icon').innerHTML = ICONS[type] || ICONS.info;
+    document.getElementById('dialog-title').textContent = title;
+    document.getElementById('dialog-message').innerHTML = message;
+    const actEl = document.getElementById('dialog-actions');
     actEl.innerHTML = '';
-
     buttons.forEach(btn => {
         const b = document.createElement('button');
         b.className = `app-dialog-btn ${btn.cls || 'secondary'}`;
         b.innerHTML = (btn.icon ? btn.icon + ' ' : '') + btn.label;
-        b.onclick = () => {
-            overlay.classList.remove('show');
-            if (btn.action) btn.action();
-        };
+        b.onclick = () => { overlay.classList.remove('show'); if (btn.action) btn.action(); };
         actEl.appendChild(b);
     });
-
     overlay.classList.add('show');
 }
-
 function showAlert(message, type = 'info', title = null) {
     const titles = { info: 'Notice', danger: 'Error', warning: 'Warning', success: 'Success' };
-    showDialog({
-        title: title || titles[type] || 'Notice',
-        message,
-        type,
-        buttons: [{
-            label: 'OK', cls: 'primary',
-            icon: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`
-        }]
-    });
+    showDialog({ title: title || titles[type] || 'Notice', message, type, buttons: [{ label: 'OK', cls: 'primary', icon: ICONS.success }] });
 }
-
 function showConfirm(message, onConfirm, type = 'warning', title = 'Confirm Action') {
-    showDialog({
-        title,
-        message,
-        type,
-        buttons: [
-            {
-                label: 'Cancel', cls: 'secondary',
-                icon: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`
-            },
-            {
-                label: 'Confirm', cls: type === 'danger' ? 'danger' : 'primary',
-                icon: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`,
-                action: onConfirm
-            }
-        ]
-    });
+    showDialog({ title, message, type, buttons: [
+        { label: 'Cancel', cls: 'secondary' },
+        { label: 'Confirm', cls: type === 'danger' ? 'danger' : 'primary', action: onConfirm }
+    ]});
+}
+document.getElementById('app-dialog-overlay').addEventListener('click', function(e) { if (e.target === this) this.classList.remove('show'); });
+
+/* ══════════════════════════════════════════════
+   ACTIVITY LOG SYSTEM
+══════════════════════════════════════════════ */
+const ACTIVITY_LOG_KEY = 'pos_activity_log';
+let activityLogFilter = 'all';
+
+function getActivityLog() {
+    try { return JSON.parse(localStorage.getItem(ACTIVITY_LOG_KEY) || '[]'); } catch { return []; }
+}
+function saveActivityLog(logs) {
+    // Keep max 500 entries
+    if (logs.length > 500) logs = logs.slice(-500);
+    localStorage.setItem(ACTIVITY_LOG_KEY, JSON.stringify(logs));
+}
+function logActivity(type, message) {
+    const user = currentLoggedInUser ? currentLoggedInUser.username : 'system';
+    const entry = {
+        id: Date.now(),
+        timestamp: new Date().toISOString(),
+        type, // auth | sale | gcash | admin | system
+        user,
+        message
+    };
+    const logs = getActivityLog();
+    logs.push(entry);
+    saveActivityLog(logs);
 }
 
-/* Close dialog on overlay click */
-document.getElementById('app-dialog-overlay').addEventListener('click', function(e) {
-    if (e.target === this) this.classList.remove('show');
-});
+function setLogFilter(filter, btn) {
+    activityLogFilter = filter;
+    document.querySelectorAll('.log-filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderActivityLog();
+}
 
-/* ─────────────────────────────────────────────
+function renderActivityLog() {
+    const body = document.getElementById('activity-log-body');
+    let logs = getActivityLog().reverse();
+    if (activityLogFilter !== 'all') logs = logs.filter(l => l.type === activityLogFilter);
+    if (logs.length === 0) {
+        body.innerHTML = '<div class="log-empty">No activity recorded for this filter.</div>';
+        return;
+    }
+    body.innerHTML = logs.map(l => {
+        const typeClass = `log-type-${l.type}`;
+        const typeLabel = l.type.toUpperCase();
+        const dt = new Date(l.timestamp).toLocaleString();
+        return `<div class="log-entry">
+            <span class="log-entry-time">${dt}</span>
+            <span class="log-entry-user">${l.user}</span>
+            <span class="log-entry-type ${typeClass}">${typeLabel}</span>
+            <span class="log-entry-msg">${l.message}</span>
+        </div>`;
+    }).join('');
+}
+
+function openActivityLogModal() {
+    loadTelegramConfig();
+    activityLogFilter = 'all';
+    document.querySelectorAll('.log-filter-btn').forEach((b,i) => b.classList.toggle('active', i===0));
+    renderActivityLog();
+    document.getElementById('activity-log-modal').classList.add('active');
+}
+function closeActivityLogModal() { document.getElementById('activity-log-modal').classList.remove('active'); }
+
+function clearActivityLog() {
+    showConfirm('Clear all activity log entries? This cannot be undone.', () => {
+        localStorage.removeItem(ACTIVITY_LOG_KEY);
+        renderActivityLog();
+        logActivity('system', 'Activity log was cleared');
+    }, 'danger', 'Clear Activity Log');
+}
+
+function exportActivityLogToCSV() {
+    const logs = getActivityLog();
+    let csv = 'Timestamp,Type,User,Message\n';
+    logs.forEach(l => { csv += `"${new Date(l.timestamp).toLocaleString()}","${l.type}","${l.user}","${l.message.replace(/"/g,'""')}"\n`; });
+    downloadCSV(csv, `ActivityLog_${new Date().toISOString().slice(0,10)}.csv`);
+    logActivity('system', 'Activity log exported to CSV');
+}
+
+/* ══════════════════════════════════════════════
+   TELEGRAM CONFIG
+══════════════════════════════════════════════ */
+const TG_TOKEN_KEY = 'pos_tg_token';
+const TG_CHAT_KEY  = 'pos_tg_chat';
+
+function saveTelegramConfig() {
+    const token = document.getElementById('tg-bot-token').value.trim();
+    const chat  = document.getElementById('tg-chat-id').value.trim();
+    if (!token || !chat) { setTgMsg('Both Bot Token and Chat ID are required.', 'var(--danger-color)'); return; }
+    localStorage.setItem(TG_TOKEN_KEY, token);
+    localStorage.setItem(TG_CHAT_KEY, chat);
+    setTgMsg('✓ Telegram config saved!', 'var(--success-color)');
+    logActivity('system', 'Telegram configuration updated');
+}
+function loadTelegramConfig() {
+    const token = localStorage.getItem(TG_TOKEN_KEY) || '';
+    const chat  = localStorage.getItem(TG_CHAT_KEY) || '';
+    document.getElementById('tg-bot-token').value = token;
+    document.getElementById('tg-chat-id').value = chat;
+}
+function setTgMsg(msg, color) {
+    const el = document.getElementById('tg-config-msg');
+    el.style.color = color;
+    el.textContent = msg;
+    setTimeout(() => { el.textContent = ''; }, 3500);
+}
+
+async function sendLogToTelegram() {
+    const token = localStorage.getItem(TG_TOKEN_KEY);
+    const chat  = localStorage.getItem(TG_CHAT_KEY);
+    if (!token || !chat) { showAlert('Please configure your Telegram Bot Token and Chat ID first.', 'warning', 'Telegram Not Configured'); return; }
+
+    let logs = getActivityLog().slice(-50); // last 50 entries
+    if (activityLogFilter !== 'all') logs = logs.filter(l => l.type === activityLogFilter);
+    if (logs.length === 0) { showAlert('No log entries to send.', 'info'); return; }
+
+    const now = new Date().toLocaleString();
+    const storeName = document.getElementById('store-header-name').textContent;
+    let text = `📋 *${storeName} – Activity Log*\n📅 ${now}\n🔍 Filter: ${activityLogFilter.toUpperCase()}\n${'─'.repeat(30)}\n\n`;
+    logs.slice(-30).forEach(l => {
+        const dt = new Date(l.timestamp).toLocaleString();
+        text += `[${l.type.toUpperCase()}] ${dt}\n👤 ${l.user}: ${l.message}\n\n`;
+    });
+    text += `${'─'.repeat(30)}\nTotal entries shown: ${Math.min(logs.length, 30)}`;
+
+    try {
+        const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ chat_id: chat, text, parse_mode: 'Markdown' })
+        });
+        const data = await res.json();
+        if (data.ok) {
+            showAlert('Activity log sent to Telegram successfully!', 'success', 'Telegram Sent');
+            logActivity('system', 'Activity log sent to Telegram');
+        } else {
+            showAlert('Telegram error: ' + (data.description || 'Unknown error'), 'danger', 'Send Failed');
+        }
+    } catch(err) {
+        showAlert('Network error while sending to Telegram. Check your bot token and chat ID.', 'danger', 'Connection Error');
+    }
+}
+
+/* ══════════════════════════════════════════════
    GLOBALS
-───────────────────────────────────────────── */
+══════════════════════════════════════════════ */
 let posDB = null, gcashDB = null, usersDB = null;
 const POS_DB_NAME    = "MatrixPOS32DatabaseSuite";
 const POS_DB_VERSION = 3;
@@ -995,6 +1132,8 @@ let activeCart = [], systemProducts = [], memorySalesJournal = [];
 let targetedLedgerInvoiceId = null;
 let gcashCurrentFilter = "daily";
 let currentLoggedInUser = null;
+let salesChartInstance = null;
+let currentChartPeriod = 'week';
 
 const DEFAULT_ADMIN_PW_KEY = "pos_admin_password";
 const templateDefaults = [];
@@ -1006,13 +1145,12 @@ setInterval(() => {
     if (el) el.innerText = new Date().toLocaleString() + " | DB Active";
 }, 1000);
 
-/* ADMIN PASSWORD */
 function getAdminPassword() { return localStorage.getItem(DEFAULT_ADMIN_PW_KEY) || "admin123"; }
 function setAdminPassword(pw) { localStorage.setItem(DEFAULT_ADMIN_PW_KEY, pw); }
 
-/* ─────────────────────────────────────────────
-   USERS INDEXEDDB
-───────────────────────────────────────────── */
+/* ══════════════════════════════════════════════
+   USERS DB
+══════════════════════════════════════════════ */
 function initUsersDB() {
     return new Promise((resolve, reject) => {
         const req = indexedDB.open(USERS_DB_NAME, USERS_DB_VERSION);
@@ -1069,9 +1207,9 @@ function simpleHash(str) {
     return hash.toString(16);
 }
 
-/* ─────────────────────────────────────────────
-   AUTH LOGIC
-───────────────────────────────────────────── */
+/* ══════════════════════════════════════════════
+   AUTH
+══════════════════════════════════════════════ */
 function switchAuthTab(tab) {
     document.querySelectorAll('.auth-tab').forEach((t, i) => {
         t.classList.toggle('active', (i === 0 && tab === 'login') || (i === 1 && tab === 'signup'));
@@ -1082,7 +1220,7 @@ function switchAuthTab(tab) {
 function showAuthMsg(id, msg, isError = true) {
     const el = document.getElementById(id);
     el.textContent = msg; el.style.display = 'block';
-    setTimeout(() => { el.style.display = 'none'; }, 4000);
+    setTimeout(() => { el.style.display = 'none'; }, 4500);
 }
 async function handleLogin() {
     const username = document.getElementById('login-username').value.trim();
@@ -1093,22 +1231,31 @@ async function handleLogin() {
         if (!user) return showAuthMsg('login-error', 'Username not found.');
         if (user.passwordHash !== simpleHash(password)) return showAuthMsg('login-error', 'Incorrect password.');
         currentLoggedInUser = user;
+        logActivity('auth', `User "${username}" logged in (role: ${user.role})`);
         launchApp(user);
     } catch(e) { showAuthMsg('login-error', 'Login error: ' + e); }
 }
 async function handleSignUp() {
+    const adminPw  = document.getElementById('signup-admin-pw').value;
     const fullname = document.getElementById('signup-fullname').value.trim();
     const username = document.getElementById('signup-username').value.trim();
     const password = document.getElementById('signup-password').value;
     const confirm  = document.getElementById('signup-confirm').value;
+
+    // Admin password gate for signup
+    if (adminPw !== getAdminPassword()) {
+        return showAuthMsg('signup-error', 'Invalid admin password. Sign-up is not authorized.');
+    }
     if (!fullname || !username || !password) return showAuthMsg('signup-error', 'All fields are required.');
     if (password.length < 6) return showAuthMsg('signup-error', 'Password must be at least 6 characters.');
     if (password !== confirm) return showAuthMsg('signup-error', 'Passwords do not match.');
+
     const allUsers = await usersGetAll();
     const role = allUsers.length === 0 ? 'admin' : 'cashier';
     const userObj = { username, fullname, passwordHash: simpleHash(password), role, createdAt: new Date().toISOString() };
     try {
         await usersAdd(userObj);
+        logActivity('auth', `New account created: "${username}" (role: ${role})`);
         showAuthMsg('signup-success', `Account created! Role: ${role}. Please sign in.`, false);
         document.getElementById('signup-success').style.display = 'block';
         setTimeout(() => switchAuthTab('login'), 1800);
@@ -1121,7 +1268,8 @@ function launchApp(user) {
     initIndexedDBStore();
 }
 function handleLogout() {
-    showConfirm('Are you sure you want to logout from POS?', () => {
+    showConfirm('Are you sure you want to logout?', () => {
+        logActivity('auth', `User "${currentLoggedInUser.username}" logged out`);
         currentLoggedInUser = null;
         document.getElementById('auth-screen').style.display = 'flex';
         document.getElementById('app-main').classList.remove('visible');
@@ -1134,9 +1282,9 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('login-username').addEventListener('keydown', e => { if (e.key === 'Enter') handleLogin(); });
 });
 
-/* ─────────────────────────────────────────────
+/* ══════════════════════════════════════════════
    ADMIN GATE
-───────────────────────────────────────────── */
+══════════════════════════════════════════════ */
 function requireAdminPassword() {
     document.getElementById('admin-gate-password').value = '';
     document.getElementById('admin-gate-error').style.display = 'none';
@@ -1148,11 +1296,13 @@ function verifyAdminPassword() {
     const entered = document.getElementById('admin-gate-password').value;
     if (entered === getAdminPassword()) {
         closeAdminGate();
+        logActivity('admin', `Admin panel accessed by "${currentLoggedInUser ? currentLoggedInUser.username : 'unknown'}"`);
         openAdminModal();
     } else {
         document.getElementById('admin-gate-error').style.display = 'block';
         document.getElementById('admin-gate-password').value = '';
         document.getElementById('admin-gate-password').focus();
+        logActivity('admin', `Failed admin panel access attempt by "${currentLoggedInUser ? currentLoggedInUser.username : 'unknown'}"`);
     }
 }
 function changeAdminPassword() {
@@ -1162,15 +1312,16 @@ function changeAdminPassword() {
     if (!p1 || p1.length < 4) { msg.style.color='var(--danger-color)'; msg.textContent='Password must be at least 4 characters.'; return; }
     if (p1 !== p2) { msg.style.color='var(--danger-color)'; msg.textContent='Passwords do not match.'; return; }
     setAdminPassword(p1);
+    logActivity('admin', `Admin password changed by "${currentLoggedInUser ? currentLoggedInUser.username : 'unknown'}"`);
     msg.style.color = 'var(--success-color)';
     msg.textContent = '✓ Admin password updated successfully.';
     document.getElementById('new-admin-pw-1').value = '';
     document.getElementById('new-admin-pw-2').value = '';
 }
 
-/* ─────────────────────────────────────────────
+/* ══════════════════════════════════════════════
    POS INDEXEDDB
-───────────────────────────────────────────── */
+══════════════════════════════════════════════ */
 function initIndexedDBStore() {
     const request = indexedDB.open(POS_DB_NAME, POS_DB_VERSION);
     request.onupgradeneeded = function(e) {
@@ -1203,6 +1354,7 @@ function fetchRecordsFromLocalDB() {
         memorySalesJournal = req.result;
         renderSalesDashboardTable(); renderInventoryDashboardTable();
         renderLedgerDashboardTable(); renderCashierCatalog();
+        updateSalesSummaryCards(); renderSalesChart();
     };
 }
 function persistProductsToIndexedDB() {
@@ -1212,21 +1364,18 @@ function persistProductsToIndexedDB() {
     systemProducts.forEach(p => store.put(p));
 }
 function wipeAndResetDatabaseSuite() {
-    showConfirm(
-        '⚠️ <strong>WARNING:</strong> This will permanently erase ALL sales and product data. This action cannot be undone.',
-        () => {
-            if (posDB) posDB.close();
-            const del = indexedDB.deleteDatabase(POS_DB_NAME);
-            del.onsuccess = () => { showAlert('Database cleared. Reloading...', 'success', 'Database Reset'); setTimeout(() => window.location.reload(), 1500); };
-            del.onerror   = () => showAlert('Error dropping database.', 'danger');
-        },
-        'danger', '⚠️ Clear & Reset Database'
-    );
+    showConfirm('⚠️ <strong>WARNING:</strong> This will permanently erase ALL sales and product data. This cannot be undone.', () => {
+        logActivity('admin', 'Database wipe initiated');
+        if (posDB) posDB.close();
+        const del = indexedDB.deleteDatabase(POS_DB_NAME);
+        del.onsuccess = () => { showAlert('Database cleared. Reloading...', 'success', 'Database Reset'); setTimeout(() => window.location.reload(), 1500); };
+        del.onerror   = () => showAlert('Error dropping database.', 'danger');
+    }, 'danger', '⚠️ Clear & Reset Database');
 }
 
-/* ─────────────────────────────────────────────
-   GCASH INDEXEDDB
-───────────────────────────────────────────── */
+/* ══════════════════════════════════════════════
+   GCASH DB
+══════════════════════════════════════════════ */
 function initGcashDB() {
     return new Promise((resolve, reject) => {
         const req = indexedDB.open(GCASH_DB_NAME, GCASH_DB_VERSION);
@@ -1264,25 +1413,166 @@ function gcashAddRecord(record) {
     });
 }
 
-/* ─────────────────────────────────────────────
+/* ══════════════════════════════════════════════
    MODAL HELPERS
-───────────────────────────────────────────── */
+══════════════════════════════════════════════ */
 function openModal(id)  { document.getElementById(id).classList.add("active"); }
 function closeModal(id) { document.getElementById(id).classList.remove("active"); }
 function openAdminModal() {
     renderSalesDashboardTable(); renderInventoryDashboardTable();
     renderLedgerDashboardTable(); renderGcashTransactions();
     renderTopProducts(); renderUsersTable();
+    updateSalesSummaryCards(); renderSalesChart();
     openModal("admin-modal");
 }
 function switchAdminTab(index) {
     document.querySelectorAll('.tab-btn').forEach((t, i) => t.classList.toggle('active', i === index));
     document.querySelectorAll('.tab-panel').forEach((p, i) => p.classList.toggle('active', i === index));
+    if (index === 0) { updateSalesSummaryCards(); renderSalesChart(); }
 }
 
-/* ─────────────────────────────────────────────
+/* ══════════════════════════════════════════════
+   SALES SUMMARY CARDS
+══════════════════════════════════════════════ */
+function getSalesByRange(range) {
+    const now = new Date();
+    const filtered = memorySalesJournal.filter(tx => {
+        if (tx.paymentType === 'CREDIT_UTANG' && tx.total > 0) return false;
+        const d = new Date(tx.timestamp);
+        switch (range) {
+            case 'day':   return d.toDateString() === now.toDateString();
+            case 'week':  return d >= new Date(now - 7 * 864e5);
+            case 'month': return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+            case 'year':  return d.getFullYear() === now.getFullYear();
+            default: return true;
+        }
+    });
+    const total = filtered.reduce((s, tx) => s + tx.total, 0);
+    return { total, count: filtered.length };
+}
+
+function updateSalesSummaryCards() {
+    const day   = getSalesByRange('day');
+    const week  = getSalesByRange('week');
+    const month = getSalesByRange('month');
+    const year  = getSalesByRange('year');
+    document.getElementById('card-today-amt').textContent = `₱${pesoFormatter.format(day.total)}`;
+    document.getElementById('card-today-cnt').textContent = `${day.count} transaction${day.count !== 1 ? 's' : ''}`;
+    document.getElementById('card-week-amt').textContent  = `₱${pesoFormatter.format(week.total)}`;
+    document.getElementById('card-week-cnt').textContent  = `${week.count} transaction${week.count !== 1 ? 's' : ''}`;
+    document.getElementById('card-month-amt').textContent = `₱${pesoFormatter.format(month.total)}`;
+    document.getElementById('card-month-cnt').textContent = `${month.count} transaction${month.count !== 1 ? 's' : ''}`;
+    document.getElementById('card-year-amt').textContent  = `₱${pesoFormatter.format(year.total)}`;
+    document.getElementById('card-year-cnt').textContent  = `${year.count} transaction${year.count !== 1 ? 's' : ''}`;
+}
+
+/* ══════════════════════════════════════════════
+   SALES CHART
+══════════════════════════════════════════════ */
+function switchChartPeriod(period, btn) {
+    currentChartPeriod = period;
+    document.querySelectorAll('.chart-period-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderSalesChart();
+}
+
+function renderSalesChart() {
+    const canvas = document.getElementById('salesChart');
+    if (!canvas) return;
+
+    let labels = [], data = [];
+    const now = new Date();
+
+    if (currentChartPeriod === 'week') {
+        for (let i = 6; i >= 0; i--) {
+            const d = new Date(now);
+            d.setDate(d.getDate() - i);
+            labels.push(d.toLocaleDateString('en-PH', { weekday: 'short', month: 'short', day: 'numeric' }));
+            const total = memorySalesJournal
+                .filter(tx => tx.paymentType !== 'CREDIT_UTANG' && new Date(tx.timestamp).toDateString() === d.toDateString())
+                .reduce((s, tx) => s + tx.total, 0);
+            data.push(parseFloat(total.toFixed(2)));
+        }
+    } else if (currentChartPeriod === 'month') {
+        for (let i = 29; i >= 0; i--) {
+            const d = new Date(now);
+            d.setDate(d.getDate() - i);
+            labels.push(d.toLocaleDateString('en-PH', { month: 'short', day: 'numeric' }));
+            const total = memorySalesJournal
+                .filter(tx => tx.paymentType !== 'CREDIT_UTANG' && new Date(tx.timestamp).toDateString() === d.toDateString())
+                .reduce((s, tx) => s + tx.total, 0);
+            data.push(parseFloat(total.toFixed(2)));
+        }
+    } else if (currentChartPeriod === 'year') {
+        for (let i = 11; i >= 0; i--) {
+            const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+            labels.push(d.toLocaleDateString('en-PH', { month: 'short', year: '2-digit' }));
+            const total = memorySalesJournal
+                .filter(tx => {
+                    if (tx.paymentType === 'CREDIT_UTANG') return false;
+                    const txd = new Date(tx.timestamp);
+                    return txd.getMonth() === d.getMonth() && txd.getFullYear() === d.getFullYear();
+                })
+                .reduce((s, tx) => s + tx.total, 0);
+            data.push(parseFloat(total.toFixed(2)));
+        }
+    }
+
+    if (salesChartInstance) { salesChartInstance.destroy(); salesChartInstance = null; }
+
+    const ctx = canvas.getContext('2d');
+    const gradient = ctx.createLinearGradient(0, 0, 0, 200);
+    gradient.addColorStop(0, 'rgba(0,173,181,0.35)');
+    gradient.addColorStop(1, 'rgba(0,173,181,0.01)');
+
+    salesChartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels,
+            datasets: [{
+                label: 'Sales (₱)',
+                data,
+                borderColor: '#00adb5',
+                backgroundColor: gradient,
+                borderWidth: 2.5,
+                pointBackgroundColor: '#00adb5',
+                pointRadius: data.length <= 7 ? 4 : 2,
+                pointHoverRadius: 6,
+                tension: 0.4,
+                fill: true,
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    backgroundColor: '#1e1e1e',
+                    borderColor: '#333',
+                    borderWidth: 1,
+                    titleColor: '#e0e0e0',
+                    bodyColor: '#00adb5',
+                    callbacks: { label: ctx => ` ₱${pesoFormatter.format(ctx.parsed.y)}` }
+                }
+            },
+            scales: {
+                x: {
+                    ticks: { color: '#888', font: { size: 10 }, maxTicksLimit: 12, maxRotation: 45 },
+                    grid: { color: '#232323' }
+                },
+                y: {
+                    ticks: { color: '#888', font: { size: 10 }, callback: v => '₱' + pesoFormatter.format(v) },
+                    grid: { color: '#232323' }
+                }
+            }
+        }
+    });
+}
+
+/* ══════════════════════════════════════════════
    DATE FILTER
-───────────────────────────────────────────── */
+══════════════════════════════════════════════ */
 function filterRecordsByTimeRange(records, range) {
     const now = new Date();
     return records.filter(rec => {
@@ -1297,9 +1587,9 @@ function filterRecordsByTimeRange(records, range) {
     });
 }
 
-/* ─────────────────────────────────────────────
-   SALES JOURNAL
-───────────────────────────────────────────── */
+/* ══════════════════════════════════════════════
+   SALES JOURNAL TABLE
+══════════════════════════════════════════════ */
 function renderSalesDashboardTable() {
     const filter   = document.getElementById("sales-date-filter").value;
     const filtered = filterRecordsByTimeRange(memorySalesJournal, filter);
@@ -1321,9 +1611,9 @@ function renderSalesDashboardTable() {
     });
 }
 
-/* ─────────────────────────────────────────────
+/* ══════════════════════════════════════════════
    INVENTORY
-───────────────────────────────────────────── */
+══════════════════════════════════════════════ */
 function renderInventoryDashboardTable() {
     const sort  = document.getElementById("inventory-sort-filter").value;
     let display = [...systemProducts];
@@ -1341,20 +1631,13 @@ function renderInventoryDashboardTable() {
             <td>₱${p.price.toFixed(2)}</td>
             <td style="font-weight:bold;color:${low?'var(--danger-color)':'white'}">${p.stock} Units</td>
             <td>
-                <button class="btn-table-action btn-inline-edit" onclick="openProductCrudModal(true,'${p.id}')">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-                    Edit
-                </button>
-                <button class="btn-table-action btn-inline-delete" onclick="deleteProductItem('${p.id}')">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
-                    Delete
-                </button>
+                <button class="btn-table-action btn-inline-edit" onclick="openProductCrudModal(true,'${p.id}')">Edit</button>
+                <button class="btn-table-action btn-inline-delete" onclick="deleteProductItem('${p.id}')">Delete</button>
             </td>
         `;
         tbody.appendChild(tr);
     });
 }
-
 function openProductCrudModal(isEdit, productId = '') {
     document.getElementById("crud-product-id").readOnly = isEdit;
     if (isEdit) {
@@ -1375,7 +1658,6 @@ function openProductCrudModal(isEdit, productId = '') {
     }
     openModal("product-crud-modal");
 }
-
 function saveProductCrudData() {
     const mode    = document.getElementById("crud-product-mode").value;
     const id      = document.getElementById("crud-product-id").value.trim();
@@ -1388,28 +1670,30 @@ function saveProductCrudData() {
         if (systemProducts.some(p => p.id === id || p.barcode === barcode))
             return showAlert("Duplicate SKU or Barcode detected.", "danger", "Duplicate Entry");
         systemProducts.push({ id, name, barcode, price, stock });
+        logActivity('admin', `Product added: "${name}" (SKU: ${id}, Price: ₱${price}, Stock: ${stock})`);
     } else {
         const p = systemProducts.find(x => x.id === id);
         if (p) { p.name = name; p.barcode = barcode; p.price = price; p.stock = stock; }
+        logActivity('admin', `Product updated: "${name}" (SKU: ${id})`);
     }
     persistProductsToIndexedDB();
     renderInventoryDashboardTable();
     renderCashierCatalog();
     closeModal("product-crud-modal");
 }
-
 function deleteProductItem(productId) {
-    showConfirm("Remove this product from the catalog? This cannot be undone.", () => {
+    const p = systemProducts.find(x => x.id === productId);
+    showConfirm(`Remove product "${p ? p.name : productId}" from the catalog?`, () => {
         if (!posDB) return;
         const tx = posDB.transaction(PRODUCTS_STORE, "readwrite");
         tx.objectStore(PRODUCTS_STORE).delete(productId).onsuccess = function() {
+            logActivity('admin', `Product deleted: "${p ? p.name : productId}" (SKU: ${productId})`);
             systemProducts = systemProducts.filter(p => p.id !== productId);
             renderInventoryDashboardTable();
             renderCashierCatalog();
         };
     }, 'danger', 'Delete Product');
 }
-
 function handleBulkCsvUpload(event) {
     const input = event.target;
     if (!input.files || !input.files[0]) return;
@@ -1441,20 +1725,20 @@ function handleBulkCsvUpload(event) {
             }
             tx.oncomplete = function() {
                 renderInventoryDashboardTable(); renderCashierCatalog();
+                logActivity('admin', `Bulk CSV import: Added ${added}, Updated ${updated}, Skipped ${skipped}`);
                 showAlert(`<strong>Import Complete!</strong><br>Added: ${added} &nbsp;|&nbsp; Updated: ${updated} &nbsp;|&nbsp; Skipped: ${skipped}`, "success", "Bulk Import Done");
             };
         } catch (err) {
             showAlert("CSV parse error. Please check the file format.", "danger", "Import Error");
-            console.error(err);
         }
         input.value = "";
     };
     reader.readAsText(input.files[0]);
 }
 
-/* ─────────────────────────────────────────────
+/* ══════════════════════════════════════════════
    CREDIT LEDGER
-───────────────────────────────────────────── */
+══════════════════════════════════════════════ */
 function renderLedgerDashboardTable() {
     const tbody = document.getElementById("ledger-table-body");
     tbody.innerHTML = "";
@@ -1469,17 +1753,11 @@ function renderLedgerDashboardTable() {
             <td style="color:var(--text-muted);font-size:0.85rem;">${names}</td>
             <td style="font-family:monospace;font-size:0.85rem;">${prices}</td>
             <td style="font-weight:bold;color:var(--danger-color);">₱${tx.total.toFixed(2)}</td>
-            <td>
-                <button class="btn-table-action" onclick="initiateLedgerSettlementModal(${tx.id},'${tx.customerName.replace(/'/g,"\\'")}',${tx.total})">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-                    Settle
-                </button>
-            </td>
+            <td><button class="btn-table-action" onclick="initiateLedgerSettlementModal(${tx.id},'${tx.customerName.replace(/'/g,"\\'")}',${tx.total})">Settle</button></td>
         `;
         tbody.appendChild(tr);
     });
 }
-
 function initiateLedgerSettlementModal(invoiceId, customerName, balance) {
     targetedLedgerInvoiceId = invoiceId;
     document.getElementById("settle-customer-name").value    = customerName;
@@ -1488,7 +1766,6 @@ function initiateLedgerSettlementModal(invoiceId, customerName, balance) {
     openModal("settlement-modal");
     setTimeout(() => document.getElementById("settle-cash-input").focus(), 250);
 }
-
 document.getElementById("process-settlement-btn").onclick = function() {
     const paid = parseFloat(document.getElementById("settle-cash-input").value) || 0;
     if (paid <= 0) return showAlert("Please enter a valid payment amount.", "warning");
@@ -1499,7 +1776,7 @@ document.getElementById("process-settlement-btn").onclick = function() {
         let invoice = e.target.result;
         if (!invoice) return;
         const prev = invoice.total;
-        if (paid > prev) return showAlert("Payment amount exceeds the outstanding balance.", "danger", "Overpayment");
+        if (paid > prev) return showAlert("Payment exceeds outstanding balance.", "danger", "Overpayment");
         invoice.total -= paid;
         if (invoice.total <= 0) invoice.paymentType = "CREDIT_SETTLED";
         store.put(invoice).onsuccess = function() {
@@ -1509,6 +1786,7 @@ document.getElementById("process-settlement-btn").onclick = function() {
                 settledInvoiceId: targetedLedgerInvoiceId, customerName: invoice.customerName
             };
             store.add(entry).onsuccess = function() {
+                logActivity('sale', `Credit settled: "${invoice.customerName}" paid ₱${paid.toFixed(2)}, remaining ₱${invoice.total.toFixed(2)}`);
                 fetchRecordsFromLocalDB();
                 closeModal("settlement-modal");
                 printCollectionThermalReceipt(invoice.customerName, prev, paid, invoice.total);
@@ -1516,10 +1794,9 @@ document.getElementById("process-settlement-btn").onclick = function() {
         };
     };
 };
-
 function printCollectionThermalReceipt(name, oldBal, paid, newBal) {
     document.getElementById("receipt-print-area").innerHTML = `
-        <div class="receipt-center"><strong>MATRIX CORE RETAIL HUB</strong><br>
+        <div class="receipt-center"><strong>INAMO STORE</strong><br>
         <div class="receipt-divider"></div><strong>PAYMENT RECEIPT</strong></div>
         <div style="margin-top:2mm;">Date: ${new Date().toLocaleString()}</div>
         <div>Account: ${name}</div>
@@ -1533,9 +1810,9 @@ function printCollectionThermalReceipt(name, oldBal, paid, newBal) {
     window.print();
 }
 
-/* ─────────────────────────────────────────────
+/* ══════════════════════════════════════════════
    CATALOG / CASHIER
-───────────────────────────────────────────── */
+══════════════════════════════════════════════ */
 function renderCashierCatalog(search = "") {
     const grid = document.getElementById("catalog-grid");
     grid.innerHTML = "";
@@ -1555,7 +1832,6 @@ function renderCashierCatalog(search = "") {
         grid.appendChild(card);
     });
 }
-
 function addItemToRegisterBasket(productId) {
     const prod = systemProducts.find(p => p.id === productId);
     if (!prod || prod.stock <= 0) return showAlert("This item is currently out of stock.", "warning", "Out of Stock");
@@ -1567,11 +1843,9 @@ function addItemToRegisterBasket(productId) {
         activeCart.push({ product: prod, quantity: 1 });
     }
     renderRegisterBasketCart();
-    // Auto-scroll to bottom on new item
     const container = document.getElementById("cart-item-container");
     setTimeout(() => { container.scrollTop = container.scrollHeight; }, 50);
 }
-
 function adjustBasketItemQuantity(productId, delta) {
     const entry = activeCart.find(i => i.product.id === productId);
     if (!entry) return;
@@ -1581,16 +1855,13 @@ function adjustBasketItemQuantity(productId, delta) {
     if (entry.quantity <= 0) activeCart = activeCart.filter(i => i.product.id !== productId);
     renderRegisterBasketCart();
 }
-
 function forceRemoveBasketItem(productId) {
     activeCart = activeCart.filter(i => i.product.id !== productId);
     renderRegisterBasketCart();
 }
-
 function calculateActiveBasketTotalSum() {
     return activeCart.reduce((sum, i) => sum + i.product.price * i.quantity, 0);
 }
-
 function renderRegisterBasketCart() {
     const container = document.getElementById("cart-item-container");
     const scrollPos = container.scrollTop;
@@ -1603,19 +1874,13 @@ function renderRegisterBasketCart() {
             <div class="cart-item-details">
                 <div class="cart-item-name">${item.product.name}</div>
                 <div class="cart-item-qty-controls">
-                    <button class="qty-btn" onclick="adjustBasketItemQuantity('${item.product.id}',-1)">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                    </button>
+                    <button class="qty-btn" onclick="adjustBasketItemQuantity('${item.product.id}',-1)">−</button>
                     <span style="font-weight:bold;">${item.quantity}</span>
-                    <button class="qty-btn" onclick="adjustBasketItemQuantity('${item.product.id}',1)">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                    </button>
+                    <button class="qty-btn" onclick="adjustBasketItemQuantity('${item.product.id}',1)">+</button>
                 </div>
             </div>
             <div class="cart-item-price-group">₱${lineTotal.toFixed(2)}</div>
-            <button class="remove-item-btn" onclick="forceRemoveBasketItem('${item.product.id}')">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-            </button>
+            <button class="remove-item-btn" onclick="forceRemoveBasketItem('${item.product.id}')">✕</button>
         `;
         container.appendChild(row);
     });
@@ -1623,11 +1888,11 @@ function renderRegisterBasketCart() {
     document.getElementById("summary-total").innerText = `₱${calculateActiveBasketTotalSum().toFixed(2)}`;
 }
 
-/* ─────────────────────────────────────────────
+/* ══════════════════════════════════════════════
    CHECKOUT
-───────────────────────────────────────────── */
+══════════════════════════════════════════════ */
 document.getElementById("checkout-cash-btn").onclick = function() {
-    if (activeCart.length === 0) return showAlert("Your cart is empty. Add items before checkout.", "warning", "Empty Cart");
+    if (activeCart.length === 0) return showAlert("Your cart is empty.", "warning", "Empty Cart");
     const total = calculateActiveBasketTotalSum();
     document.getElementById("cash-modal-total").value = `₱${total.toFixed(2)}`;
     document.getElementById("cash-tendered").value    = "";
@@ -1635,34 +1900,32 @@ document.getElementById("checkout-cash-btn").onclick = function() {
     openModal("cash-modal");
     setTimeout(() => document.getElementById("cash-tendered").focus(), 250);
 };
-
 document.getElementById("cash-tendered").oninput = function(e) {
     const total    = calculateActiveBasketTotalSum();
     const tendered = parseFloat(e.target.value) || 0;
     const change   = tendered - total;
     document.getElementById("cash-change").value = change >= 0 ? `₱${change.toFixed(2)}` : "Insufficient Cash";
 };
-
 document.getElementById("checkout-credit-btn").onclick = function() {
-    if (activeCart.length === 0) return showAlert("Your cart is empty. Add items before checkout.", "warning", "Empty Cart");
+    if (activeCart.length === 0) return showAlert("Your cart is empty.", "warning", "Empty Cart");
     document.getElementById("credit-modal-total").value   = `₱${calculateActiveBasketTotalSum().toFixed(2)}`;
     document.getElementById("credit-customer-name").value = "";
     openModal("credit-modal");
     setTimeout(() => document.getElementById("credit-customer-name").focus(), 250);
 };
-
 document.getElementById("clear-cart-btn").onclick = function() {
     if (activeCart.length > 0) {
         showConfirm("Clear all items from the current cart?", () => {
+            logActivity('sale', `Cart voided by "${currentLoggedInUser ? currentLoggedInUser.username : 'unknown'}" (${activeCart.length} items)`);
             activeCart = [];
             renderRegisterBasketCart();
         }, 'warning', 'Clear Cart');
     }
 };
-
 function executeCommitTransactionPipeline(channel, meta = {}) {
     const total = calculateActiveBasketTotalSum();
     const entry = { timestamp: new Date().toISOString(), items: JSON.parse(JSON.stringify(activeCart)), total, paymentType: channel, ...meta };
+    const itemsSummary = activeCart.map(i => `${i.product.name} x${i.quantity}`).join(', ');
     activeCart.forEach(item => {
         const p = systemProducts.find(x => x.id === item.product.id);
         if (p) p.stock -= item.quantity;
@@ -1672,8 +1935,13 @@ function executeCommitTransactionPipeline(channel, meta = {}) {
         const store = dbTx.objectStore(POS_SALES_STORE);
         store.add(entry);
         persistProductsToIndexedDB();
-        dbTx.oncomplete = () => fetchRecordsFromLocalDB();
+        dbTx.oncomplete = () => {
+            fetchRecordsFromLocalDB();
+            updateSalesSummaryCards();
+            renderSalesChart();
+        };
     }
+    logActivity('sale', `${channel} sale: ₱${total.toFixed(2)} — ${itemsSummary}${meta.customerName ? ` | Customer: ${meta.customerName}` : ''}`);
     print58mmThermalReceiptLayout(entry);
     activeCart = [];
     renderRegisterBasketCart();
@@ -1681,26 +1949,24 @@ function executeCommitTransactionPipeline(channel, meta = {}) {
     closeModal("cash-modal");
     closeModal("credit-modal");
 }
-
 document.getElementById("process-cash-sale-btn").onclick = function() {
     const total    = calculateActiveBasketTotalSum();
     const tendered = parseFloat(document.getElementById("cash-tendered").value) || 0;
-    if (tendered < total) return showAlert("Insufficient cash amount. Please collect the correct amount.", "danger", "Insufficient Cash");
+    if (tendered < total) return showAlert("Insufficient cash amount.", "danger", "Insufficient Cash");
     executeCommitTransactionPipeline("CASH", { tendered, change: tendered - total });
 };
-
 document.getElementById("process-credit-sale-btn").onclick = function() {
     const name = document.getElementById("credit-customer-name").value.trim();
     if (!name) return showAlert("Customer name is required for credit transactions.", "warning");
     executeCommitTransactionPipeline("CREDIT_UTANG", { customerName: name });
 };
 
-/* ─────────────────────────────────────────────
-   RECEIPT PRINT
-───────────────────────────────────────────── */
+/* ══════════════════════════════════════════════
+   RECEIPT
+══════════════════════════════════════════════ */
 function print58mmThermalReceiptLayout(tx) {
     let html = `
-        <div class="receipt-center"><strong>MATRIX CORE RETAIL HUB</strong><br>
+        <div class="receipt-center"><strong>INAMO STORE</strong><br>
         <div class="receipt-divider"></div><strong>TRANSACTION TICKET</strong></div>
         <div style="margin-top:2mm;">Time: ${new Date(tx.timestamp).toLocaleString()}</div>
         <div>Channel: ${tx.paymentType}</div>
@@ -1718,9 +1984,9 @@ function print58mmThermalReceiptLayout(tx) {
     window.print();
 }
 
-/* ─────────────────────────────────────────────
+/* ══════════════════════════════════════════════
    CSV
-───────────────────────────────────────────── */
+══════════════════════════════════════════════ */
 function downloadCSV(content, filename) {
     const blob = new Blob([content], { type: 'text/csv;charset=utf-8;' });
     const a    = document.createElement("a");
@@ -1736,12 +2002,16 @@ function exportSalesJournalToCSV(forceFilter) {
         const items = tx.isSettlement ? `Credit Ref: AR-TX-${1000 + tx.settledInvoiceId}` : tx.items.map(i => `${i.product.name} x${i.quantity}`).join(" | ");
         csv += `"${new Date(tx.timestamp).toLocaleString()}","AR-TX-${1000+(tx.id||idx)}","${items}","${tx.paymentType}",${tx.total.toFixed(2)}\n`;
     });
-    downloadCSV(csv, `SalesJournal_${filter || 'all'}.csv`); return csv;
+    downloadCSV(csv, `SalesJournal_${filter || 'all'}.csv`);
+    logActivity('admin', `Sales journal exported (filter: ${filter})`);
+    return csv;
 }
 function exportInventoryCatalogToCSV() {
     let csv = "SKU,Name,Barcode,Price,Stock\n";
     systemProducts.forEach(p => { csv += `${p.id},"${p.name}",${p.barcode},${p.price.toFixed(2)},${p.stock}\n`; });
-    downloadCSV(csv, "InventoryMatrix.csv"); return csv;
+    downloadCSV(csv, "InventoryMatrix.csv");
+    logActivity('admin', 'Inventory catalog exported to CSV');
+    return csv;
 }
 function exportCreditLedgerToCSV() {
     const entries = memorySalesJournal.filter(tx => tx.paymentType === "CREDIT_UTANG" && tx.total > 0);
@@ -1750,7 +2020,8 @@ function exportCreditLedgerToCSV() {
         const items = tx.items.map(i => `${i.product.name} x${i.quantity}`).join(" | ");
         csv += `"${new Date(tx.timestamp).toLocaleDateString()}","${tx.customerName}","${items}",${tx.total.toFixed(2)}\n`;
     });
-    downloadCSV(csv, "CreditLedger.csv"); return csv;
+    downloadCSV(csv, "CreditLedger.csv");
+    return csv;
 }
 function exportGcashToCSV() {
     gcashGetAll().then(data => {
@@ -1764,7 +2035,8 @@ async function exportGcashFullToCSV() {
     const data = await gcashGetAll();
     let csv = "Timestamp,Type,Amount,Mobile,Reference,Profit\n";
     data.forEach(tx => { csv += `"${tx.timestamp}","${tx.type}",${parseFloat(tx.amount).toFixed(2)},"${tx.mobile||''}","${tx.reference}",${parseFloat(tx.profit||0).toFixed(2)}\n`; });
-    downloadCSV(csv, "GCash_AllTime.csv"); return csv;
+    downloadCSV(csv, "GCash_AllTime.csv");
+    return csv;
 }
 function exportBestSellersToCSV() {
     const tally = {};
@@ -1779,15 +2051,16 @@ function exportBestSellersToCSV() {
     const sorted = Object.values(tally).sort((a, b) => b.qty - a.qty);
     let csv = "Rank,Product Name,Units Sold,Revenue\n";
     sorted.forEach((item, idx) => { csv += `${idx+1},"${item.name}",${item.qty},${item.revenue.toFixed(2)}\n`; });
-    downloadCSV(csv, "BestSellers_AllTime.csv"); return csv;
+    downloadCSV(csv, "BestSellers_AllTime.csv");
+    return csv;
 }
 async function exportUsersToCSV() {
     const users = await usersGetAll();
     let csv = "Username,Full Name,Role,Created At\n";
     users.forEach(u => { csv += `"${u.username}","${u.fullname}","${u.role}","${new Date(u.createdAt).toLocaleString()}"\n`; });
-    downloadCSV(csv, "Users.csv"); return csv;
+    downloadCSV(csv, "Users.csv");
+    return csv;
 }
-
 async function backupAllDataToCSV() {
     const ts = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
     logRestore(`Starting full backup at ${new Date().toLocaleString()}...`);
@@ -1798,9 +2071,9 @@ async function backupAllDataToCSV() {
     { const tally = {}; memorySalesJournal.forEach(tx => { if (tx.isSettlement || !tx.items) return; tx.items.forEach(item => { const key = item.product.id; if (!tally[key]) tally[key] = { name: item.product.name, qty: 0, revenue: 0 }; tally[key].qty += item.quantity; tally[key].revenue += item.product.price * item.quantity; }); }); const sorted = Object.values(tally).sort((a, b) => b.qty - a.qty); let csv = "Rank,Product Name,Units Sold,Revenue\n"; sorted.forEach((item, idx) => { csv += `${idx+1},"${item.name}",${item.qty},${item.revenue.toFixed(2)}\n`; }); downloadCSV(csv, `BACKUP_${ts}_BestSellers.csv`); logRestore(`✓ Best Sellers: ${sorted.length} items`); }
     { const users = await usersGetAll(); let csv = "Username,Full Name,Role,Created At\n"; users.forEach(u => { csv += `"${u.username}","${u.fullname}","${u.role}","${new Date(u.createdAt).toLocaleString()}"\n`; }); downloadCSV(csv, `BACKUP_${ts}_Users.csv`); logRestore(`✓ Users: ${users.length} accounts`); }
     logRestore(`✅ Full backup complete. 6 CSV files downloaded.`);
+    logActivity('admin', 'Full system backup downloaded');
 }
 
-/* RESTORE */
 function logRestore(msg) { const el = document.getElementById('restore-log'); if (!el) return; el.innerHTML += msg + '\n'; el.scrollTop = el.scrollHeight; }
 function parseCSVRow(row) { const result = []; let cur = ''; let inQ = false; for (let i = 0; i < row.length; i++) { if (row[i] === '"') { inQ = !inQ; } else if (row[i] === ',' && !inQ) { result.push(cur.trim()); cur = ''; } else { cur += row[i]; } } result.push(cur.trim()); return result; }
 function restoreFromCSV(event, type) {
@@ -1830,10 +2103,9 @@ function restoreFromCSV(event, type) {
                     if (existIdx > -1) { systemProducts[existIdx] = item; updated++; } else { systemProducts.push(item); added++; }
                     store.put(item);
                 }
-                tx.oncomplete = function() { renderInventoryDashboardTable(); renderCashierCatalog(); logRestore(`✓ Inventory restored — Added: ${added}, Updated: ${updated}`); };
+                tx.oncomplete = function() { renderInventoryDashboardTable(); renderCashierCatalog(); logRestore(`✓ Inventory restored — Added: ${added}, Updated: ${updated}`); logActivity('admin', `Inventory restored from CSV: Added ${added}, Updated ${updated}`); };
             } else if (type === 'sales') {
                 if (rows.length <= 1) { logRestore('⚠ No data rows found.'); return; }
-                logRestore('ℹ Sales restore: existing records are preserved.');
                 let imported = 0;
                 if (!posDB) { logRestore('⚠ DB not ready.'); return; }
                 const tx = posDB.transaction(POS_SALES_STORE, "readwrite");
@@ -1844,10 +2116,9 @@ function restoreFromCSV(event, type) {
                     const entry = { timestamp: cols[0] || new Date().toISOString(), items: [], total: parseFloat(cols[4]) || 0, paymentType: cols[3] || 'CASH', _restored: true };
                     store.add(entry); imported++;
                 }
-                tx.oncomplete = function() { fetchRecordsFromLocalDB(); logRestore(`✓ Sales restored — ${imported} records imported`); };
+                tx.oncomplete = function() { fetchRecordsFromLocalDB(); logRestore(`✓ Sales restored — ${imported} records`); logActivity('admin', `Sales restored from CSV: ${imported} records`); };
             } else if (type === 'gcash') {
                 if (rows.length <= 1) { logRestore('⚠ No data rows found.'); return; }
-                logRestore('ℹ GCash restore: only new reference numbers will be added.');
                 gcashGetAll().then(() => {
                     let imported = 0;
                     const tx = gcashDB.transaction(GCASH_STORE, "readwrite");
@@ -1858,18 +2129,18 @@ function restoreFromCSV(event, type) {
                         const record = { dateCreated: new Date().toISOString(), timestamp: cols[0] || new Date().toLocaleString(), type: cols[1] || 'GCASH IN', amount: parseFloat(cols[2]) || 0, mobile: cols[3] || '', reference: cols[4] || '', profit: parseFloat(cols[5]) || 0, _restored: true };
                         store.add(record); imported++;
                     }
-                    tx.oncomplete = function() { renderGcashTransactions(); logRestore(`✓ GCash restored — ${imported} records imported`); };
+                    tx.oncomplete = function() { renderGcashTransactions(); logRestore(`✓ GCash restored — ${imported} records`); logActivity('admin', `GCash restored from CSV: ${imported} records`); };
                 });
             }
-        } catch(err) { logRestore(`✗ Error: ${err}`); console.error(err); }
+        } catch(err) { logRestore(`✗ Error: ${err}`); }
         input.value = "";
     };
     reader.readAsText(input.files[0]);
 }
 
-/* ─────────────────────────────────────────────
+/* ══════════════════════════════════════════════
    USERS TABLE
-───────────────────────────────────────────── */
+══════════════════════════════════════════════ */
 async function renderUsersTable() {
     const tbody = document.getElementById("users-table-body");
     tbody.innerHTML = "";
@@ -1885,9 +2156,7 @@ async function renderUsersTable() {
                 <td>${new Date(u.createdAt).toLocaleDateString()}</td>
                 <td>${isCurrentUser
                     ? '<span style="color:var(--text-muted);font-size:0.8rem;">(current user)</span>'
-                    : `<button class="btn-table-action btn-inline-delete" onclick="deleteUserAccount('${u.username}')">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
-                        Delete</button>`
+                    : `<button class="btn-table-action btn-inline-delete" onclick="deleteUserAccount('${u.username}')">Delete</button>`
                 }</td>
             `;
             tbody.appendChild(tr);
@@ -1896,11 +2165,13 @@ async function renderUsersTable() {
         tbody.innerHTML = `<tr><td colspan="5" style="color:var(--danger-color);">Error loading users: ${e}</td></tr>`;
     }
 }
-
 async function deleteUserAccount(username) {
-    showConfirm(`Delete user "<strong>${username}</strong>"? This cannot be undone.`, async () => {
-        try { await usersDelete(username); renderUsersTable(); }
-        catch(e) { showAlert("Error deleting user: " + e, "danger"); }
+    showConfirm(`Delete user "<strong>${username}</strong>"?`, async () => {
+        try {
+            await usersDelete(username);
+            logActivity('admin', `User account deleted: "${username}"`);
+            renderUsersTable();
+        } catch(e) { showAlert("Error deleting user: " + e, "danger"); }
     }, 'danger', 'Delete User Account');
 }
 
@@ -1922,12 +2193,14 @@ window.onkeydown = function(e) {
     if (e.key === "Escape") {
         document.getElementById('app-dialog-overlay').classList.remove('show');
         ["admin-modal","cash-modal","credit-modal","settlement-modal","product-crud-modal"].forEach(closeModal);
-        closeGcashModal(); closeAdminGate();
+        closeGcashModal(); closeAdminGate(); closeActivityLogModal();
     }
 };
 document.getElementById('admin-gate-password').addEventListener('keydown', e => { if (e.key === 'Enter') verifyAdminPassword(); });
 
-/* GCASH MODAL */
+/* ══════════════════════════════════════════════
+   GCASH MODAL
+══════════════════════════════════════════════ */
 function openGcashModal() {
     ["gcash-mobile","gcash-amount","gcash-customer-name","gcash-ref-no"].forEach(id => document.getElementById(id).value = "");
     selectGcashType("GCASH IN");
@@ -1952,9 +2225,11 @@ async function handleGcashSubmit() {
     if (!mobile) return showAlert("Mobile number is required.", "warning");
     if (!amount || amount <= 0) return showAlert("Please enter a valid amount.", "warning");
     if (!name) return showAlert("Customer name is required.", "warning");
-    const record = { dateCreated: new Date().toISOString(), timestamp: new Date().toLocaleString(), type, amount, mobile, refNo, reference: name + (refNo ? ` / Ref: ${refNo}` : ""), profit: calculateProfit(amount) };
+    const profit = calculateProfit(amount);
+    const record = { dateCreated: new Date().toISOString(), timestamp: new Date().toLocaleString(), type, amount, mobile, refNo, reference: name + (refNo ? ` / Ref: ${refNo}` : ""), profit };
     try {
         await gcashAddRecord(record);
+        logActivity('gcash', `${type}: ₱${amount.toFixed(2)} for ${name} (${mobile})${refNo ? ', Ref: ' + refNo : ''}`);
         renderGcashTransactions();
         closeGcashModal();
     } catch(err) { showAlert("Transaction failed: " + err, "danger", "GCash Error"); }
@@ -2019,7 +2294,7 @@ function renderTopProducts() {
             case 'weekly':  return d >= new Date(now - 7 * 864e5);
             case 'monthly': return d >= new Date(now - 30 * 864e5);
             case 'yearly':  return d >= new Date(now - 365 * 864e5);
-            default:        return true;
+            default: return true;
         }
     });
     const tally = {};
@@ -2037,7 +2312,11 @@ function renderTopProducts() {
 
 /* INIT */
 window.onload = async function() {
-    try { await initUsersDB(); await initGcashDB(); } catch(err) { console.error("DB init error:", err); }
+    try {
+        await initUsersDB();
+        await initGcashDB();
+        logActivity('system', 'POS system initialized');
+    } catch(err) { console.error("DB init error:", err); }
 };
 </script>
 </body>
