@@ -70,7 +70,7 @@
         .logged-in-badge { font-size: 1.1rem; border: 2px; color: var(--success-color); font-weight: bold; padding: 5px 10px; background: rgba(46,213,115,0.1); border-radius: 4px; border: 1px solid rgba(46,213,115,0.3); }
 
         .pos-container { display: grid; grid-template-columns: 1fr 400px; flex: 1; height: calc(100vh - 60px); overflow: hidden; }
-        .catalog-side { height: 590px; display: flex; flex-direction: column; border-right: 1px solid var(--border-color); background: #151515; overflow: hidden; }
+        .catalog-side { height: 660px; display: flex; flex-direction: column; border-right: 1px solid var(--border-color); background: #151515; overflow: hidden; }
         .search-bar-container { padding: 15px; background: var(--panel-bg); border-bottom: 1px solid var(--border-color); }
         .search-input { width: 100%; padding: 12px; background: #2a2a2a; border: 1px solid var(--border-color); color: white; border-radius: 6px; font-size: 1rem; }
         .product-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); display: grid; gap: 12px; padding: 15px; overflow-y: auto; flex: 1; }
@@ -79,9 +79,9 @@
         .product-name { font-weight: 600; font-size: 0.95rem; margin-bottom: 5px; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
         .product-price { color: var(--accent-color); font-weight: bold; font-size: 1.1rem; }
         .product-stock { font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; }
-
+		
         .cart-side { display: flex; flex-direction: column; background: var(--panel-bg); overflow: hidden; }
-        .cart-items-list { flex: 1; overflow-y: auto; padding: 1px; min-height: 0; scroll-behavior: smooth; max-height: 380px; }
+        .cart-items-list { flex: 1; overflow-y: auto; padding: 1px; min-height: 0; scroll-behavior: smooth; max-height: 460px; }
         .cart-items-list::-webkit-scrollbar { width: 4px; }
         .cart-items-list::-webkit-scrollbar-track { background: transparent; }
         .cart-items-list::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
@@ -376,11 +376,11 @@
                 <div class="auth-success" id="login-success"></div>
                 <div class="auth-field">
                     <label>Username</label>
-                    <input type="text" id="login-username" placeholder="Enter your username" style="text-align:center;" autocomplete="username">
+                    <input type="text" id="login-username" placeholder="Enter your username" style="text-align:center;" value="sean" autocomplete="username">
                 </div>
                 <div class="auth-field">
                     <label>Password</label>
-                    <input type="password" id="login-password" placeholder="Enter your password" style="text-align:center;" autocomplete="current-password">
+                    <input type="password" id="login-password" placeholder="Enter your password" style="text-align:center;" value="787266"  autocomplete="current-password">
                 </div>
                 <button class="auth-btn" onclick="handleLogin()">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
@@ -390,11 +390,11 @@
             <div class="auth-form" id="signup-form">
                 <div class="auth-error" id="signup-error"></div>
                 <div class="auth-success" id="signup-success"></div>
-                <!-- Admin gate for signup 
+                <!-- Admin gate for signup -->
                 <div class="signup-admin-gate" id="signup-admin-gate">
                     <strong>🔐 Admin Authorization Required</strong>
                     <span style="font-size:0.82rem;">Enter the admin password to create a new account.</span>
-                </div>-->
+                </div>
                 <div class="auth-field" id="signup-admin-pw-field">
                     <label>Admin Password</label>
                     <input type="password" id="signup-admin-pw" placeholder="Enter admin password" style="text-align:center;">
@@ -475,11 +475,10 @@
                 VOID CART ITEMS
             </button>
         </div>
-        <div class="system-status" id="clock">Loading...</div>
+      <!--  <div class="system-status" id="clock">Loading...</div> -->
     </div>
 </div>
 </div>
-
 <!-- ADMIN PASSWORD GATE -->
 <div id="admin-gate-modal">
     <div class="admin-gate-box">
@@ -650,7 +649,8 @@
             <div class="tab-panel" id="admin-tab-ledger">
                 <div class="report-controls">
                     <span style="font-size:0.9rem; color:var(--warning-color); font-weight:bold;">Unresolved Credit Liabilities</span>
-                    <button class="btn-csv" style="margin-left:auto;" onclick="exportCreditLedgerToCSV()">Export Ledger (CSV)</button>
+                    <button class="btn-csv" style="margin-left:auto;" onclick="exportCreditLedgerToCSV()"> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                   Export Ledger (CSV)</button>
                 </div>
                 <div class="table-wrapper">
                     <table>
@@ -673,13 +673,14 @@
                         <button class="btn-filter" onclick="gcashChangeFilter('monthly',this)">Monthly</button>
                         <button class="btn-filter" onclick="gcashChangeFilter('yearly',this)">Yearly</button>
                         <button class="btn-filter" onclick="gcashChangeFilter('all',this)">All Time</button>
-                        <button class="btn-csv" onclick="openGcashModal()" style="margin-left:auto; background-color:green;">+ New Transaction</button>
-                        <button class="btn-csv" onclick="exportGcashToCSV()">Export CSV</button>
+                        <button class="btn-csv" onclick="openGcashModal()" style="margin-left:auto; background-color:green;">+ New GCash Transaction</button>
+                        <button class="btn-csv" onclick="exportGcashToCSV()"> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+						Export GCash Logs CSV</button>
                     </div>
                 </div>
                 <div class="gcash-table-container" style="max-height:230px;">
                     <table style="min-width:600px;">
-                        <thead><tr><th style="width:18%">Date/Time</th><th style="width:12%">Type</th><th style="width:14%">Amount</th><th style="width:16%">Mobile</th><th style="width:26%">Name / Reference</th><th style="width:14%">Profit</th></tr></thead>
+                        <thead><tr><th style="width:18%">Date/Time</th><th style="width:14%">Type</th><th style="width:14%">Amount</th><th style="width:16%">Mobile</th><th style="width:20%">Name</th><th style="width:20%"> Reference</th><th style="width:22%">Profit</th></tr></thead>
                         <tbody id="gcash-table-body"></tbody>
                     </table>
                     <div id="gcash-empty-state" class="gcash-empty" style="display:none;">No transactions recorded yet.</div>
@@ -768,12 +769,18 @@
                 </button>
                 <div class="backup-section-title">Individual Exports</div>
                 <div class="backup-grid">
-                    <div class="backup-card"><h4>📊 Sales Report</h4><p>All transaction records including cash and credit sales.</p><button class="btn-csv" onclick="exportSalesJournalToCSV('all')" style="width:100%">Download CSV</button></div>
-                    <div class="backup-card"><h4>📦 Inventory</h4><p>Current product catalog with SKUs, prices, and stock levels.</p><button class="btn-csv" onclick="exportInventoryCatalogToCSV()" style="width:100%">Download CSV</button></div>
-                    <div class="backup-card"><h4>💳 Credit Ledger</h4><p>All outstanding and settled credit accounts.</p><button class="btn-csv" onclick="exportCreditLedgerToCSV()" style="width:100%">Download CSV</button></div>
-                    <div class="backup-card"><h4>📱 GCash Logs</h4><p>Complete GCash Cash-In and Cash-Out transaction history.</p><button class="btn-csv" onclick="exportGcashFullToCSV()" style="width:100%">Download CSV</button></div>
-                    <div class="backup-card"><h4>🏆 Best Sellers</h4><p>All-time top-selling products with revenue data.</p><button class="btn-csv" onclick="exportBestSellersToCSV()" style="width:100%">Download CSV</button></div>
-                    <div class="backup-card"><h4>👥 User Accounts</h4><p>Registered users list (passwords are not exported).</p><button class="btn-csv" onclick="exportUsersToCSV()" style="width:100%">Download CSV</button></div>
+                    <div class="backup-card"><h4>📊 Sales Report</h4><p>All transaction records including cash and credit sales.</p><button class="btn-csv" onclick="exportSalesJournalToCSV('all')" style="width:100%"> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+					Download CSV</button></div>
+                    <div class="backup-card"><h4>📦 Inventory</h4><p>Current product catalog with SKUs, prices, and stock levels.</p><button class="btn-csv" onclick="exportInventoryCatalogToCSV()" style="width:100%"> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                   Download CSV</button></div>
+                    <div class="backup-card"><h4>💳 Credit Ledger</h4><p>All outstanding and settled credit accounts.</p><button class="btn-csv" onclick="exportCreditLedgerToCSV()" style="width:100%"> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                   Download CSV</button></div>
+                    <div class="backup-card"><h4>📱 GCash Logs</h4><p>Complete GCash Cash-In and Cash-Out transaction history.</p><button class="btn-csv" onclick="exportGcashFullToCSV()" style="width:100%"> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                   Download CSV</button></div>
+                    <div class="backup-card"><h4>🏆 Best Sellers</h4><p>All-time top-selling products with revenue data.</p><button class="btn-csv" onclick="exportBestSellersToCSV()" style="width:100%"> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                   Download CSV</button></div>
+                    <div class="backup-card"><h4>👥 User Accounts</h4><p>Registered users list (passwords are not exported).</p><button class="btn-csv" onclick="exportUsersToCSV()" style="width:100%"> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                   Download CSV</button></div>
                 </div>
                 <div class="backup-section-title">Restore from Backup</div>
                 <div style="background:#1a2233;border:1px solid #2a3a5c;border-radius:8px;padding:14px;margin-bottom:14px;font-size:0.85rem;color:#60a5fa;">
@@ -1293,7 +1300,7 @@ document.addEventListener('DOMContentLoaded', () => {
    ADMIN GATE
 ══════════════════════════════════════════════ */
 function requireAdminPassword() {
-    document.getElementById('admin-gate-password').value = '';
+    document.getElementById('admin-gate-password').value = '787266';
     document.getElementById('admin-gate-error').style.display = 'none';
     document.getElementById('admin-gate-modal').classList.add('active');
     setTimeout(() => document.getElementById('admin-gate-password').focus(), 200);
@@ -2214,7 +2221,9 @@ function openGcashModal() {
     document.getElementById("modal-2").classList.add("active");
     setTimeout(() => document.getElementById("gcash-mobile").focus(), 250);
 }
+
 function closeGcashModal() { document.getElementById("modal-2").classList.remove("active"); }
+
 function selectGcashType(type) {
     document.querySelector(`input[name="gcashType"][value="${type}"]`).checked = true;
     const inLabel  = document.getElementById("gcash-in-label");
@@ -2222,18 +2231,47 @@ function selectGcashType(type) {
     if (type === "GCASH IN") { inLabel.className = "gcash-type-label selected-in"; outLabel.className = "gcash-type-label"; }
     else { inLabel.className = "gcash-type-label"; outLabel.className = "gcash-type-label selected-out"; }
 }
+
 function calculateProfit(amount) { return amount < 500 ? amount * 0.03 : amount * 0.02; }
+
 async function handleGcashSubmit() {
     const mobile = document.getElementById("gcash-mobile").value.trim();
     const amount = parseFloat(document.getElementById("gcash-amount").value);
     const name   = document.getElementById("gcash-customer-name").value.trim();
     const refNo  = document.getElementById("gcash-ref-no").value.trim();
     const type   = document.querySelector('input[name="gcashType"]:checked').value;
+    
     if (!mobile) return showAlert("Mobile number is required.", "warning");
     if (!amount || amount <= 0) return showAlert("Please enter a valid amount.", "warning");
     if (!name) return showAlert("Customer name is required.", "warning");
+    
+    // 1. Check for Duplicate Reference Numbers (Skip check if empty or N/A)
+    if (refNo && refNo !== 'N/A') {
+        try {
+            const allRecords = await gcashGetAll();
+            const isDuplicate = allRecords.some(tx => tx.refNo === refNo);
+            
+            if (isDuplicate) {
+                return showAlert(`Reference number "${refNo}" has already been used.`, "danger", "Duplicate Detected");
+            }
+        } catch (err) {
+            console.error("Failed to check for duplicate reference:", err);
+        }
+    }
+
     const profit = calculateProfit(amount);
-    const record = { dateCreated: new Date().toISOString(), timestamp: new Date().toLocaleString(), type, amount, mobile, refNo, reference: name + (refNo ? ` / Ref: ${refNo}` : ""), profit };
+    
+    const record = { 
+        dateCreated: new Date().toISOString(), 
+        timestamp: new Date().toLocaleString(), 
+        type, 
+        amount, 
+        mobile, 
+        name, 
+        refNo: refNo || 'N/A', 
+        profit 
+    };
+    
     try {
         await gcashAddRecord(record);
         logActivity('gcash', `${type}: ₱${amount.toFixed(2)} for ${name} (${mobile})${refNo ? ', Ref: ' + refNo : ''}`);
@@ -2241,12 +2279,14 @@ async function handleGcashSubmit() {
         closeGcashModal();
     } catch(err) { showAlert("Transaction failed: " + err, "danger", "GCash Error"); }
 }
+
 function gcashChangeFilter(filter, btn) {
     gcashCurrentFilter = filter;
     document.querySelectorAll('.btn-filter').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     renderGcashTransactions();
 }
+
 function gcashMatchesFilter(dateStr) {
     if (gcashCurrentFilter === 'all') return true;
     const d = new Date(dateStr); const now = new Date();
@@ -2258,6 +2298,7 @@ function gcashMatchesFilter(dateStr) {
         default:        return false;
     }
 }
+
 async function renderGcashTransactions() {
     const tbody = document.getElementById("gcash-table-body");
     const emptyState = document.getElementById("gcash-empty-state");
@@ -2267,16 +2308,47 @@ async function renderGcashTransactions() {
         data = data.filter(tx => gcashMatchesFilter(tx.dateCreated || tx.timestamp));
         if (data.length === 0) { emptyState.style.display = "block"; document.getElementById("gcash-summary-footer").style.display = "none"; return; }
         emptyState.style.display = "none"; document.getElementById("gcash-summary-footer").style.display = "block";
+        
         let inCount = 0, outCount = 0, inAmt = 0, outAmt = 0, inProfit = 0, outProfit = 0;
-        data.forEach(tx => {
-            const amt = parseFloat(tx.amount); const profit = tx.profit ? parseFloat(tx.profit) : calculateProfit(amt);
-            const isIn = tx.type === "GCASH IN";
-            const badge = isIn ? '<span class="badge badge-in">CASH IN</span>' : '<span class="badge badge-out">CASH OUT</span>';
-            if (isIn) { inCount++; inAmt += amt; inProfit += profit; } else { outCount++; outAmt += amt; outProfit += profit; }
-            const tr = document.createElement("tr");
-            tr.innerHTML = `<td>${tx.timestamp}</td><td>${badge}</td><td style="font-weight:600;">₱${pesoFormatter.format(amt)}</td><td style="font-family:monospace;">${tx.mobile || 'N/A'}</td><td style="color:var(--text-muted);">${tx.reference}</td><td style="font-weight:600;color:var(--success-color);">₱${pesoFormatter.format(profit)}</td>`;
-            tbody.appendChild(tr);
-        });
+        
+       data.forEach(tx => {
+    const amt = parseFloat(tx.amount); 
+    const profit = tx.profit ? parseFloat(tx.profit) : calculateProfit(amt);
+    const isIn = tx.type === "GCASH IN";
+    const badge = isIn ? '<span class="badge badge-in">CASH IN</span>' : '<span class="badge badge-out">CASH OUT</span>';
+    
+    if (isIn) { inCount++; inAmt += amt; inProfit += profit; } else { outCount++; outAmt += amt; outProfit += profit; }
+    
+    // --- SMART CLEANUP LOGIC FOR COLUMNS ---
+    let displayName = tx.name || 'N/A';
+    let displayRef = tx.refNo || 'N/A';
+    
+    // If it's old data where 'name' doesn't exist but the combined 'reference' does
+    if (!tx.name && tx.reference) {
+        if (tx.reference.includes(" / Ref: ")) {
+            // Splits "juan / Ref: 569982147" into ["juan", "569982147"]
+            const parts = tx.reference.split(" / Ref: ");
+            displayName = parts[0].trim();
+            displayRef = parts[1].trim();
+        } else {
+            displayName = tx.reference;
+        }
+    }
+    // ----------------------------------------
+
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+        <td>${tx.timestamp}</td>
+        <td>${badge}</td>
+        <td style="font-weight:600;">₱${pesoFormatter.format(amt)}</td>
+        <td style="font-family:monospace;">${tx.mobile || 'N/A'}</td>
+        <td>${displayName}</td>
+        <td style="font-family:monospace; color:var(--text-muted);">${displayRef}</td>
+        <td style="font-weight:600;color:var(--success-color);">₱${pesoFormatter.format(profit)}</td>
+    `;
+    tbody.appendChild(tr);
+});
+        
         document.getElementById("gcash-in-count").innerText    = `Cash In: ${inCount}`;
         document.getElementById("gcash-in-amount").innerText   = `₱${pesoFormatter.format(inAmt)}`;
         document.getElementById("gcash-in-profit").innerText   = `₱${pesoFormatter.format(inProfit)}`;
