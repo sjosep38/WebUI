@@ -77,7 +77,7 @@
         .product-stock { font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; }
 
         .cart-side { display: flex; flex-direction: column; background: var(--panel-bg); overflow: hidden; }
-        .cart-items-list { flex: 1; overflow-y: auto; padding: 1px; min-height: 0; scroll-behavior: smooth; max-height: 450px; }
+        .cart-items-list { flex: 1; overflow-y: auto; padding: 1px; min-height: 0; scroll-behavior: smooth; max-height: 470px; }
         .cart-items-list::-webkit-scrollbar { width: 4px; }
         .cart-items-list::-webkit-scrollbar-track { background: transparent; }
         .cart-items-list::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
@@ -176,6 +176,8 @@
         .btn-csv:hover { opacity: 0.9; }
         .btn-danger { background: var(--danger-color) !important; color: white !important; }
         .btn-warning { background: var(--warning-color) !important; color: black !important; }
+		.btn-gcash { background: #222; color: #0E84B3; border: 1px solid #4DC2F0; padding: 9px 14px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 6px; transition: opacity 0.15s; white-space: nowrap; }
+		.btn-gcash:hover{ background: #0E84B3 ; color: #fff;}
 
         .modal-buttons { display: flex; justify-content: flex-end; gap: 10px; margin-top: 25px; }
         .btn-modal { padding: 12px 22px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 6px; }
@@ -409,7 +411,7 @@
     <div class="logo-area"><h1 id="store-header-name">[Your Store] POS</h1></div>
     <div class="header-actions">
         <span class="logged-in-badge" id="logged-in-badge">👤 User</span>
-        <button class="btn-csv" onclick="openGcashModal()">+ GCash Transaction</button>
+        <button class="btn-gcash" onclick="openGcashModal()">+ GCash Transaction</button>
         <button class="btn-admin-trigger" onclick="requireAdminPassword()">Administrator Panel</button>
         <button class="btn-logout" onclick="handleLogout()">Logout</button>
     </div>
@@ -431,9 +433,9 @@
             </div>
         </div>
         <div class="action-pad">
-            <button class="btn-action pay-cash" id="checkout-cash-btn">💵 CASH (F1)</button>
-            <button class="btn-action pay-gcash" id="checkout-gcash-sale-btn">📱 GCASH (F2)</button>
-            <button class="btn-action pay-credit" id="checkout-credit-btn">💳 CREDIT (F3)</button>
+            <button class="btn-action pay-cash" id="checkout-cash-btn">💵 CASH(F1)</button>
+            <button class="btn-action pay-gcash" id="checkout-gcash-sale-btn">📱 GCASH(F2)</button>
+            <button class="btn-action pay-credit" id="checkout-credit-btn">💳CREDIT(F3)</button>
             <button class="btn-action clear-cart" id="clear-cart-btn">🗑 VOID CART ITEMS</button>
         </div>
     </div>
@@ -585,9 +587,12 @@
                     </select>
                     <button class="btn-csv btn-danger" onclick="wipeAndResetDatabaseSuite()">Clear &amp; Reset DB</button>
                 </div>
+				        <div class="search-bar-container">
+            <input type="text" class="search-input" id="search-bar" placeholder="Scan barcode SKU or search items...">
+        </div>
                 <div class="table-wrapper">
                     <table>
-                        <thead><tr><th>SKU/ID</th><th>Name</th><th>Barcode</th><th>Price</th><th>Stock</th><th>Actions</th></tr></thead>
+                        <thead><tr><th>SKU/ID</th><th>Name</th><th>Barcode</th><th>Price</th><th>Stock</th><th>Sold</th><th>Actions</th></tr></thead>
                         <tbody id="inventory-table-body"></tbody>
                     </table>
                 </div>
@@ -1371,14 +1376,33 @@ function renderSalesDashboardTable() {
 function renderInventoryDashboardTable() {
     const sort = document.getElementById("inventory-sort-filter").value;
     let display = [...systemProducts];
-    if (sort==='qty-asc')  display.sort((a,b)=>a.stock-b.stock);
-    if (sort==='qty-desc') display.sort((a,b)=>b.stock-a.stock);
+    
+    // Sorting logic
+    if (sort === 'qty-asc')  display.sort((a, b) => a.stock - b.stock);
+    if (sort === 'qty-desc') display.sort((a, b) => b.stock - a.stock);
+    
     const tbody = document.getElementById("inventory-table-body");
     tbody.innerHTML = "";
+    
     display.forEach(p => {
-        const low = p.stock <= 10;
-        const tr  = document.createElement("tr");
-        tr.innerHTML = `<td style="font-family:monospace;">${p.id}</td><td>${p.name}</td><td style="font-family:monospace;">${p.barcode}</td><td>₱${p.price.toFixed(2)}</td><td style="font-weight:bold;color:${low?'var(--danger-color)':'white'}">${p.stock} Units</td><td><button class="btn-table-action btn-inline-edit" onclick="openProductCrudModal(true,'${p.id}')">Edit</button><button class="btn-table-action btn-inline-delete" onclick="deleteProductItem('${p.id}')">Delete</button></td>`;
+        const isLowStock = p.stock <= 10;
+        const tr = document.createElement("tr");
+        
+        // Escape quotes safely for attribute injection by replacing single quotes with their HTML entity
+        const safeId = String(p.id).replace(/'/g, "&#39;");
+        
+        tr.innerHTML = `
+            <td style="font-family: monospace;">${p.id}</td>
+            <td>${p.name}</td>
+            <td style="font-family: monospace;">${p.barcode}</td>
+            <td>₱${p.price.toFixed(2)}</td>
+            <td style="font-weight: bold; color: ${isLowStock ? 'var(--danger-color)' : 'white'};">${p.stock} Units</td>
+            <td style="font-weight: bold; color: white;">${p.sold ?? 0} Units</td>
+            <td>
+                <button class="btn-table-action btn-inline-edit" onclick="openProductCrudModal(true, '${safeId}')">Edit</button>
+                <button class="btn-table-action btn-inline-delete" onclick="deleteProductItem('${safeId}')">Delete</button>
+            </td>
+        `;
         tbody.appendChild(tr);
     });
 }
@@ -1908,6 +1932,7 @@ document.getElementById("search-bar").onkeydown = function(e) {
         const val = e.target.value.trim();
         const match = systemProducts.find(p=>p.barcode===val);
         if (match) { addItemToRegisterBasket(match.id); e.target.value=""; renderCashierCatalog(""); }
+		      
     }
 };
 
