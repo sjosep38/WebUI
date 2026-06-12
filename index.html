@@ -65,11 +65,11 @@
         .btn-logout:hover { background: var(--danger-color); color: #fff; }
         .logged-in-badge { font-size: 1.1rem; color: var(--success-color); font-weight: bold; padding: 5px 10px; background: rgba(46,213,115,0.1); border-radius: 4px; border: 1px solid rgba(46,213,115,0.3); }
 
-        .pos-container { display: grid; grid-template-columns: 1fr 400px; flex: 1; height: calc(100vh - 60px); overflow: hidden; }
-        .catalog-side { height: 660px; display: flex; flex-direction: column; border-right: 1px solid var(--border-color); background: #151515; overflow: hidden; }
+        .pos-container { display: grid; grid-template-columns: 1fr 400px; flex: 1; height: calc(100vh - 60vh); overflow: hidden; }
+        .catalog-side { display: flex; flex-direction: column; border-right: 1px solid var(--border-color); background: #151515; overflow: hidden; }
         .search-bar-container { padding: 15px; background: var(--panel-bg); border-bottom: 1px solid var(--border-color); }
         .search-input { width: 100%; padding: 12px; background: #2a2a2a; border: 1px solid var(--border-color); color: white; border-radius: 6px; font-size: 1rem; }
-        .product-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); display: grid; gap: 12px; padding: 15px; overflow-y: auto; flex: 1; }
+        .product-grid { height:580px; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); display: grid; gap: 12px; padding: 15px; overflow-y: auto; flex: auto; }
         .product-card { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; text-align: center; cursor: pointer; transition: transform 0.15s, border-color 0.15s; display: flex; flex-direction: column; justify-content: space-between; height: 120px; user-select: none; }
         .product-card:hover { transform: translateY(-2px); border-color: var(--accent-color); }
         .product-name { font-weight: 600; font-size: 0.95rem; margin-bottom: 5px; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
@@ -77,7 +77,7 @@
         .product-stock { font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; }
 
         .cart-side { display: flex; flex-direction: column; background: var(--panel-bg); overflow: hidden; }
-        .cart-items-list { flex: 1; overflow-y: auto; padding: 1px; min-height: 0; scroll-behavior: smooth; max-height: 470px; }
+        .cart-items-list { flex: auto; overflow-y: auto; padding: 1px; min-height: 0; scroll-behavior: smooth; height: 300px; }
         .cart-items-list::-webkit-scrollbar { width: 4px; }
         .cart-items-list::-webkit-scrollbar-track { background: transparent; }
         .cart-items-list::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
@@ -134,18 +134,20 @@
         .sales-card.month .sales-card-amount { color: var(--warning-color); }
         .sales-card.year .sales-card-amount { color: #a29bfe; }
 
-        /* PROFIT CARDS */
-        .profit-summary-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 20px; }
+        /* PROFIT CARDS — 4 cards */
+        .profit-summary-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 20px; }
         .profit-card { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 10px; padding: 16px 18px; position: relative; overflow: hidden; }
         .profit-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
-        .profit-card.revenue::before { background: var(--accent-color); }
-        .profit-card.expenses::before { background: var(--danger-color); }
-        .profit-card.profit::before { background: var(--success-color); }
-        .profit-card-label { font-size: 0.75rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px; }
+        .profit-card.cash-sales::before  { background: var(--success-color); }
+        .profit-card.expenses::before    { background: var(--danger-color); }
+        .profit-card.gross::before       { background: var(--accent-color); }
+        .profit-card.net::before         { background: #a29bfe; }
+        .profit-card-label  { font-size: 0.75rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px; }
         .profit-card-amount { font-size: 1.4rem; font-weight: 800; }
-        .profit-card.revenue .profit-card-amount { color: var(--accent-color); }
-        .profit-card.expenses .profit-card-amount { color: var(--danger-color); }
-        .profit-card.profit .profit-card-amount { color: var(--success-color); }
+        .profit-card.cash-sales .profit-card-amount { color: var(--success-color); }
+        .profit-card.expenses   .profit-card-amount { color: var(--danger-color); }
+        .profit-card.gross      .profit-card-amount { color: var(--accent-color); }
+        .profit-card.net        .profit-card-amount { color: #a29bfe; }
         .profit-card-sub { font-size: 0.78rem; color: var(--text-muted); margin-top: 4px; }
 
         /* CHART AREA */
@@ -176,8 +178,8 @@
         .btn-csv:hover { opacity: 0.9; }
         .btn-danger { background: var(--danger-color) !important; color: white !important; }
         .btn-warning { background: var(--warning-color) !important; color: black !important; }
-		.btn-gcash { background: #222; color: #0E84B3; border: 1px solid #4DC2F0; padding: 9px 14px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 6px; transition: opacity 0.15s; white-space: nowrap; }
-		.btn-gcash:hover{ background: #0E84B3 ; color: #fff;}
+        .btn-gcash { background: #222; color: #0E84B3; border: 1px solid #4DC2F0; padding: 9px 14px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 6px; transition: opacity 0.15s; white-space: nowrap; }
+        .btn-gcash:hover { background: #0E84B3; color: #fff; }
 
         .modal-buttons { display: flex; justify-content: flex-end; gap: 10px; margin-top: 25px; }
         .btn-modal { padding: 12px 22px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 6px; }
@@ -321,6 +323,11 @@
         .pay-method-btn.active-gcash { border-color: var(--gcash-color); background: rgba(0,120,212,0.1); color: #60a5fa; }
         .pay-method-btn.active-credit { border-color: var(--warning-color); background: rgba(255,165,2,0.1); color: var(--warning-color); }
 
+        /* Profit period filter tabs */
+        .profit-period-tabs { display: flex; gap: 4px; background: #111; border-radius: 6px; padding: 3px; margin-bottom: 20px; width: fit-content; }
+        .profit-period-btn { padding: 6px 16px; border: none; background: transparent; color: var(--text-muted); font-size: 0.82rem; font-weight: 600; border-radius: 4px; cursor: pointer; transition: all 0.15s; }
+        .profit-period-btn.active { background: var(--accent-color); color: #000; }
+
         @media print {
             body * { display: none !important; }
             #receipt-print-area, #receipt-print-area * { display: block !important; }
@@ -344,7 +351,7 @@
             .admin-tabs { width: 100%; overflow-x: auto; }
             .tab-btn { flex-shrink: 0; padding: 12px 10px; font-size: 0.8rem; }
             .sales-summary-cards { grid-template-columns: 1fr 1fr; }
-            .profit-summary-cards { grid-template-columns: 1fr; }
+            .profit-summary-cards { grid-template-columns: 1fr 1fr; }
             .action-pad { grid-template-columns: 1fr 1fr 1fr; }
         }
         @media (max-width: 600px) {
@@ -354,11 +361,12 @@
             .btn-action { padding: 10px 4px; font-size: 0.78rem; }
             .expense-form-grid { grid-template-columns: 1fr 1fr; }
             .sales-summary-cards { grid-template-columns: 1fr 1fr; }
+            .profit-summary-cards { grid-template-columns: 1fr 1fr; }
         }
     </style>
 </head>
 <body>
-
+<div id="content-area">
 <!-- CUSTOM DIALOG -->
 <div id="app-dialog-overlay">
     <div class="app-dialog-box">
@@ -409,7 +417,8 @@
 <div id="app-main">
 <header>
     <div class="logo-area"><h1 id="store-header-name">[Your Store] POS</h1></div>
-    <div class="header-actions">
+    <div class="header-actions"">
+		<button id ="fullscreen-btn" class="btn-action pay-cash"  style="cursor: pointer; user-select: none;">Fullscreen</button>
         <span class="logged-in-badge" id="logged-in-badge">👤 User</span>
         <button class="btn-gcash" onclick="openGcashModal()">+ GCash Transaction</button>
         <button class="btn-admin-trigger" onclick="requireAdminPassword()">Administrator Panel</button>
@@ -515,12 +524,39 @@
                 </div>
             </div>
 
-            <!-- TAB 1: PROFIT & EXPENSES -->
+            <!-- TAB 1: PROFIT & EXPENSES — FIXED -->
             <div class="tab-panel" id="admin-tab-profit">
+
+                <!-- Period selector tabs -->
+                <div class="profit-period-tabs">
+                    <button class="profit-period-btn active" onclick="setProfitPeriod('day',this)">Daily</button>
+                    <button class="profit-period-btn" onclick="setProfitPeriod('week',this)">Weekly</button>
+                    <button class="profit-period-btn" onclick="setProfitPeriod('month',this)">Monthly</button>
+                    <button class="profit-period-btn" onclick="setProfitPeriod('year',this)">Yearly</button>
+                </div>
+
+                <!-- 4 Profit Cards -->
                 <div class="profit-summary-cards">
-                    <div class="profit-card revenue"><div class="profit-card-label">💰 Total Revenue (Today)</div><div class="profit-card-amount" id="profit-revenue-today">₱0.00</div><div class="profit-card-sub">Cash + GCash sales</div></div>
-                    <div class="profit-card expenses"><div class="profit-card-label">📉 Total Expenses (Today)</div><div class="profit-card-amount" id="profit-expenses-today">₱0.00</div><div class="profit-card-sub" id="profit-expenses-count">0 expense entries</div></div>
-                    <div class="profit-card profit"><div class="profit-card-label">✅ Net Profit (Today)</div><div class="profit-card-amount" id="profit-net-today">₱0.00</div><div class="profit-card-sub">Revenue − Expenses</div></div>
+                    <div class="profit-card cash-sales">
+                        <div class="profit-card-label">💵 Total Sales (Cash)</div>
+                        <div class="profit-card-amount" id="profit-cash-sales">₱0.00</div>
+                        <div class="profit-card-sub" id="profit-cash-sales-sub">Cash + GCash transactions</div>
+                    </div>
+                    <div class="profit-card expenses">
+                        <div class="profit-card-label">📉 Total Expenses</div>
+                        <div class="profit-card-amount" id="profit-expenses-amt">₱0.00</div>
+                        <div class="profit-card-sub" id="profit-expenses-count">0 expense entries</div>
+                    </div>
+                    <div class="profit-card gross">
+                        <div class="profit-card-label">📊 Gross Profit</div>
+                        <div class="profit-card-amount" id="profit-gross">₱0.00</div>
+                        <div class="profit-card-sub">Total Sales − Expenses</div>
+                    </div>
+                    <div class="profit-card net">
+                        <div class="profit-card-label">✅ Net Profit</div>
+                        <div class="profit-card-amount" id="profit-net">₱0.00</div>
+                        <div class="profit-card-sub">(Sales − Expenses) × 20%</div>
+                    </div>
                 </div>
 
                 <div class="expense-add-form">
@@ -554,7 +590,7 @@
                 </div>
 
                 <div class="report-controls">
-                    <label>Period:</label>
+                    <label>Expense Period:</label>
                     <select class="select-filter" id="expense-filter" onchange="renderExpensesTable();updateProfitCards()">
                         <option value="day">Today</option>
                         <option value="week">Last 7 Days</option>
@@ -587,9 +623,6 @@
                     </select>
                     <button class="btn-csv btn-danger" onclick="wipeAndResetDatabaseSuite()">Clear &amp; Reset DB</button>
                 </div>
-				        <div class="search-bar-container">
-            <input type="text" class="search-input" id="search-bar" placeholder="Scan barcode SKU or search items...">
-        </div>
                 <div class="table-wrapper">
                     <table>
                         <thead><tr><th>SKU/ID</th><th>Name</th><th>Barcode</th><th>Price</th><th>Stock</th><th>Sold</th><th>Actions</th></tr></thead>
@@ -612,7 +645,7 @@
                 </div>
             </div>
 
-            <!-- TAB 4: GCASH LOGS -->
+            <!-- TAB 4: GCASH LOGS — FIXED columns -->
             <div class="tab-panel" id="admin-tab-gcash">
                 <h2 style="color:var(--accent-color); margin-bottom:16px;">📱 GCash Transaction Logs</h2>
                 <div class="gcash-header-row">
@@ -627,7 +660,7 @@
                     </div>
                 </div>
                 <div class="gcash-table-container" style="max-height:230px;">
-                    <table style="min-width:600px;">
+                    <table style="min-width:700px;">
                         <thead><tr><th>Date/Time</th><th>Type</th><th>Amount</th><th>Mobile</th><th>Name</th><th>Reference</th><th>Profit</th></tr></thead>
                         <tbody id="gcash-table-body"></tbody>
                     </table>
@@ -664,7 +697,7 @@
                 </div>
             </div>
 
-            <!-- TAB 6: USERS -->
+            <!-- TAB 6: USERS — FIXED duplicate -->
             <div class="tab-panel" id="admin-tab-users">
                 <div class="report-controls">
                     <span style="color:var(--accent-color);font-weight:bold;">Registered Users</span>
@@ -749,7 +782,7 @@
     </div>
 </div>
 
-<!-- GCASH MODAL (for cashier GCash ledger entries) -->
+<!-- GCASH MODAL -->
 <div id="modal-2">
     <div class="gcash-form-box">
         <div class="gcash-form-header">
@@ -826,7 +859,7 @@
         </div>
     </div>
 </div>
-
+</div>
 <div id="receipt-print-area" style="display:none;"></div>
 
 <script>
@@ -961,6 +994,7 @@ let currentLoggedInUser = null;
 let salesChartInstance = null;
 let currentChartPeriod = 'week';
 let checkoutPaymentMethod = 'CASH';
+let profitPeriod = 'day'; // NEW: tracks current profit period
 
 const DEFAULT_ADMIN_PW_KEY = "pos_admin_password";
 const templateDefaults = [];
@@ -1034,27 +1068,59 @@ function renderExpensesTable() {
     });
 }
 
+/* ── NEW: Profit period selector ── */
+function setProfitPeriod(period, btn) {
+    profitPeriod = period;
+    document.querySelectorAll('.profit-period-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    updateProfitCards();
+}
+
+/* ── FIXED: 4-card profit calculation ── */
 function updateProfitCards() {
-    const filter = document.getElementById('expense-filter') ? document.getElementById('expense-filter').value : 'day';
     const now = new Date();
 
-    // Revenue: cash + gcash sales today
-    const revenueSales = memorySalesJournal.filter(tx => {
+    // Filter sales for the chosen profit period (cash + gcash only, not credit)
+    const salesInPeriod = memorySalesJournal.filter(tx => {
         if (tx.paymentType === 'CREDIT_UTANG') return false;
         const d = new Date(tx.timestamp);
-        return d.toDateString() === now.toDateString();
-    }).reduce((s, tx) => s + tx.total, 0);
+        switch (profitPeriod) {
+            case 'day':   return d.toDateString() === now.toDateString();
+            case 'week':  return d >= new Date(now - 7 * 864e5);
+            case 'month': return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+            case 'year':  return d.getFullYear() === now.getFullYear();
+            default:      return true;
+        }
+    });
+    const totalSales = salesInPeriod.reduce((s, tx) => s + tx.total, 0);
 
-    const todayExpenses = filterExpenses('day');
-    const todayExpTotal = todayExpenses.reduce((s, e) => s + e.amount, 0);
-    const netProfit = revenueSales - todayExpTotal;
+    // Expenses for the same period
+    const expensesInPeriod = filterExpenses(profitPeriod);
+    const totalExpenses    = expensesInPeriod.reduce((s, e) => s + e.amount, 0);
 
-    document.getElementById('profit-revenue-today').textContent  = `₱${pesoFormatter.format(revenueSales)}`;
-    document.getElementById('profit-expenses-today').textContent = `₱${pesoFormatter.format(todayExpTotal)}`;
-    document.getElementById('profit-expenses-count').textContent = `${todayExpenses.length} expense entries`;
-    const netEl = document.getElementById('profit-net-today');
+    // Gross profit = sales - expenses
+    const grossProfit = totalSales - totalExpenses;
+
+    // Net profit = (sales - expenses) × 20%
+    const netProfit = grossProfit * 0.20;
+
+    // Card 1: Total Cash Sales
+    document.getElementById('profit-cash-sales').textContent     = `₱${pesoFormatter.format(totalSales)}`;
+    document.getElementById('profit-cash-sales-sub').textContent = `${salesInPeriod.length} transaction${salesInPeriod.length !== 1 ? 's' : ''}`;
+
+    // Card 2: Expenses
+    document.getElementById('profit-expenses-amt').textContent   = `₱${pesoFormatter.format(totalExpenses)}`;
+    document.getElementById('profit-expenses-count').textContent = `${expensesInPeriod.length} expense entr${expensesInPeriod.length !== 1 ? 'ies' : 'y'}`;
+
+    // Card 3: Gross Profit
+    const grossEl = document.getElementById('profit-gross');
+    grossEl.textContent = `₱${pesoFormatter.format(Math.abs(grossProfit))}${grossProfit < 0 ? ' (LOSS)' : ''}`;
+    grossEl.style.color = grossProfit < 0 ? 'var(--danger-color)' : 'var(--accent-color)';
+
+    // Card 4: Net Profit
+    const netEl = document.getElementById('profit-net');
     netEl.textContent = `₱${pesoFormatter.format(Math.abs(netProfit))}${netProfit < 0 ? ' (LOSS)' : ''}`;
-    netEl.style.color = netProfit < 0 ? 'var(--danger-color)' : 'var(--success-color)';
+    netEl.style.color = netProfit < 0 ? 'var(--danger-color)' : '#a29bfe';
 }
 
 function exportExpensesToCSV(forceFilter) {
@@ -1071,7 +1137,10 @@ function initUsersDB() {
         const req = indexedDB.open(USERS_DB_NAME, USERS_DB_VERSION);
         req.onupgradeneeded = function(e) {
             const db = e.target.result;
-            if (!db.objectStoreNames.contains(USERS_STORE)) { const s = db.createObjectStore(USERS_STORE, { keyPath: "username" }); s.createIndex("username", "username", { unique: true }); }
+            if (!db.objectStoreNames.contains(USERS_STORE)) {
+                const s = db.createObjectStore(USERS_STORE, { keyPath: "username" });
+                s.createIndex("username", "username", { unique: true });
+            }
         };
         req.onsuccess = e => { usersDB = e.target.result; resolve(usersDB); };
         req.onerror   = e => reject(e.target.error);
@@ -1252,7 +1321,10 @@ function gcashAddRecord(record) {
         if (!gcashDB) return reject("GCash DB not initialized");
         gcashGetAll().then(allRecords => {
             const refNo = record.refNo ? record.refNo.trim() : "";
-            if (refNo) { const dup = allRecords.find(r => r.refNo && r.refNo.trim() === refNo); if (dup) return reject("Duplicate: This Reference Number already exists."); }
+            if (refNo && refNo !== 'N/A') {
+                const dup = allRecords.find(r => r.refNo && r.refNo.trim() === refNo);
+                if (dup) return reject("Duplicate: This Reference Number already exists.");
+            }
             const tx = gcashDB.transaction(GCASH_STORE,"readwrite");
             const addReq = tx.objectStore(GCASH_STORE).add(record);
             addReq.onsuccess = () => resolve();
@@ -1376,21 +1448,14 @@ function renderSalesDashboardTable() {
 function renderInventoryDashboardTable() {
     const sort = document.getElementById("inventory-sort-filter").value;
     let display = [...systemProducts];
-    
-    // Sorting logic
     if (sort === 'qty-asc')  display.sort((a, b) => a.stock - b.stock);
     if (sort === 'qty-desc') display.sort((a, b) => b.stock - a.stock);
-    
     const tbody = document.getElementById("inventory-table-body");
     tbody.innerHTML = "";
-    
     display.forEach(p => {
         const isLowStock = p.stock <= 10;
         const tr = document.createElement("tr");
-        
-        // Escape quotes safely for attribute injection by replacing single quotes with their HTML entity
         const safeId = String(p.id).replace(/'/g, "&#39;");
-        
         tr.innerHTML = `
             <td style="font-family: monospace;">${p.id}</td>
             <td>${p.name}</td>
@@ -1617,7 +1682,6 @@ function openCheckoutModal(preferredMethod) {
         else document.getElementById('checkout-customer-name').focus();
     }, 250);
 }
-
 function selectCheckoutMethod(method) {
     checkoutPaymentMethod = method;
     document.getElementById('pmb-cash').className   = 'pay-method-btn' + (method==='CASH'?' active-cash':'');
@@ -1634,28 +1698,23 @@ function selectCheckoutMethod(method) {
     if (method==='GCASH') setTimeout(()=>document.getElementById('checkout-gcash-ref').focus(), 50);
     if (method==='CREDIT') setTimeout(()=>document.getElementById('checkout-customer-name').focus(), 50);
 }
-
 function calcChange() {
     const total    = calculateActiveBasketTotalSum();
     const tendered = parseFloat(document.getElementById('checkout-tendered').value) || 0;
     const change   = tendered - total;
     document.getElementById('checkout-change').value = change >= 0 ? `₱${change.toFixed(2)}` : 'Insufficient Cash';
 }
-
 function processCheckout() {
     const total = calculateActiveBasketTotalSum();
-
     if (checkoutPaymentMethod === 'CASH') {
         const tendered = parseFloat(document.getElementById('checkout-tendered').value) || 0;
         if (tendered < total) return showAlert("Insufficient cash amount.","danger");
         const change = tendered - total;
         executeCommitTransactionPipeline("CASH", { tendered, change, method:'CASH' });
-
     } else if (checkoutPaymentMethod === 'GCASH') {
         const ref    = document.getElementById('checkout-gcash-ref').value.trim();
         const mobile = document.getElementById('checkout-gcash-mobile').value.trim();
         executeCommitTransactionPipeline("GCASH_PAYMENT", { gcashRef: ref, gcashMobile: mobile, tendered: total, change: 0, method:'GCASH' });
-
     } else if (checkoutPaymentMethod === 'CREDIT') {
         const name = document.getElementById('checkout-customer-name').value.trim();
         if (!name) return showAlert("Customer name is required for credit.","warning");
@@ -1667,11 +1726,10 @@ function processCheckout() {
 function executeCommitTransactionPipeline(channel, meta={}) {
     const total    = calculateActiveBasketTotalSum();
     const subtotal = total;
-    const profit   = total * 0.20; // 20% estimated profit margin
+    const profit   = total * 0.20;
     const entry    = { timestamp: new Date().toISOString(), items: JSON.parse(JSON.stringify(activeCart)), total, paymentType: channel, estimatedProfit: profit, ...meta };
     const itemsSummary = activeCart.map(i=>`${i.product.name} x${i.quantity}`).join(', ');
 
-    // Deduct stock
     activeCart.forEach(item => {
         const p = systemProducts.find(x=>x.id===item.product.id);
         if (p) p.stock -= item.quantity;
@@ -1687,14 +1745,12 @@ function executeCommitTransactionPipeline(channel, meta={}) {
 
     logActivity('sale',`${channel} sale: ₱${total.toFixed(2)} — ${itemsSummary}${meta.customerName?` | Customer: ${meta.customerName}`:''}`);
 
-    // Build receipt data
     const receiptData = {
         timestamp: entry.timestamp,
         customerName: meta.customerName || (channel==='GCASH_PAYMENT' ? 'GCash Customer' : null),
         method: channel==='CASH'?'CASH':channel==='GCASH_PAYMENT'?'GCASH':channel==='CREDIT_UTANG'?'CREDIT (UTANG)':'OTHER',
         items: activeCart.map(i => ({ name: i.product.name, qty: i.quantity, price: i.product.price })),
-        subtotal,
-        discount: 0,
+        subtotal, discount: 0,
         cash: meta.tendered || total,
         change: meta.change || 0,
         total,
@@ -1702,11 +1758,9 @@ function executeCommitTransactionPipeline(channel, meta={}) {
         gcashMobile: meta.gcashMobile || null,
     };
 
-    // Print receipt only for CASH and GCASH (not credit)
     if (channel !== 'CREDIT_UTANG') {
         printReceipt(receiptData);
     } else {
-        // Just notify for credit
         showAlert(`Credit entry posted for <strong>${meta.customerName}</strong>.<br>Amount: ₱${total.toFixed(2)}`,'warning','Credit Posted');
     }
 
@@ -1767,19 +1821,11 @@ function printReceipt(s) {
         <div style="text-align:center;margin-top:10px;font-weight:bold;padding-bottom:20px;">
             Thanks for your purchase!<br>Please come again!!
         </div>
-        <div style="text-align:center;margin-top:10px;font-weight:bold;padding-bottom:20px;">
-            <span style="font-size:0.1em;">.</span><br>
-        </div>
     `;
-
-    // Send to Telegram
     const tgText = buildTelegramReceiptText(s);
     sendToTelegramText(tgText);
-
-    // Silent print
-    window.print();
+    setTimeout(() => { window.print(); }, 250);
 }
-
 function buildTelegramReceiptText(s) {
     const customer = s.customerName ? s.customerName.toUpperCase() : "WALK-IN";
     let text = `🧾 *MEICAI STORE - Receipt*\n`;
@@ -1851,7 +1897,6 @@ async function exportUsersToCSV() {
     downloadCSV(csv, "Users.csv");
 }
 async function backupAllDataToCSV() {
-    const ts = new Date().toISOString().replace(/[:.]/g,'-').slice(0,19);
     logRestore(`Starting full backup at ${new Date().toLocaleString()}...`);
     exportSalesJournalToCSV('all'); logRestore(`✓ Sales exported`);
     exportInventoryCatalogToCSV(); logRestore(`✓ Inventory exported`);
@@ -1862,7 +1907,6 @@ async function backupAllDataToCSV() {
     logRestore(`✅ Full backup complete.`);
     logActivity('admin','Full system backup downloaded');
 }
-
 function logRestore(msg) { const el=document.getElementById('restore-log'); if(!el)return; el.innerHTML+=msg+'\n'; el.scrollTop=el.scrollHeight; }
 function parseCSVRow(row) { const result=[]; let cur=''; let inQ=false; for(let i=0;i<row.length;i++){if(row[i]==='"'){inQ=!inQ;}else if(row[i]===','&&!inQ){result.push(cur.trim());cur='';}else{cur+=row[i];}} result.push(cur.trim()); return result; }
 function restoreFromCSV(event, type) {
@@ -1904,19 +1948,31 @@ function restoreFromCSV(event, type) {
     reader.readAsText(input.files[0]);
 }
 
-/* ══════════════════════════════ USERS TABLE ══════════════════════════════ */
+/* ══════════════════════════════ USERS TABLE — FIXED (no duplicate) ══════════════════════════════ */
 async function renderUsersTable() {
     const tbody = document.getElementById("users-table-body");
+    // Clear first to prevent duplicates
     tbody.innerHTML = "";
     try {
         const users = await usersGetAll();
         users.forEach(u => {
             const isCurrent = currentLoggedInUser && u.username === currentLoggedInUser.username;
             const tr = document.createElement("tr");
-            tr.innerHTML = `<td style="font-family:monospace;font-weight:600;">${u.username}</td><td>${u.fullname}</td><td><span style="color:${u.role==='admin'?'var(--accent-color)':'var(--success-color)'};font-weight:bold;">${u.role.toUpperCase()}</span></td><td>${new Date(u.createdAt).toLocaleDateString()}</td><td>${isCurrent?'<span style="color:var(--text-muted);font-size:0.8rem;">(current user)</span>':`<button class="btn-table-action btn-inline-delete" onclick="deleteUserAccount('${u.username}')">Delete</button>`}</td>`;
+            tr.innerHTML = `
+                <td style="font-family:monospace;font-weight:600;">${u.username}</td>
+                <td>${u.fullname}</td>
+                <td><span style="color:${u.role==='admin'?'var(--accent-color)':'var(--success-color)'};font-weight:bold;">${u.role.toUpperCase()}</span></td>
+                <td>${new Date(u.createdAt).toLocaleDateString()}</td>
+                <td>${isCurrent
+                    ? '<span style="color:var(--text-muted);font-size:0.8rem;">(current user)</span>'
+                    : `<button class="btn-table-action btn-inline-delete" onclick="deleteUserAccount('${u.username.replace(/'/g,"\\'")}')">Delete</button>`
+                }</td>
+            `;
             tbody.appendChild(tr);
         });
-    } catch(e) { tbody.innerHTML = `<tr><td colspan="5" style="color:var(--danger-color);">Error loading users: ${e}</td></tr>`; }
+    } catch(e) {
+        tbody.innerHTML = `<tr><td colspan="5" style="color:var(--danger-color);">Error loading users: ${e}</td></tr>`;
+    }
 }
 async function deleteUserAccount(username) {
     showConfirm(`Delete user "<strong>${username}</strong>"?`, async () => {
@@ -1932,7 +1988,6 @@ document.getElementById("search-bar").onkeydown = function(e) {
         const val = e.target.value.trim();
         const match = systemProducts.find(p=>p.barcode===val);
         if (match) { addItemToRegisterBasket(match.id); e.target.value=""; renderCashierCatalog(""); }
-		      
     }
 };
 
@@ -1950,7 +2005,6 @@ window.onkeydown = function(e) {
 };
 document.getElementById('admin-gate-password').addEventListener('keydown', e => { if(e.key==='Enter') verifyAdminPassword(); });
 
-// Cart button wiring
 document.getElementById("checkout-cash-btn").onclick       = () => openCheckoutModal('CASH');
 document.getElementById("checkout-gcash-sale-btn").onclick = () => openCheckoutModal('GCASH');
 document.getElementById("checkout-credit-btn").onclick     = () => openCheckoutModal('CREDIT');
@@ -1991,7 +2045,17 @@ async function handleGcashSubmit() {
         try { const allRecords=await gcashGetAll(); if(allRecords.some(tx=>tx.refNo===refNo)) return showAlert(`Reference "${refNo}" already used.`,"danger","Duplicate Detected"); } catch(err){}
     }
     const profit = calculateProfit(amount);
-    const record = { dateCreated:new Date().toISOString(), timestamp:new Date().toLocaleString(), type, amount, mobile, name, refNo:refNo||'N/A', profit };
+    // Store name and refNo as separate fields — no merging
+    const record = {
+        dateCreated: new Date().toISOString(),
+        timestamp:   new Date().toLocaleString(),
+        type,
+        amount,
+        mobile,
+        name,           // ← clean name only
+        refNo: refNo || 'N/A',  // ← clean ref only
+        profit
+    };
     try {
         await gcashAddRecord(record);
         logActivity('gcash',`${type}: ₱${amount.toFixed(2)} for ${name} (${mobile})${refNo?', Ref:'+refNo:''}`);
@@ -2015,36 +2079,58 @@ function gcashMatchesFilter(dateStr) {
         default:        return false;
     }
 }
+
+/* ── FIXED GCash render: name and refNo shown in separate columns ── */
 async function renderGcashTransactions() {
     const tbody=document.getElementById("gcash-table-body"), emptyState=document.getElementById("gcash-empty-state");
     tbody.innerHTML="";
     try {
         let data=await gcashGetAll();
         data=data.filter(tx=>gcashMatchesFilter(tx.dateCreated||tx.timestamp));
-        if(data.length===0){emptyState.style.display="block";document.getElementById("gcash-summary-footer").style.display="none";return;}
-        emptyState.style.display="none"; document.getElementById("gcash-summary-footer").style.display="block";
+        if(data.length===0){
+            emptyState.style.display="block";
+            document.getElementById("gcash-summary-footer").style.display="none";
+            return;
+        }
+        emptyState.style.display="none";
+        document.getElementById("gcash-summary-footer").style.display="block";
         let inCount=0,outCount=0,inAmt=0,outAmt=0,inProfit=0,outProfit=0;
         data.forEach(tx=>{
-            const amt=parseFloat(tx.amount); const profit=tx.profit?parseFloat(tx.profit):calculateProfit(amt);
-            const isIn=tx.type==="GCASH IN";
-            const badge=isIn?'<span class="badge badge-in">CASH IN</span>':'<span class="badge badge-out">CASH OUT</span>';
-            if(isIn){inCount++;inAmt+=amt;inProfit+=profit;}else{outCount++;outAmt+=amt;outProfit+=profit;}
-            const displayName=tx.name||tx.reference||'N/A';
-            const displayRef=tx.refNo||'N/A';
-            const tr=document.createElement("tr");
-            tr.innerHTML=`<td>${tx.timestamp}</td><td>${badge}</td><td style="font-weight:600;">₱${pesoFormatter.format(amt)}</td><td style="font-family:monospace;">${tx.mobile||'N/A'}</td><td>${displayName}</td><td style="font-family:monospace;color:var(--text-muted);">${displayRef}</td><td style="font-weight:600;color:var(--success-color);">₱${pesoFormatter.format(profit)}</td>`;
+            const amt     = parseFloat(tx.amount);
+            const profit  = tx.profit != null ? parseFloat(tx.profit) : calculateProfit(amt);
+            const isIn    = tx.type === "GCASH IN";
+            const badge   = isIn
+                ? '<span class="badge badge-in">CASH IN</span>'
+                : '<span class="badge badge-out">CASH OUT</span>';
+            if(isIn){inCount++;inAmt+=amt;inProfit+=profit;}
+            else    {outCount++;outAmt+=amt;outProfit+=profit;}
+
+            // Separate name and refNo columns — no concatenation
+            const displayName = tx.name  || '—';
+            const displayRef  = tx.refNo || '—';
+
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+                <td>${tx.timestamp}</td>
+                <td>${badge}</td>
+                <td style="font-weight:600;">₱${pesoFormatter.format(amt)}</td>
+                <td style="font-family:monospace;">${tx.mobile || '—'}</td>
+                <td>${displayName}</td>
+                <td style="font-family:monospace;color:var(--text-muted);">${displayRef}</td>
+                <td style="font-weight:600;color:var(--success-color);">₱${pesoFormatter.format(profit)}</td>
+            `;
             tbody.appendChild(tr);
         });
-        document.getElementById("gcash-in-count").innerText=`Cash In: ${inCount}`;
-        document.getElementById("gcash-in-amount").innerText=`₱${pesoFormatter.format(inAmt)}`;
-        document.getElementById("gcash-in-profit").innerText=`₱${pesoFormatter.format(inProfit)}`;
-        document.getElementById("gcash-out-count").innerText=`Cash Out: ${outCount}`;
-        document.getElementById("gcash-out-amount").innerText=`₱${pesoFormatter.format(outAmt)}`;
-        document.getElementById("gcash-out-profit").innerText=`₱${pesoFormatter.format(outProfit)}`;
-        document.getElementById("gcash-total-count").innerText=`Total: ${inCount+outCount}`;
-        document.getElementById("gcash-total-amount").innerText=`₱${pesoFormatter.format(inAmt+outAmt)}`;
-        document.getElementById("gcash-total-profit").innerText=`₱${pesoFormatter.format(inProfit+outProfit)}`;
-    } catch(err){console.error("GCash render error:",err);}
+        document.getElementById("gcash-in-count").innerText    = `Cash In: ${inCount}`;
+        document.getElementById("gcash-in-amount").innerText   = `₱${pesoFormatter.format(inAmt)}`;
+        document.getElementById("gcash-in-profit").innerText   = `₱${pesoFormatter.format(inProfit)}`;
+        document.getElementById("gcash-out-count").innerText   = `Cash Out: ${outCount}`;
+        document.getElementById("gcash-out-amount").innerText  = `₱${pesoFormatter.format(outAmt)}`;
+        document.getElementById("gcash-out-profit").innerText  = `₱${pesoFormatter.format(outProfit)}`;
+        document.getElementById("gcash-total-count").innerText  = `Total: ${inCount+outCount}`;
+        document.getElementById("gcash-total-amount").innerText = `₱${pesoFormatter.format(inAmt+outAmt)}`;
+        document.getElementById("gcash-total-profit").innerText = `₱${pesoFormatter.format(inProfit+outProfit)}`;
+    } catch(err){ console.error("GCash render error:",err); }
 }
 
 /* ══════════════════════════════ BEST SELLERS ══════════════════════════════ */
@@ -2072,6 +2158,18 @@ window.onload = async function() {
         logActivity('system','POS system initialized');
     } catch(err) { console.error("DB init error:", err); }
 };
+
+const btn = document.getElementById('fullscreen-btn');
+const content = document.getElementById('content-area');
+btn.addEventListener('click', () => {
+    if (!document.fullscreenElement) {
+        content.requestFullscreen().catch(err => {
+            alert(`Error attempting to enable full-screen mode: ${err.message}`);
+        });
+    } else {
+        document.exitFullscreen();
+    }
+});
 </script>
 </body>
 </html>
