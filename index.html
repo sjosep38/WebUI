@@ -416,8 +416,11 @@
             <div class="auth-form" id="signup-form">
                 <div class="auth-error" id="signup-error"></div>
                 <div class="auth-success" id="signup-success"></div>
-                <div class="signup-admin-gate"><strong>ðŸ” Admin Authorization Required</strong><span style="font-size:0.82rem;">Enter the admin password to create a new account.</span></div>
-                <div class="auth-field"><label>Admin Password</label><input type="password" id="signup-admin-pw" placeholder="Enter admin password" style="text-align:center;"></div>
+<div class="signup-admin-gate">
+    <strong>?? Admin Authorization Required</strong>
+    <span style="font-size:0.82rem;">Enter the admin password to create a new account.</span>
+</div>              
+			  <div class="auth-field"><label>Admin Password</label><input type="password" id="signup-admin-pw" placeholder="Enter admin password" style="text-align:center;"></div>
                 <div class="auth-field"><label>Full Name</label><input type="text" id="signup-fullname" style="text-align:center;" placeholder="Juan Dela Cruz"></div>
                 <div class="auth-field"><label>Username</label><input type="email" id="signup-username" style="text-align:center;" placeholder="Choose a username" autocomplete="username"></div>
                 <div class="auth-field"><label>Password</label><input type="password" id="signup-password" placeholder="Min. 6 characters" style="text-align:center;" autocomplete="new-password"></div>
@@ -434,7 +437,7 @@
     <div class="logo-area"><h1 id="store-header-name">[Your Store] POS</h1></div>
     <div class="header-actions">
      <!--   <button id="fullscreen-btn" class="btn-action full-screen" style="cursor: pointer; user-select: none;">Fullscreen</button> -->
-        <span class="logged-in-badge" id="logged-in-badge">ðŸ‘¤ User</span>
+        <span class="logged-in-badge" id="logged-in-badge">&#128100; User</span>
         <button class="btn-gcash" onclick="openGcashModal()">+ GCash In / Out</button>
        <button class="btn-admin-trigger" onclick="requireAdminPassword()">
   <i class="fas fa-lock"></i> Admin Panel
