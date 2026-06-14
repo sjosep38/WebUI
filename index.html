@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>[Your Store] POS - Full Enterprise Suite</title>
+    <title>[Your Store] POS</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-	
     <style>
         :root {
             --bg-color: #121212;
@@ -20,27 +19,14 @@
             --warning-color: #ffa502;
             --gcash-color: #0078d4;
         }
-		.tab-btn {
-    /* Your existing styles... */
-    
-    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Android Emoji", EmojiSymbols, sans-serif;
-}
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: var(--bg-color); color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; }
-
         .btn-icon { display: inline-flex; align-items: center; gap: 6px; }
         .btn-icon svg { flex-shrink: 0; }
-
-        /* AUTH SCREEN */
-        #auth-screen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #0a0a0a;
-            display: flex; justify-content: center; align-items: center;
-            z-index: 9999; flex-direction: column; gap: 0;
-        }
+        #auth-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0a0a0a; display: flex; justify-content: center; align-items: center; z-index: 9999; flex-direction: column; gap: 0; }
         #auth-screen .auth-wrapper { width: 100%; max-width: 420px; padding: 16px; flex-direction: column; }
         .auth-logo { text-align: center; margin-bottom: 32px; }
-        .auth-logo h1 { font-size: 2rem; color: var(--accent-color); letter-spacing: 2px; font-weight: 800; }
+        .auth-logo h1 { font-size: 1.5rem; color: var(--accent-color); letter-spacing: 2px; font-weight: 800; }
         .auth-logo p { color: var(--text-muted); font-size: 0.85rem; margin-top: 4px; }
         .auth-card { background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 12px; padding: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.6); }
         .auth-tabs { display: flex; margin-bottom: 14px; background: #111; border-radius: 8px; padding: 4px; }
@@ -58,11 +44,8 @@
         .auth-success { background: rgba(46,213,115,0.15); border: 1px solid var(--success-color); color: var(--success-color); padding: 5px 7px; border-radius: 6px; font-size: 0.85rem; margin-bottom: 14px; display: none; }
         .signup-admin-gate { background: rgba(255,165,2,0.1); border: 1px solid var(--warning-color); border-radius: 8px; padding: 12px 14px; margin-bottom: 16px; font-size: 0.85rem; color: var(--warning-color); }
         .signup-admin-gate strong { display: block; margin-bottom: 4px; }
-
-        /* MAIN APP */
         #app-main { display: none; flex-direction: column; min-height: 100vh; }
         #app-main.visible { display: flex; }
-
         header { background-color: var(--panel-bg); padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); flex-wrap: wrap; gap: 10px; }
         .logo-area h1 { font-size: 1.2rem; color: var(--accent-color); font-weight: bold; letter-spacing: 0.5px; }
         .header-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
@@ -70,8 +53,7 @@
         .btn-admin-trigger:hover { background: var(--accent-color); color: #000; }
         .btn-logout { background: #222; color: var(--danger-color); border: 1px solid var(--danger-color); padding: 8px 16px; border-radius: 4px; cursor: pointer; font-size: 0.85rem; font-weight: bold; transition: all 0.2s; display: inline-flex; align-items: center; gap: 6px; }
         .btn-logout:hover { background: var(--danger-color); color: #fff; }
-        .logged-in-badge { font-size: 1.1rem; color: var(--success-color); font-weight: bold; padding: 7px 10px; background: rgba(46,213,115,0.1); border-radius: 4px; border: 1px solid rgba(46,213,115,0.3); }
-
+        .logged-in-badge { font-size: 1.1rem; color: var(--success-color); font-weight: bold; padding: 5px 10px; background: rgba(46,213,115,0.1); border-radius: 4px; border: 1px solid rgba(46,213,115,0.3); }
         .pos-container { display: grid; grid-template-columns: 1fr 400px; flex: 1; height: calc(100vh - 60vh); overflow: hidden; }
         .catalog-side { display: flex; flex-direction: column; border-right: 1px solid var(--border-color); background: #151515; overflow: hidden; }
         .search-bar-container { padding: 15px; background: var(--panel-bg); border-bottom: 1px solid var(--border-color); }
@@ -82,9 +64,8 @@
         .product-name { font-weight: 600; font-size: 0.95rem; margin-bottom: 5px; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
         .product-price { color: var(--accent-color); font-weight: bold; font-size: 1.1rem; }
         .product-stock { font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; }
-
         .cart-side { display: flex; flex-direction: column; background: var(--panel-bg); overflow: hidden; }
-        .cart-items-list { flex: auto; overflow-y: auto; padding: 1px; min-height: 0; scroll-behavior: smooth; height: 300px; margin: 5px;background: linear-gradient(0deg,rgba(54, 54, 54, 1) 0%, rgba(64, 64, 64, 1) 100%);}
+        .cart-items-list { flex: auto; overflow-y: auto; padding: 1px; min-height: 0; scroll-behavior: smooth; height: 300px; margin: 5px; background: linear-gradient(0deg,rgba(54,54,54,1) 0%, rgba(64,64,64,1) 100%); }
         .cart-items-list::-webkit-scrollbar { width: 4px; }
         .cart-items-list::-webkit-scrollbar-track { background: transparent; }
         .cart-items-list::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
@@ -96,27 +77,22 @@
         .qty-btn:hover { background: var(--accent-color); color: #000; }
         .cart-item-price-group { text-align: right; font-weight: bold; margin-left: 1px; min-width: 60px; }
         .remove-item-btn { color: var(--danger-color); background: none; border: none; margin-left: 15px; cursor: pointer; font-size: 1.2rem; padding: 0 5px; display: inline-flex; align-items: center; }
-
         .summary-board { background: #1a1a1a; padding: 15px 20px; border-top: 2px solid var(--border-color); }
         .summary-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 1rem; color: var(--text-muted); }
         .summary-row.grand-total { font-size: 1rem; font-weight: bold; color: #fff; margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--border-color); margin-bottom: 0; }
         .summary-row.grand-total .total-val { color: var(--success-color); }
-
         .action-pad { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; padding: 15px; background: #151515; border-top: 1px solid var(--border-color); flex-shrink: 0; }
         .btn-action { padding: 10px; font-size: 0.9rem; font-weight: bold; border: none; border-radius: 6px; cursor: pointer; transition: opacity 0.2s; text-align: center; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
         .btn-action.pay-cash { background: var(--success-color); color: #000; }
         .btn-action.pay-credit { background: var(--warning-color); color: #000; }
         .btn-action.pay-gcash { background: var(--gcash-color); color: #fff; }
         .btn-action.clear-cart { background: #333; color: white; grid-column: span 3; padding: 10px; font-size: 0.9rem; }
-		.btn-action.full-screen { background: var(--success-color); color: #000;padding:7px; }
+        .btn-action.full-screen { background: var(--success-color); color: #000; padding:7px; }
         .btn-action:hover { opacity: 0.9; }
-		
-		/* MODALS */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: flex; justify-content: center; align-items: center; z-index: 1000; visibility: hidden; opacity: 0; transition: opacity 0.2s; padding: 10px; }
         .modal-overlay.active { visibility: visible; opacity: 1; }
         .modal-box { background: var(--panel-bg); width: 100%; max-width: 420px; padding: 25px; border-radius: 8px; border: 1px solid var(--border-color); box-shadow: 0 10px 30px rgba(0,0,0,0.6); overflow-y: auto; max-height: 95vh; }
         .modal-box.fullscreen-backoffice { max-width: 1200px; width: 100%; height: 90vh; display: flex; flex-direction: column; padding: 0; overflow: hidden; }
-
         .admin-header { display: flex; background: #111; border-bottom: 1px solid var(--border-color); justify-content: space-between; align-items: center; flex-wrap: wrap; flex-shrink: 0; }
         .admin-tabs { display: flex; flex-wrap: wrap; overflow-x: auto; }
         .tab-btn { padding: 15px 16px; color: var(--text-muted); cursor: pointer; border-right: 1px solid var(--border-color); font-size: 0.85rem; font-weight: 500; user-select: none; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
@@ -125,8 +101,6 @@
         .admin-body { flex: 1; padding: 20px; overflow-y: auto; background: #141414; }
         .tab-panel { display: none; }
         .tab-panel.active { display: block; }
-
-        /* SALES SUMMARY CARDS */
         .sales-summary-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 20px; }
         .sales-card { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 10px; padding: 16px 18px; position: relative; overflow: hidden; }
         .sales-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
@@ -141,8 +115,6 @@
         .sales-card.week .sales-card-amount { color: var(--accent-color); }
         .sales-card.month .sales-card-amount { color: var(--warning-color); }
         .sales-card.year .sales-card-amount { color: #a29bfe; }
-
-        /* PROFIT CARDS â€” 4 cards */
         .profit-summary-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 20px; }
         .profit-card { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 10px; padding: 16px 18px; position: relative; overflow: hidden; }
         .profit-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
@@ -157,8 +129,6 @@
         .profit-card.expenses .profit-card-amount { color: var(--danger-color); }
         .profit-card.net      .profit-card-amount { color: #a29bfe; }
         .profit-card-sub { font-size: 0.78rem; color: var(--text-muted); margin-top: 4px; }
-
-        /* CHART AREA */
         .sales-chart-wrapper { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 10px; padding: 18px; margin-bottom: 20px; }
         .sales-chart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; }
         .sales-chart-title { font-size: 0.95rem; font-weight: 700; color: var(--text-main); }
@@ -166,7 +136,6 @@
         .chart-period-btn { padding: 5px 12px; border: none; background: transparent; color: var(--text-muted); font-size: 0.78rem; font-weight: 600; border-radius: 4px; cursor: pointer; transition: all 0.15s; }
         .chart-period-btn.active { background: var(--accent-color); color: #000; }
         .chart-canvas-wrap { position: relative; height: 220px; }
-
         .report-controls { display: flex; gap: 12px; margin-bottom: 20px; align-items: center; background: var(--panel-bg); padding: 15px; border-radius: 8px; border: 1px solid var(--border-color); flex-wrap: wrap; }
         .report-controls label { font-size: 0.85rem; color: var(--text-muted); font-weight: 500; }
         .table-wrapper { overflow-x: auto; margin-top: 5px; background: var(--panel-bg); border-radius: 6px; border: 1px solid var(--border-color); }
@@ -174,32 +143,26 @@
         th, td { padding: 12px 15px; border-bottom: 1px solid var(--border-color); vertical-align: middle; }
         th { background: #1d1d1d; color: var(--accent-color); font-weight: 600; }
         tr:hover { background: #171717; }
-
         .modal-box h2 { font-size: 1.4rem; margin-bottom: 18px; color: var(--accent-color); }
         .form-group { margin-bottom: 15px; }
         .form-group label { display: block; font-size: 0.85rem; margin-bottom: 6px; color: var(--text-muted); }
         .form-control { width: 100%; padding: 10px 12px; background: #252525; border: 1px solid var(--border-color); color: white; border-radius: 4px; font-size: 1.1rem; }
         .form-control:focus { outline: 1px solid var(--accent-color); }
         .select-filter { padding: 8px 12px; background: #252525; border: 1px solid var(--border-color); color: white; border-radius: 4px; cursor: pointer; font-size: 0.88rem; min-width: 140px; }
-
         .btn-csv { background: var(--accent-color); color: #000; border: none; padding: 9px 14px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 6px; transition: opacity 0.15s; white-space: nowrap; }
         .btn-csv:hover { opacity: 0.9; }
         .btn-danger { background: var(--danger-color) !important; color: white !important; }
         .btn-warning { background: var(--warning-color) !important; color: black !important; }
         .btn-gcash { background: #222; color: #0E84B3; border: 1px solid #4DC2F0; padding: 9px 14px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 6px; transition: opacity 0.15s; white-space: nowrap; }
         .btn-gcash:hover { background: #0E84B3; color: #fff; }
-
         .modal-buttons { display: flex; justify-content: flex-end; gap: 10px; margin-top: 25px; }
         .btn-modal { padding: 12px 22px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 6px; }
         .btn-modal.confirm { background: var(--accent-color); color: black; }
         .btn-modal.cancel { background: #333; color: white; }
-
         .btn-table-action { padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 0.8rem; background: var(--success-color); color: #000; white-space: nowrap; display: inline-flex; align-items: center; gap: 4px; }
         .btn-table-action:hover { opacity: 0.9; }
         .btn-inline-edit { background: var(--warning-color); color: #000; margin-right: 5px; }
         .btn-inline-delete { background: var(--danger-color); color: #fff; }
-
-        /* GCASH */
         .gcash-filter-bar { display: flex; gap: 8px; margin-bottom: 16px; background: #2a2a2a; padding: 6px; border-radius: 8px; width: fit-content; flex-wrap: wrap; }
         .btn-filter { background: transparent; border: none; padding: 8px 16px; font-size: 0.875rem; font-weight: 600; color: var(--text-muted); border-radius: 6px; cursor: pointer; transition: all 0.2s; }
         .btn-filter:hover { color: var(--text-main); }
@@ -213,7 +176,6 @@
         .badge-in { background-color: #1e3a5f; color: #60a5fa; }
         .badge-out { background-color: #3b1f1f; color: #f87171; }
         .gcash-empty { text-align: center; color: var(--text-muted); padding: 40px 0; }
-
         #modal-2 { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.75); display: none; justify-content: center; align-items: center; z-index: 2000; padding: 10px; }
         #modal-2.active { display: flex; }
         .gcash-form-box { background: #fff; padding: 24px; border-radius: 12px; width: 100%; max-width: 380px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; box-sizing: border-box; max-height: 95vh; overflow-y: auto; }
@@ -231,16 +193,12 @@
         .gcash-field input:focus { border-color: #1d4ed8; }
         .gcash-submit-btn { width: 100%; background: #10b981; color: white; border: none; padding: 12px; font-size: 1rem; font-weight: 600; border-radius: 8px; cursor: pointer; transition: background 0.2s; margin-top: 8px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
         .gcash-submit-btn:hover { background: #059669; }
-
-        /* ADMIN PASSWORD GATE */
         #admin-gate-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: none; justify-content: center; align-items: center; z-index: 5000; padding: 10px; }
         #admin-gate-modal.active { display: flex; }
         .admin-gate-box { background: #1a1a1a; border: 1px solid var(--border-color); border-radius: 12px; padding: 32px; width: 100%; max-width: 360px; box-shadow: 0 20px 50px rgba(0,0,0,0.7); }
         .admin-gate-box h2 { color: var(--accent-color); margin-bottom: 6px; font-size: 1.3rem; display: flex; align-items: center; gap: 8px; }
         .admin-gate-box p { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 24px; }
         .admin-gate-error { color: var(--danger-color); font-size: 0.82rem; margin-top: 10px; display: none; }
-
-        /* BACKUP PANEL */
         .backup-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin-bottom: 24px; }
         .backup-card { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 16px; }
         .backup-card h4 { color: var(--accent-color); font-size: 0.9rem; margin-bottom: 6px; }
@@ -253,8 +211,6 @@
         .btn-backup-all:hover { opacity: 0.88; }
         .restore-log { background: #111; border: 1px solid var(--border-color); border-radius: 6px; padding: 12px; max-height: 120px; overflow-y: auto; font-size: 0.8rem; color: var(--text-muted); font-family: monospace; margin-top: 10px; }
         .users-table-wrapper { overflow-x: auto; background: var(--panel-bg); border-radius: 6px; border: 1px solid var(--border-color); }
-
-        /* ACTIVITY LOG MODAL */
         #activity-log-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.88); display: none; justify-content: center; align-items: center; z-index: 6000; padding: 10px; }
         #activity-log-modal.active { display: flex; }
         .activity-log-box { background: #111; border: 1px solid #2a2a2a; border-radius: 12px; width: 100%; max-width: 780px; max-height: 90vh; display: flex; flex-direction: column; box-shadow: 0 24px 60px rgba(0,0,0,0.8); overflow: hidden; }
@@ -283,29 +239,14 @@
         .log-filter-bar { display: flex; gap: 6px; margin-bottom: 12px; background: #1a1a1a; padding: 5px; border-radius: 8px; flex-wrap: wrap; }
         .log-filter-btn { background: transparent; border: none; padding: 5px 12px; font-size: 0.8rem; font-weight: 600; color: var(--text-muted); border-radius: 5px; cursor: pointer; transition: all 0.15s; }
         .log-filter-btn.active { background: var(--panel-bg); color: var(--accent-color); }
-
-        /* EXPENSE PANEL */
         .expense-add-form { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 18px; margin-bottom: 20px; }
         .expense-add-form h3 { color: var(--accent-color); font-size: 0.95rem; margin-bottom: 14px; }
         .expense-form-grid { display: grid; grid-template-columns: 2fr 1fr 1fr auto; gap: 10px; align-items: end; }
         .expense-form-grid input, .expense-form-grid select { padding: 10px 12px; background: #252525; border: 1px solid var(--border-color); color: white; border-radius: 4px; font-size: 0.9rem; width: 100%; }
         .expense-form-grid label { display: block; font-size: 0.78rem; color: var(--text-muted); margin-bottom: 5px; }
-
-        /* CUSTOM DIALOG */
-        #app-dialog-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.75);
-            display: flex; justify-content: center; align-items: center;
-            z-index: 99999; padding: 16px;
-            visibility: hidden; opacity: 0;
-            transition: opacity 0.18s ease, visibility 0.18s ease;
-        }
+        #app-dialog-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.75); display: flex; justify-content: center; align-items: center; z-index: 99999; padding: 16px; visibility: hidden; opacity: 0; transition: opacity 0.18s ease, visibility 0.18s ease; }
         #app-dialog-overlay.show { visibility: visible; opacity: 1; }
-        .app-dialog-box {
-            background: #1e1e1e; border: 1px solid var(--border-color); border-radius: 12px;
-            width: 100%; max-width: 380px; box-shadow: 0 24px 60px rgba(0,0,0,0.7); overflow: hidden;
-            transform: scale(0.92) translateY(10px); transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1);
-        }
+        .app-dialog-box { background: #1e1e1e; border: 1px solid var(--border-color); border-radius: 12px; width: 100%; max-width: 380px; box-shadow: 0 24px 60px rgba(0,0,0,0.7); overflow: hidden; transform: scale(0.92) translateY(10px); transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1); }
         #app-dialog-overlay.show .app-dialog-box { transform: scale(1) translateY(0); }
         .app-dialog-icon-bar { padding: 20px 24px 0; display: flex; align-items: center; gap: 12px; }
         .app-dialog-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
@@ -322,62 +263,27 @@
         .app-dialog-btn.primary { background: var(--accent-color); color: #000; }
         .app-dialog-btn.secondary { background: #2e2e2e; color: var(--text-main); border: 1px solid var(--border-color); }
         .app-dialog-btn.danger { background: var(--danger-color); color: #fff; }
-
-        /* PAYMENT METHOD SELECTOR */
         .payment-method-selector { display: flex; gap: 10px; margin-bottom: 16px; }
         .pay-method-btn { flex: 1; padding: 12px 8px; border: 2px solid #333; background: #252525; color: var(--text-muted); border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.9rem; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 6px; }
         .pay-method-btn:hover { border-color: #555; color: var(--text-main); }
         .pay-method-btn.active-cash { border-color: var(--success-color); background: rgba(46,213,115,0.1); color: var(--success-color); }
         .pay-method-btn.active-gcash { border-color: var(--gcash-color); background: rgba(0,120,212,0.1); color: #60a5fa; }
         .pay-method-btn.active-credit { border-color: var(--warning-color); background: rgba(255,165,2,0.1); color: var(--warning-color); }
-
-        /* Profit period filter tabs */
         .profit-period-tabs { display: flex; gap: 4px; background: #111; border-radius: 6px; padding: 3px; margin-bottom: 20px; width: fit-content; }
         .profit-period-btn { padding: 6px 16px; border: none; background: transparent; color: var(--text-muted); font-size: 0.82rem; font-weight: 600; border-radius: 4px; cursor: pointer; transition: all 0.15s; }
         .profit-period-btn.active { background: var(--accent-color); color: #000; }
-
+        /* Settings tab styles */
+        .settings-section { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; margin-bottom: 16px; }
+        .settings-section-title { font-size: 0.78rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; gap: 6px; }
         @media print {
             body * { display: none !important; }
             #receipt-print-area, #receipt-print-area * { display: block !important; }
-            #receipt-print-area {
-                position: absolute; left: 0; top: 0; width: 58mm;
-                background: white !important; color: black !important;
-                padding: 3mm 2mm; font-family: Arial, sans-serif !important;
-                font-size: 14px !important; line-height: 1.5;
-            }
+            #receipt-print-area { position: absolute; left: 0; top: 0; width: 58mm; background: white !important; color: black !important; padding: 3mm 2mm; font-family: Arial, sans-serif !important; font-size: 14px !important; line-height: 1.5; }
         }
-
         @media (max-width: 1024px) { .pos-container { grid-template-columns: 1fr 380px; } .sales-summary-cards { grid-template-columns: 1fr 1fr; } .profit-summary-cards { grid-template-columns: 1fr 1fr; } }
-        @media (max-width: 768px) {
-            body { overflow-y: auto; }
-            .pos-container { display: flex; flex-direction: column; height: auto; overflow: visible; }
-            .catalog-side { height: auto; overflow: visible; border-right: none; border-bottom: 1px solid var(--border-color); }
-            .product-grid { max-height: 400px; overflow-y: auto; }
-            .cart-side { height: auto; overflow: visible; }
-            .cart-items-list { max-height: 350px; }
-            .modal-box.fullscreen-backoffice { height: 95vh; }
-            .admin-tabs { width: 100%; overflow-x: auto; }
-            .tab-btn { flex-shrink: 0; padding: 12px 10px; font-size: 0.8rem; }
-            .sales-summary-cards { grid-template-columns: 1fr 1fr; }
-            .profit-summary-cards { grid-template-columns: 1fr 1fr; }
-            .action-pad { grid-template-columns: 1fr 1fr 1fr; }
-        }
-        @media (max-width: 600px) {
-            .product-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; padding: 10px; }
-            .product-card { height: 110px; padding: 8px; }
-            .action-pad { grid-template-columns: 1fr 1fr 1fr; padding: 10px; gap: 6px; }
-            .btn-action { padding: 10px 4px; font-size: 0.78rem; }
-            .expense-form-grid { grid-template-columns: 1fr 1fr; }
-            .sales-summary-cards { grid-template-columns: 1fr 1fr; }
-            .profit-summary-cards { grid-template-columns: 1fr 1fr; }
-        }
-		
-		        #receipt-print { display: none; font-family: 'Courier New', Courier, monospace; width: 58mm; padding: 2mm; color: #000; }
-        @media print {
-            body * { visibility: visible; }
-            #receipt-print, #receipt-print * { visibility: visible; }
-            #receipt-print { position: absolute; left: 0; top: 0; width: 58mm; display: block !important; }
-        }
+        @media (max-width: 768px) { body { overflow-y: auto; } .pos-container { display: flex; flex-direction: column; height: auto; overflow: visible; } .catalog-side { height: auto; overflow: visible; border-right: none; border-bottom: 1px solid var(--border-color); } .product-grid { max-height: 400px; overflow-y: auto; } .cart-side { height: auto; overflow: visible; } .cart-items-list { max-height: 350px; } .modal-box.fullscreen-backoffice { height: 95vh; } .admin-tabs { width: 100%; overflow-x: auto; } .tab-btn { flex-shrink: 0; padding: 12px 10px; font-size: 0.8rem; } .sales-summary-cards { grid-template-columns: 1fr 1fr; } .profit-summary-cards { grid-template-columns: 1fr 1fr; } .action-pad { grid-template-columns: 1fr 1fr 1fr; } }
+        @media (max-width: 600px) { .product-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; padding: 10px; } .product-card { height: 110px; padding: 8px; } .action-pad { grid-template-columns: 1fr 1fr 1fr; padding: 10px; gap: 6px; } .btn-action { padding: 10px 4px; font-size: 0.78rem; } .expense-form-grid { grid-template-columns: 1fr 1fr; } .sales-summary-cards { grid-template-columns: 1fr 1fr; } .profit-summary-cards { grid-template-columns: 1fr 1fr; } }
+        #receipt-print { display: none; font-family: 'Courier New', Courier, monospace; width: 58mm; padding: 2mm; color: #000; }
     </style>
 </head>
 <body>
@@ -398,7 +304,7 @@
 <div id="auth-screen">
     <div class="auth-wrapper">
         <div class="auth-logo">
-            <h1>[Your Store] POS</h1>
+            <h1 id="auth-logo-name">[Your Store] POS</h1>
             <p>Enterprise Point of Sale System</p>
         </div>
         <div class="auth-card">
@@ -410,17 +316,14 @@
                 <div class="auth-error" id="login-error"></div>
                 <div class="auth-success" id="login-success"></div>
                 <div class="auth-field"><label>Username</label><input type="email" id="login-username" placeholder="Enter your username" style="text-align:center;" autocomplete="email"></div>
-                <div class="auth-field"><label>Password</label><input type="password" id="login-password"  placeholder="Enter your password" style="text-align:center;" autocomplete="current-password"></div>
+                <div class="auth-field"><label>Password</label><input type="password" id="login-password" placeholder="Enter your password" style="text-align:center;" autocomplete="current-password"></div>
                 <button class="auth-btn" onclick="handleLogin()">Sign In</button>
             </div>
             <div class="auth-form" id="signup-form">
                 <div class="auth-error" id="signup-error"></div>
                 <div class="auth-success" id="signup-success"></div>
-<div class="signup-admin-gate">
-    <strong>?? Admin Authorization Required</strong>
-    <span style="font-size:0.82rem;">Enter the admin password to create a new account.</span>
-</div>              
-			  <div class="auth-field"><label>Admin Password</label><input type="password" id="signup-admin-pw" placeholder="Enter admin password" style="text-align:center;"></div>
+                <div class="signup-admin-gate"><strong>🔑 Admin Authorization Required</strong><span style="font-size:0.82rem;">Enter the admin password to create a new account.</span></div>
+                <div class="auth-field"><label>Admin Password</label><input type="password" id="signup-admin-pw" placeholder="Enter admin password" style="text-align:center;"></div>
                 <div class="auth-field"><label>Full Name</label><input type="text" id="signup-fullname" style="text-align:center;" placeholder="Juan Dela Cruz"></div>
                 <div class="auth-field"><label>Username</label><input type="email" id="signup-username" style="text-align:center;" placeholder="Choose a username" autocomplete="username"></div>
                 <div class="auth-field"><label>Password</label><input type="password" id="signup-password" placeholder="Min. 6 characters" style="text-align:center;" autocomplete="new-password"></div>
@@ -436,12 +339,10 @@
 <header>
     <div class="logo-area"><h1 id="store-header-name">[Your Store] POS</h1></div>
     <div class="header-actions">
-     <!--   <button id="fullscreen-btn" class="btn-action full-screen" style="cursor: pointer; user-select: none;">Fullscreen</button> -->
-        <span class="logged-in-badge" id="logged-in-badge">&#128100; User</span>
-        <button class="btn-gcash" onclick="openGcashModal()">+ GCash In / Out</button>
-       <button class="btn-admin-trigger" onclick="requireAdminPassword()">
-  <i class="fas fa-lock"></i> Admin Panel
-</button>
+        <button id="fullscreen-btn" class="btn-action full-screen" style="cursor: pointer; user-select: none;">Fullscreen</button>
+        <span class="logged-in-badge" id="logged-in-badge">👤 User</span>
+        <button class="btn-gcash" onclick="openGcashModal()">+ GCash Transaction</button>
+        <button class="btn-admin-trigger" onclick="requireAdminPassword()">Administrator Panel</button>
         <button class="btn-logout" onclick="handleLogout()"><i class="fas fa-power-off"></i> Logout</button>
     </div>
 </header>
@@ -458,14 +359,14 @@
         <div class="summary-board">
             <div class="summary-row grand-total">
                 <span>NET CHARGE TOTAL</span>
-                <span class="total-val" id="summary-total">â‚±0.00</span>
+                <span class="total-val" id="summary-total">₱0.00</span>
             </div>
         </div>
         <div class="action-pad">
-            <button class="btn-action pay-cash" id="checkout-cash-btn">ðŸ’µ CASH(F1)</button>
-            <button class="btn-action pay-gcash" id="checkout-gcash-sale-btn">ðŸ“± GCASH(F2)</button>
-            <button class="btn-action pay-credit" id="checkout-credit-btn">ðŸ’³CREDIT(F3)</button>
-            <button class="btn-action clear-cart" id="clear-cart-btn">ðŸ—‘ VOID CART ITEMS</button>
+            <button class="btn-action pay-cash" id="checkout-cash-btn">💵 CASH(F1)</button>
+            <button class="btn-action pay-gcash" id="checkout-gcash-sale-btn">📱 GCASH(F2)</button>
+            <button class="btn-action pay-credit" id="checkout-credit-btn">💳CREDIT(F3)</button>
+            <button class="btn-action clear-cart" id="clear-cart-btn">🗑 VOID CART ITEMS</button>
         </div>
     </div>
 </div>
@@ -474,55 +375,49 @@
 <!-- ADMIN PASSWORD GATE -->
 <div id="admin-gate-modal">
     <div class="admin-gate-box">
-        <h2>ðŸ”’ Admin Access</h2>
+        <h2>🔒 Admin Access</h2>
         <p>Enter the Administrator password to continue.</p>
         <div class="form-group">
             <label style="display:block;font-size:0.82rem;color:var(--text-muted);margin-bottom:6px;">Admin Password</label>
             <input type="password" class="form-control" id="admin-gate-password" style="text-align:center;" placeholder="Enter admin password" onkeydown="if(event.key==='Enter')verifyAdminPassword()">
         </div>
         <div style="display:flex;gap:10px;margin-top:16px;">
-			<button class="btn-modal cancel" style="flex:1;" onclick="closeAdminGate()">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-                Cancel
-            </button>
-            <button class="btn-modal confirm" style="flex:1;" onclick="verifyAdminPassword()">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                Unlock
-            </button>
+            <button class="btn-modal cancel" style="flex:1;" onclick="closeAdminGate()">Cancel</button>
+            <button class="btn-modal confirm" style="flex:1;" onclick="verifyAdminPassword()">Unlock</button>
         </div>
         <div class="admin-gate-error" id="admin-gate-error">Incorrect password. Try again.</div>
     </div>
 </div>
-
 <!-- BACK-OFFICE ADMIN MODAL -->
 <div class="modal-overlay" id="admin-modal">
     <div class="modal-box fullscreen-backoffice">
         <div class="admin-header">
             <div class="admin-tabs">
-<div class="tab-btn active" onclick="switchAdminTab(0)">&#128200; Sales Report</div>
-<div class="tab-btn" onclick="switchAdminTab(1)">&#128181; Profit & Expenses</div>
-<div class="tab-btn" onclick="switchAdminTab(2)">&#128230; Inventory</div>
-<div class="tab-btn" onclick="switchAdminTab(3)">&#128179; Credit Ledger</div>
-<div class="tab-btn" onclick="switchAdminTab(4)">&#128241; GCash Logs</div>
-<div class="tab-btn" onclick="switchAdminTab(5)">&#127942; Best Sellers</div>
-<div class="tab-btn" onclick="switchAdminTab(6)">&#128101; Users</div>
-<div class="tab-btn" onclick="switchAdminTab(7)">&#128190; Backup</div>
+                <div class="tab-btn active" onclick="switchAdminTab(0)">📈 Sales Report</div>
+                <div class="tab-btn" onclick="switchAdminTab(1)">💰 Profit &amp; Expenses</div>
+                <div class="tab-btn" onclick="switchAdminTab(2)">📦 Stocks Inventory</div>
+                <div class="tab-btn" onclick="switchAdminTab(3)">💳 Creditors Ledger</div>
+                <div class="tab-btn" onclick="switchAdminTab(4)">📱 GCash Transaction Logs</div>
+                <div class="tab-btn" onclick="switchAdminTab(5)">🏆 Best Sellers</div>
+                <div class="tab-btn" onclick="switchAdminTab(6)">👥 Registered Users</div>
+                <div class="tab-btn" onclick="switchAdminTab(7)">💾 Backup & Restore</div>
+                <div class="tab-btn" onclick="switchAdminTab(8)">⚙️ System Settings</div>
             </div>
-            <div class="close-admin" onclick="closeModal('admin-modal')">âœ• CLOSE [ESC]</div>
+            <div class="close-admin" onclick="closeModal('admin-modal')">✕ CLOSE [ESC]</div>
         </div>
         <div class="admin-body">
 
             <!-- TAB 0: SALES -->
             <div class="tab-panel active" id="admin-tab-sales">
                 <div class="sales-summary-cards">
-                    <div class="sales-card today"><div class="sales-card-label">ðŸ“… Today</div><div class="sales-card-amount" id="card-today-amt">â‚±0.00</div><div class="sales-card-sub" id="card-today-cnt">0 transactions</div></div>
-                    <div class="sales-card week"><div class="sales-card-label">ðŸ“† This Week</div><div class="sales-card-amount" id="card-week-amt">â‚±0.00</div><div class="sales-card-sub" id="card-week-cnt">0 transactions</div></div>
-                    <div class="sales-card month"><div class="sales-card-label">ðŸ—“ï¸ This Month</div><div class="sales-card-amount" id="card-month-amt">â‚±0.00</div><div class="sales-card-sub" id="card-month-cnt">0 transactions</div></div>
-                    <div class="sales-card year"><div class="sales-card-label">ðŸ“Š This Year</div><div class="sales-card-amount" id="card-year-amt">â‚±0.00</div><div class="sales-card-sub" id="card-year-cnt">0 transactions</div></div>
+                    <div class="sales-card today"><div class="sales-card-label">📅 Today</div><div class="sales-card-amount" id="card-today-amt">₱0.00</div><div class="sales-card-sub" id="card-today-cnt">0 transactions</div></div>
+                    <div class="sales-card week"><div class="sales-card-label">📆 This Week</div><div class="sales-card-amount" id="card-week-amt">₱0.00</div><div class="sales-card-sub" id="card-week-cnt">0 transactions</div></div>
+                    <div class="sales-card month"><div class="sales-card-label">🗓️ This Month</div><div class="sales-card-amount" id="card-month-amt">₱0.00</div><div class="sales-card-sub" id="card-month-cnt">0 transactions</div></div>
+                    <div class="sales-card year"><div class="sales-card-label">📊 This Year</div><div class="sales-card-amount" id="card-year-amt">₱0.00</div><div class="sales-card-sub" id="card-year-cnt">0 transactions</div></div>
                 </div>
                 <div class="sales-chart-wrapper">
                     <div class="sales-chart-header">
-                        <span class="sales-chart-title">ðŸ“ˆ Sales Revenue Chart</span>
+                        <span class="sales-chart-title">📈 Sales Revenue Chart</span>
                         <div class="chart-period-tabs">
                             <button class="chart-period-btn active" onclick="switchChartPeriod('week',this)">7 Days</button>
                             <button class="chart-period-btn" onclick="switchChartPeriod('month',this)">30 Days</button>
@@ -543,100 +438,42 @@
                     <button class="btn-csv" style="margin-left:auto;" onclick="exportSalesJournalToCSV()">Export CSV</button>
                 </div>
                 <div class="table-wrapper">
-                    <table>
-                        <thead><tr><th>Date &amp; Time</th><th>Transaction Ref</th><th>Items</th><th>Payment Method</th><th>Total</th></tr></thead>
-                        <tbody id="sales-table-body"></tbody>
-                    </table>
+                    <table><thead><tr><th>Date &amp; Time</th><th>Transaction Ref</th><th>Items</th><th>Payment Method</th><th>Total</th></tr></thead><tbody id="sales-table-body"></tbody></table>
                 </div>
             </div>
 
             <!-- TAB 1: PROFIT & EXPENSES -->
             <div class="tab-panel" id="admin-tab-profit">
-
-                <!-- Period selector tabs -->
                 <div class="profit-period-tabs">
                     <button class="profit-period-btn active" onclick="setProfitPeriod('day',this)">Daily</button>
                     <button class="profit-period-btn" onclick="setProfitPeriod('week',this)">Weekly</button>
                     <button class="profit-period-btn" onclick="setProfitPeriod('month',this)">Monthly</button>
                     <button class="profit-period-btn" onclick="setProfitPeriod('year',this)">Yearly</button>
                 </div>
-
-                <!--
-                    FIXED Profit Card formulas:
-                    Card1: Sales (capital cost) = total revenue from transactions
-                    Card2: Gross Profit = Sales Ã— 20%
-                    Card3: Expenses = sum of expense entries
-                    Card4: Net Profit = Gross Profit âˆ’ Expenses
-                -->
                 <div class="profit-summary-cards">
-                    <div class="profit-card capital">
-                        <div class="profit-card-label">ðŸ’µ Sales (Capital Cost)</div>
-                        <div class="profit-card-amount" id="profit-capital">â‚±0.00</div>
-                        <div class="profit-card-sub" id="profit-capital-sub">Cash + GCash transactions</div>
-                    </div>
-                    <div class="profit-card gross">
-                        <div class="profit-card-label">ðŸ“Š Gross Profit</div>
-                        <div class="profit-card-amount" id="profit-gross">â‚±0.00</div>
-                        <div class="profit-card-sub">Sales Ã— 20%</div>
-                    </div>
-                    <div class="profit-card expenses">
-                        <div class="profit-card-label">ðŸ“‰ Expenses</div>
-                        <div class="profit-card-amount" id="profit-expenses-amt">â‚±0.00</div>
-                        <div class="profit-card-sub" id="profit-expenses-count">0 expense entries</div>
-                    </div>
-                    <div class="profit-card net">
-                        <div class="profit-card-label">âœ… Net Profit</div>
-                        <div class="profit-card-amount" id="profit-net">â‚±0.00</div>
-                        <div class="profit-card-sub">Gross Profit âˆ’ Expenses</div>
-                    </div>
+                    <div class="profit-card capital"><div class="profit-card-label">💵 Sales (Capital Cost)</div><div class="profit-card-amount" id="profit-capital">₱0.00</div><div class="profit-card-sub" id="profit-capital-sub">Cash + GCash transactions</div></div>
+                    <div class="profit-card gross"><div class="profit-card-label">📊 Gross Profit</div><div class="profit-card-amount" id="profit-gross">₱0.00</div><div class="profit-card-sub">Sales × 20%</div></div>
+                    <div class="profit-card expenses"><div class="profit-card-label">📉 Expenses</div><div class="profit-card-amount" id="profit-expenses-amt">₱0.00</div><div class="profit-card-sub" id="profit-expenses-count">0 expense entries</div></div>
+                    <div class="profit-card net"><div class="profit-card-label">✅ Net Profit</div><div class="profit-card-amount" id="profit-net">₱0.00</div><div class="profit-card-sub">Gross Profit − Expenses</div></div>
                 </div>
-
                 <div class="expense-add-form">
-                    <h3>âž• Add Expense Entry</h3>
+                    <h3>➕ Add Expense Entry</h3>
                     <div class="expense-form-grid">
-                        <div>
-                            <label>Description</label>
-                            <input type="text" id="expense-desc" placeholder="e.g. Electricity bill, Restocking...">
-                        </div>
-                        <div>
-                            <label>Amount (â‚±)</label>
-                            <input type="number" id="expense-amount" min="0" step="0.01" placeholder="0.00">
-                        </div>
-                        <div>
-                            <label>Category</label>
-                            <select id="expense-category">
-                                <option value="Utilities">Utilities</option>
-                                <option value="Supplies">Supplies</option>
-                                <option value="Salary">Salary</option>
-                                <option value="Rent">Rent</option>
-                                <option value="Restocking">Restocking</option>
-                                <option value="Maintenance">Maintenance</option>
-                                <option value="Other">Other</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label>&nbsp;</label>
-                            <button class="btn-csv" onclick="addExpenseEntry()" style="width:100%;justify-content:center;padding:10px;">Add</button>
-                        </div>
+                        <div><label>Description</label><input type="text" id="expense-desc" placeholder="e.g. Electricity bill, Restocking..."></div>
+                        <div><label>Amount (₱)</label><input type="number" id="expense-amount" min="0" step="0.01" placeholder="0.00"></div>
+                        <div><label>Category</label><select id="expense-category"><option value="Utilities">Utilities</option><option value="Supplies">Supplies</option><option value="Salary">Salary</option><option value="Rent">Rent</option><option value="Restocking">Restocking</option><option value="Maintenance">Maintenance</option><option value="Other">Other</option></select></div>
+                        <div><label>&nbsp;</label><button class="btn-csv" onclick="addExpenseEntry()" style="width:100%;justify-content:center;padding:10px;">Add</button></div>
                     </div>
                 </div>
-
                 <div class="report-controls">
                     <label>Expense Period:</label>
                     <select class="select-filter" id="expense-filter" onchange="renderExpensesTable();updateProfitCards()">
-                        <option value="day">Today</option>
-                        <option value="week">Last 7 Days</option>
-                        <option value="month">This Month</option>
-                        <option value="year">This Year</option>
-                        <option value="all">All Time</option>
+                        <option value="day">Today</option><option value="week">Last 7 Days</option><option value="month">This Month</option><option value="year">This Year</option><option value="all">All Time</option>
                     </select>
                     <button class="btn-csv" style="margin-left:auto;" onclick="exportExpensesToCSV()">Export CSV</button>
                 </div>
                 <div class="table-wrapper">
-                    <table>
-                        <thead><tr><th>Date &amp; Time</th><th>Description</th><th>Category</th><th>Amount</th><th>Actions</th></tr></thead>
-                        <tbody id="expenses-table-body"></tbody>
-                    </table>
+                    <table><thead><tr><th>Date &amp; Time</th><th>Description</th><th>Category</th><th>Amount</th><th>Actions</th></tr></thead><tbody id="expenses-table-body"></tbody></table>
                 </div>
             </div>
 
@@ -649,17 +486,12 @@
                     <button class="btn-csv" onclick="exportInventoryCatalogToCSV()">Export CSV</button>
                     <label>Sort:</label>
                     <select class="select-filter" id="inventory-sort-filter" onchange="renderInventoryDashboardTable()">
-                        <option value="normal">Default SKU</option>
-                        <option value="qty-asc">Stock Lowest First</option>
-                        <option value="qty-desc">Stock Highest First</option>
+                        <option value="normal">Default SKU</option><option value="qty-asc">Stock Lowest First</option><option value="qty-desc">Stock Highest First</option>
                     </select>
                     <button class="btn-csv btn-danger" onclick="wipeAndResetDatabaseSuite()">Clear &amp; Reset DB</button>
                 </div>
                 <div class="table-wrapper">
-                    <table>
-                        <thead><tr><th>SKU/ID</th><th>Name</th><th>Barcode</th><th>Price</th><th>Stock</th><th>Sold</th><th>Actions</th></tr></thead>
-                        <tbody id="inventory-table-body"></tbody>
-                    </table>
+                    <table><thead><tr><th>SKU/ID</th><th>Name</th><th>Barcode</th><th>Price</th><th>Stock</th><th>Sold</th><th>Actions</th></tr></thead><tbody id="inventory-table-body"></tbody></table>
                 </div>
             </div>
 
@@ -670,16 +502,13 @@
                     <button class="btn-csv" style="margin-left:auto;" onclick="exportCreditLedgerToCSV()">Export Ledger (CSV)</button>
                 </div>
                 <div class="table-wrapper">
-                    <table>
-                        <thead><tr><th>Date</th><th>Customer</th><th>Items</th><th>Unit Prices</th><th>Outstanding</th><th>Actions</th></tr></thead>
-                        <tbody id="ledger-table-body"></tbody>
-                    </table>
+                    <table><thead><tr><th>Date</th><th>Customer</th><th>Items</th><th>Unit Prices</th><th>Outstanding</th><th>Actions</th></tr></thead><tbody id="ledger-table-body"></tbody></table>
                 </div>
             </div>
 
             <!-- TAB 4: GCASH LOGS -->
             <div class="tab-panel" id="admin-tab-gcash">
-                <h2 style="color:var(--accent-color); margin-bottom:16px;">ðŸ“± GCash Transaction Logs</h2>
+                <h2 style="color:var(--accent-color); margin-bottom:16px;">📱 GCash Transaction Logs</h2>
                 <div class="gcash-header-row">
                     <div class="gcash-filter-bar" style="width:100%;">
                         <button class="btn-filter active" onclick="gcashChangeFilter('daily',this)">Daily</button>
@@ -692,20 +521,15 @@
                     </div>
                 </div>
                 <div class="gcash-table-container" style="max-height:230px;">
-                    <table style="min-width:700px;">
-                        <thead><tr><th>Date/Time</th><th>Type</th><th>Amount</th><th>Mobile</th><th>Name</th><th>Reference</th><th>Profit</th></tr></thead>
-                        <tbody id="gcash-table-body"></tbody>
-                    </table>
+                    <table style="min-width:700px;"><thead><tr><th>Date/Time</th><th>Type</th><th>Amount</th><th>Mobile</th><th>Name</th><th>Reference</th><th>Profit</th></tr></thead><tbody id="gcash-table-body"></tbody></table>
                     <div id="gcash-empty-state" class="gcash-empty" style="display:none;">No transactions recorded yet.</div>
                 </div>
                 <div class="gcash-summary-container" id="gcash-summary-footer">
-                    <table style="min-width:unset;width:100%;">
-                        <tbody>
-                            <tr style="color:#60a5fa;"><td style="font-style:italic;font-size:0.8rem;color:#6b7280;">Cash In</td><td id="gcash-in-count">Count: 0</td><td id="gcash-in-amount">â‚±0.00</td><td></td><td></td><td id="gcash-in-profit">â‚±0.00</td></tr>
-                            <tr style="color:#f87171;"><td style="font-style:italic;font-size:0.8rem;color:#6b7280;">Cash Out</td><td id="gcash-out-count">Count: 0</td><td id="gcash-out-amount">â‚±0.00</td><td></td><td></td><td id="gcash-out-profit">â‚±0.00</td></tr>
-                            <tr style="font-weight:bold;border-top:1px dashed var(--border-color);background:#1a1a1a;"><td style="color:var(--text-muted);">Total</td><td id="gcash-total-count">Total: 0</td><td id="gcash-total-amount">â‚±0.00</td><td></td><td></td><td id="gcash-total-profit" style="color:var(--success-color);">â‚±0.00</td></tr>
-                        </tbody>
-                    </table>
+                    <table style="min-width:unset;width:100%;"><tbody>
+                        <tr style="color:#60a5fa;"><td style="font-style:italic;font-size:0.8rem;color:#6b7280;">Cash In</td><td id="gcash-in-count">Count: 0</td><td id="gcash-in-amount">₱0.00</td><td></td><td></td><td id="gcash-in-profit">₱0.00</td></tr>
+                        <tr style="color:#f87171;"><td style="font-style:italic;font-size:0.8rem;color:#6b7280;">Cash Out</td><td id="gcash-out-count">Count: 0</td><td id="gcash-out-amount">₱0.00</td><td></td><td></td><td id="gcash-out-profit">₱0.00</td></tr>
+                        <tr style="font-weight:bold;border-top:1px dashed var(--border-color);background:#1a1a1a;"><td style="color:var(--text-muted);">Total</td><td id="gcash-total-count">Total: 0</td><td id="gcash-total-amount">₱0.00</td><td></td><td></td><td id="gcash-total-profit" style="color:var(--success-color);">₱0.00</td></tr>
+                    </tbody></table>
                 </div>
             </div>
 
@@ -714,18 +538,11 @@
                 <div class="report-controls">
                     <label>Period:</label>
                     <select class="select-filter" id="analytics-filter" onchange="renderTopProducts()">
-                        <option value="daily">Daily (Today)</option>
-                        <option value="weekly" selected>Weekly (Last 7 Days)</option>
-                        <option value="monthly">Monthly (Past 30 Days)</option>
-                        <option value="yearly">Yearly (Past 365 Days)</option>
-                        <option value="all">All Time</option>
+                        <option value="daily">Daily (Today)</option><option value="weekly" selected>Weekly (Last 7 Days)</option><option value="monthly">Monthly (Past 30 Days)</option><option value="yearly">Yearly (Past 365 Days)</option><option value="all">All Time</option>
                     </select>
                 </div>
                 <div class="table-wrapper">
-                    <table>
-                        <thead><tr><th>#</th><th>Product Name</th><th>Units Sold</th><th>Revenue</th></tr></thead>
-                        <tbody id="top-products-body"></tbody>
-                    </table>
+                    <table><thead><tr><th>#</th><th>Product Name</th><th>Units Sold</th><th>Revenue</th></tr></thead><tbody id="top-products-body"></tbody></table>
                 </div>
             </div>
 
@@ -736,7 +553,7 @@
                     <button class="btn-csv btn-danger" style="margin-left:auto;" onclick="exportUsersToCSV()">Export Users (CSV)</button>
                 </div>
                 <div style="background:#1a2233;border:1px solid #2a3a5c;border-radius:8px;padding:14px;margin-bottom:16px;font-size:0.85rem;color:#60a5fa;">
-                    âš™ï¸ <strong>Change Admin Password:</strong>
+                    ⚙️ <strong>Change Admin Password:</strong>
                     <div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;">
                         <input type="password" id="new-admin-pw-1" class="form-control" style="max-width:200px;font-size:0.9rem;" placeholder="New admin password">
                         <input type="password" id="new-admin-pw-2" class="form-control" style="max-width:200px;font-size:0.9rem;" placeholder="Confirm new password">
@@ -746,33 +563,69 @@
                     <div id="admin-pw-change-msg" style="margin-top:8px;font-size:0.82rem;"></div>
                 </div>
                 <div class="users-table-wrapper">
-                    <table>
-                        <thead><tr><th>Username</th><th>Full Name</th><th>Role</th><th>Created</th><th>Actions</th></tr></thead>
-                        <tbody id="users-table-body"></tbody>
-                    </table>
+                    <table><thead><tr><th>Username</th><th>Full Name</th><th>Role</th><th>Created</th><th>Actions</th></tr></thead><tbody id="users-table-body"></tbody></table>
                 </div>
             </div>
 
             <!-- TAB 7: BACKUP -->
             <div class="tab-panel" id="admin-tab-backup">
-                <button class="btn-backup-all" onclick="backupAllDataToCSV()">ðŸ’¾ Download Full Backup (All Data CSVs)</button>
+                <button class="btn-backup-all" onclick="backupAllDataToCSV()">💾 Download Full Backup (All Data CSVs)</button>
                 <div class="backup-section-title">Individual Exports</div>
                 <div class="backup-grid">
-                    <div class="backup-card"><h4>ðŸ“Š Sales Report</h4><p>All transaction records.</p><button class="btn-csv" onclick="exportSalesJournalToCSV('all')" style="width:100%">Download CSV</button></div>
-                    <div class="backup-card"><h4>ðŸ“¦ Inventory</h4><p>Product catalog with stock.</p><button class="btn-csv" onclick="exportInventoryCatalogToCSV()" style="width:100%">Download CSV</button></div>
-                    <div class="backup-card"><h4>ðŸ’³ Credit Ledger</h4><p>Outstanding credit accounts.</p><button class="btn-csv" onclick="exportCreditLedgerToCSV()" style="width:100%">Download CSV</button></div>
-                    <div class="backup-card"><h4>ðŸ“± GCash Logs</h4><p>All GCash transactions.</p><button class="btn-csv" onclick="exportGcashFullToCSV()" style="width:100%">Download CSV</button></div>
-                    <div class="backup-card"><h4>ðŸ’° Expenses</h4><p>All expense records.</p><button class="btn-csv" onclick="exportExpensesToCSV('all')" style="width:100%">Download CSV</button></div>
-                    <div class="backup-card"><h4>ðŸ‘¥ User Accounts</h4><p>Registered users list.</p><button class="btn-csv" onclick="exportUsersToCSV()" style="width:100%">Download CSV</button></div>
+                    <div class="backup-card"><h4>📊 Sales Report</h4><p>All transaction records.</p><button class="btn-csv" onclick="exportSalesJournalToCSV('all')" style="width:100%">Download CSV</button></div>
+                    <div class="backup-card"><h4>📦 Inventory</h4><p>Product catalog with stock.</p><button class="btn-csv" onclick="exportInventoryCatalogToCSV()" style="width:100%">Download CSV</button></div>
+                    <div class="backup-card"><h4>💳 Credit Ledger</h4><p>Outstanding credit accounts.</p><button class="btn-csv" onclick="exportCreditLedgerToCSV()" style="width:100%">Download CSV</button></div>
+                    <div class="backup-card"><h4>📱 GCash Logs</h4><p>All GCash transactions.</p><button class="btn-csv" onclick="exportGcashFullToCSV()" style="width:100%">Download CSV</button></div>
+                    <div class="backup-card"><h4>💰 Expenses</h4><p>All expense records.</p><button class="btn-csv" onclick="exportExpensesToCSV('all')" style="width:100%">Download CSV</button></div>
+                    <div class="backup-card"><h4>👥 User Accounts</h4><p>Registered users list.</p><button class="btn-csv" onclick="exportUsersToCSV()" style="width:100%">Download CSV</button></div>
                 </div>
                 <div class="backup-section-title">Restore from Backup</div>
                 <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:16px;">
-                    <div><p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:6px;">Restore Inventory</p><label class="restore-zone" onclick="this.querySelector('input').click()"><div>ðŸ“¦ Drop or click to upload<br><span style="font-size:0.75rem;">InventoryMatrix.csv</span></div><input type="file" accept=".csv" onchange="restoreFromCSV(event,'inventory')"></label></div>
-                    <div><p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:6px;">Restore Sales</p><label class="restore-zone" onclick="this.querySelector('input').click()"><div>ðŸ“Š Drop or click to upload<br><span style="font-size:0.75rem;">SalesJournal.csv</span></div><input type="file" accept=".csv" onchange="restoreFromCSV(event,'sales')"></label></div>
-                    <div><p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:6px;">Restore GCash</p><label class="restore-zone" onclick="this.querySelector('input').click()"><div>ðŸ“± Drop or click to upload<br><span style="font-size:0.75rem;">GCash_Transactions.csv</span></div><input type="file" accept=".csv" onchange="restoreFromCSV(event,'gcash')"></label></div>
+                    <div><p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:6px;">Restore Inventory</p><label class="restore-zone" onclick="this.querySelector('input').click()"><div>📦 Drop or click to upload<br><span style="font-size:0.75rem;">InventoryMatrix.csv</span></div><input type="file" accept=".csv" onchange="restoreFromCSV(event,'inventory')"></label></div>
+                    <div><p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:6px;">Restore Sales</p><label class="restore-zone" onclick="this.querySelector('input').click()"><div>📊 Drop or click to upload<br><span style="font-size:0.75rem;">SalesJournal.csv</span></div><input type="file" accept=".csv" onchange="restoreFromCSV(event,'sales')"></label></div>
+                    <div><p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:6px;">Restore GCash</p><label class="restore-zone" onclick="this.querySelector('input').click()"><div>📱 Drop or click to upload<br><span style="font-size:0.75rem;">GCash_Transactions.csv</span></div><input type="file" accept=".csv" onchange="restoreFromCSV(event,'gcash')"></label></div>
                 </div>
                 <div class="restore-log" id="restore-log">Restore log will appear here...</div>
             </div>
+
+            <!-- TAB 8: SETTINGS -->
+            <div class="tab-panel" id="admin-tab-settings">
+                <div style="max-width:600px;">
+                    <h2 style="color:var(--accent-color);margin-bottom:6px;font-size:1.15rem;">⚙️ Store Settings</h2>
+                    <p style="color:var(--text-muted);font-size:0.83rem;margin-bottom:24px;">Changes apply instantly to the header, browser tab, and all printed receipts.</p>
+
+                    <div class="settings-section">
+                        <div class="settings-section-title">🏪 Store Identity</div>
+                        <div class="form-group">
+                            <label style="display:block;font-size:0.82rem;color:var(--text-muted);margin-bottom:6px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;">Store / POS Name</label>
+                            <input type="text" class="form-control" id="settings-store-name" placeholder="e.g. My Store POS" autocomplete="off" oninput="updateReceiptPreview()">
+                            <div style="font-size:0.74rem;color:var(--text-muted);margin-top:5px;">Appears in the app header, browser tab title, and on every receipt.</div>
+                        </div>
+                        <div class="form-group">
+                            <label style="display:block;font-size:0.82rem;color:var(--text-muted);margin-bottom:6px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;">Address Line 1</label>
+                            <input type="text" class="form-control" id="settings-address1" placeholder="e.g. #36 Donnan Bldg Josefina St" autocomplete="off" oninput="updateReceiptPreview()">
+                        </div>
+                        <div class="form-group">
+                            <label style="display:block;font-size:0.82rem;color:var(--text-muted);margin-bottom:6px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;">Address Line 2</label>
+                            <input type="text" class="form-control" id="settings-address2" placeholder="e.g. 4th Avenue Caloocan City Phil." autocomplete="off" oninput="updateReceiptPreview()">
+                        </div>
+                        <div class="form-group" style="margin-bottom:0;">
+                            <label style="display:block;font-size:0.82rem;color:var(--text-muted);margin-bottom:6px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;">Mobile / Phone Number</label>
+                            <input type="text" class="form-control" id="settings-phone" placeholder="e.g. 0950 682 5698" autocomplete="off" oninput="updateReceiptPreview()">
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom:20px;">
+                        <button class="btn-backup-all" onclick="saveSettingsTab()" style="margin-bottom:0;max-width:240px;">💾 Save Settings</button>
+                    </div>
+
+                    <div style="background:#1a1a1a;border:1px solid var(--border-color);border-radius:8px;padding:16px 20px;">
+                        <div style="font-size:0.78rem;color:var(--text-muted);font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:12px;">📄 Receipt Header Preview</div>
+                        <div id="settings-receipt-preview" style="font-family:'Courier New',monospace;font-size:0.85rem;color:var(--text-main);line-height:1.7;text-align:center;padding:10px 0;border-top:1px dashed var(--border-color);"></div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
@@ -781,17 +634,17 @@
 <div id="activity-log-modal">
     <div class="activity-log-box">
         <div class="activity-log-header">
-            <h2>ðŸ“‹ Activity Log</h2>
+            <h2>📋 Activity Log</h2>
             <div class="activity-log-actions">
                 <button class="btn-tg-send" onclick="sendLogToTelegram()">Send to Telegram</button>
                 <button class="btn-csv" onclick="exportActivityLogToCSV()">Export CSV</button>
                 <button onclick="clearActivityLog()" style="background:#2a1a1a;color:var(--danger-color);border:1px solid var(--danger-color);padding:8px 12px;border-radius:6px;cursor:pointer;font-size:0.82rem;font-weight:700;">Clear Log</button>
-                <button onclick="closeActivityLogModal()" style="background:#222;color:var(--text-muted);border:1px solid #333;padding:8px 14px;border-radius:6px;cursor:pointer;font-size:0.85rem;font-weight:700;">âœ• Close</button>
+                <button onclick="closeActivityLogModal()" style="background:#222;color:var(--text-muted);border:1px solid #333;padding:8px 14px;border-radius:6px;cursor:pointer;font-size:0.85rem;font-weight:700;">✕ Close</button>
             </div>
         </div>
         <div style="padding:12px 16px;border-bottom:1px solid #222;">
             <div class="telegram-config-bar">
-                <h4>âœˆï¸ Telegram Configuration</h4>
+                <h4>✈️ Telegram Configuration</h4>
                 <div class="telegram-config-inputs">
                     <div style="flex:1;"><label style="display:block;font-size:0.75rem;color:#6b7280;margin-bottom:4px;">Bot Token</label><input type="text" id="tg-bot-token" placeholder="123456789:ABCDEFabcdef..."></div>
                     <div style="flex:1;"><label style="display:block;font-size:0.75rem;color:#6b7280;margin-bottom:4px;">Chat ID</label><input type="text" id="tg-chat-id" placeholder="-100123456789"></div>
@@ -819,17 +672,17 @@
     <div class="gcash-form-box">
         <div class="gcash-form-header">
             <h3>GCash Transaction</h3>
-            <button class="gcash-close-btn" onclick="closeGcashModal()">âœ•</button>
+            <button class="gcash-close-btn" onclick="closeGcashModal()">✕</button>
         </div>
         <div class="gcash-type-row">
             <label id="gcash-in-label" class="gcash-type-label selected-in" onclick="selectGcashType('GCASH IN')"><input type="radio" name="gcashType" value="GCASH IN" checked style="margin:0;"> Cash In</label>
             <label id="gcash-out-label" class="gcash-type-label" onclick="selectGcashType('GCASH OUT')"><input type="radio" name="gcashType" value="GCASH OUT" style="margin:0;"> Cash Out</label>
         </div>
         <div class="gcash-field"><label>Mobile Number</label><input type="tel" id="gcash-mobile" required placeholder="09171234567" maxlength="13"></div>
-        <div class="gcash-field"><label>Amount (â‚±)</label><input type="number" id="gcash-amount" step="0.01" min="0.01" required placeholder="0.00"></div>
+        <div class="gcash-field"><label>Amount (₱)</label><input type="number" id="gcash-amount" step="0.01" min="0.01" required placeholder="0.00"></div>
         <div class="gcash-field"><label>Customer Name</label><input type="text" id="gcash-customer-name" required placeholder="Juan Dela Cruz"></div>
         <div class="gcash-field"><label>Reference Number</label><input type="text" id="gcash-ref-no" placeholder="e.g., 0123 456 789123"></div>
-        <button class="gcash-submit-btn" onclick="handleGcashSubmit()">âœ“ Save Transaction</button>
+        <button class="gcash-submit-btn" onclick="handleGcashSubmit()">✔ Save Transaction</button>
     </div>
 </div>
 
@@ -838,9 +691,9 @@
     <div class="modal-box">
         <h2 id="checkout-modal-title">Checkout</h2>
         <div class="payment-method-selector">
-            <button class="pay-method-btn active-cash" id="pmb-cash" onclick="selectCheckoutMethod('CASH')">ðŸ’µ Cash</button>
-            <button class="pay-method-btn" id="pmb-gcash" onclick="selectCheckoutMethod('GCASH')">ðŸ“± GCash</button>
-            <button class="pay-method-btn" id="pmb-credit" onclick="selectCheckoutMethod('CREDIT')">ðŸ’³ Credit</button>
+            <button class="pay-method-btn active-cash" id="pmb-cash" onclick="selectCheckoutMethod('CASH')">💵 Cash</button>
+            <button class="pay-method-btn" id="pmb-gcash" onclick="selectCheckoutMethod('GCASH')">📱 GCash</button>
+            <button class="pay-method-btn" id="pmb-credit" onclick="selectCheckoutMethod('CREDIT')">💳 Credit</button>
         </div>
         <div class="form-group"><label>Total Due</label><input type="text" class="form-control" id="checkout-total" readonly style="color:var(--success-color);font-weight:bold;"></div>
         <div id="checkout-cash-section">
@@ -891,9 +744,12 @@
         </div>
     </div>
 </div>
-</div>
+</div><!-- end content-area -->
+
 <div id="receipt-print-area" style="display:none;"></div>
+
 <script>
+/* ═══════════════════════════════ DIALOG ══════════════════════════════════════ */
 const ICONS = {
     info:    `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`,
     danger:  `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`,
@@ -929,7 +785,7 @@ function showConfirm(message, onConfirm, type = 'warning', title = 'Confirm Acti
 }
 document.getElementById('app-dialog-overlay').addEventListener('click', function(e) { if (e.target === this) this.classList.remove('show'); });
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• ACTIVITY LOG â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/* ═══════════════════════════════ ACTIVITY LOG ══════════════════════════════════════ */
 const ACTIVITY_LOG_KEY = 'pos_activity_log';
 let activityLogFilter = 'all';
 function getActivityLog() { try { return JSON.parse(localStorage.getItem(ACTIVITY_LOG_KEY) || '[]'); } catch { return []; } }
@@ -966,14 +822,14 @@ function exportActivityLogToCSV() {
     downloadCSV(csv, `ActivityLog_${new Date().toISOString().slice(0,10)}.csv`);
 }
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• TELEGRAM â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/* ═══════════════════════════════ TELEGRAM ══════════════════════════════════════ */
 const TG_TOKEN_KEY = 'pos_tg_token', TG_CHAT_KEY = 'pos_tg_chat';
 function saveTelegramConfig() {
     const token = document.getElementById('tg-bot-token').value.trim();
     const chat  = document.getElementById('tg-chat-id').value.trim();
     if (!token || !chat) { setTgMsg('Both fields are required.', 'var(--danger-color)'); return; }
     localStorage.setItem(TG_TOKEN_KEY, token); localStorage.setItem(TG_CHAT_KEY, chat);
-    setTgMsg('âœ“ Telegram config saved!', 'var(--success-color)');
+    setTgMsg('✔ Telegram config saved!', 'var(--success-color)');
     logActivity('system','Telegram configuration updated');
 }
 function loadTelegramConfig() {
@@ -987,9 +843,9 @@ async function sendLogToTelegram() {
     let logs = getActivityLog().slice(-50);
     if (activityLogFilter !== 'all') logs = logs.filter(l => l.type === activityLogFilter);
     if (logs.length === 0) { showAlert('No log entries to send.', 'info'); return; }
-    const storeName = document.getElementById('store-header-name').textContent;
-    let text = `ðŸ“‹ *${storeName} â€“ Activity Log*\nðŸ“… ${new Date().toLocaleString()}\n${'â”€'.repeat(30)}\n\n`;
-    logs.slice(-30).forEach(l => { text += `[${l.type.toUpperCase()}] ${new Date(l.timestamp).toLocaleString()}\nðŸ‘¤ ${l.user}: ${l.message}\n\n`; });
+    const storeName = getStoreName();
+    let text = `📋 *${storeName} — Activity Log*\n📅 ${new Date().toLocaleString()}\n${'─'.repeat(30)}\n\n`;
+    logs.slice(-30).forEach(l => { text += `[${l.type.toUpperCase()}] ${new Date(l.timestamp).toLocaleString()}\n👤 ${l.user}: ${l.message}\n\n`; });
     try {
         const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ chat_id: chat, text, parse_mode:'Markdown' }) });
         const data = await res.json();
@@ -1003,6 +859,7 @@ async function sendToTelegramText(text) {
     try { await fetch(`https://api.telegram.org/bot${token}/sendMessage`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ chat_id: chat, text, parse_mode:'Markdown' }) }); } catch(e) {}
 }
 
+/* ═══════════════════════════════ GLOBALS ══════════════════════════════════════ */
 let posDB = null, gcashDB = null, usersDB = null;
 const POS_DB_NAME    = "MatrixPOS32DatabaseSuite";
 const POS_DB_VERSION = 3;
@@ -1032,7 +889,68 @@ const pesoFormatter = new Intl.NumberFormat('en-PH', { minimumFractionDigits: 2,
 function getAdminPassword() { return localStorage.getItem(DEFAULT_ADMIN_PW_KEY) || "admin123"; }
 function setAdminPassword(pw) { localStorage.setItem(DEFAULT_ADMIN_PW_KEY, pw); }
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• EXPENSES â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/* ═══════════════════════════════ STORE SETTINGS ══════════════════════════════════════ */
+const STORE_SETTINGS_KEY = 'pos_store_settings';
+function getStoreSettings() {
+    try { return JSON.parse(localStorage.getItem(STORE_SETTINGS_KEY) || '{}'); } catch { return {}; }
+}
+function saveStoreSettings(obj) { localStorage.setItem(STORE_SETTINGS_KEY, JSON.stringify(obj)); }
+function getStoreName() { return getStoreSettings().storeName || '[Your Store] POS'; }
+function applyStoreSettings() {
+    const s = getStoreSettings();
+    const name = s.storeName || '[Your Store] POS';
+    const headerEl = document.getElementById('store-header-name');
+    if (headerEl) headerEl.textContent = name;
+    document.title = name;
+    const authLogo = document.getElementById('auth-logo-name');
+    if (authLogo) authLogo.textContent = name;
+}
+function renderSettingsTab() {
+    const s = getStoreSettings();
+    document.getElementById('settings-store-name').value = s.storeName || '';
+    document.getElementById('settings-address1').value   = s.address1  || '';
+    document.getElementById('settings-address2').value   = s.address2  || '';
+    document.getElementById('settings-phone').value      = s.phone     || '';
+    updateReceiptPreview();
+}
+function updateReceiptPreview() {
+    const nameEl  = document.getElementById('settings-store-name');
+    const addr1El = document.getElementById('settings-address1');
+    const addr2El = document.getElementById('settings-address2');
+    const phoneEl = document.getElementById('settings-phone');
+    if (!nameEl) return;
+    const name  = nameEl.value.trim() || getStoreName();
+    const addr1 = addr1El ? addr1El.value.trim() : '';
+    const addr2 = addr2El ? addr2El.value.trim() : '';
+    const phone = phoneEl ? phoneEl.value.trim() : '';
+    const el = document.getElementById('settings-receipt-preview');
+    if (!el) return;
+    el.innerHTML =
+        `<div style="font-weight:bold;font-size:0.95rem;">${name}</div>` +
+        (addr1 ? `<div>${addr1}</div>` : '') +
+        (addr2 ? `<div>${addr2}</div>` : '') +
+        (phone ? `<div>Mobile Number: ${phone}</div>` : '') +
+        `<div style="color:var(--text-muted);margin-top:10px;font-size:0.75rem;">- - - - - - - - - - - - - - - - - -</div>` +
+        `<div style="color:var(--text-muted);font-size:0.75rem;margin-top:4px;">Date/Time &nbsp;|&nbsp; Items &nbsp;|&nbsp; Total &nbsp;|&nbsp; Change</div>`;
+    // Live-update the header while typing
+    const headerEl = document.getElementById('store-header-name');
+    if (headerEl && name) { headerEl.textContent = name; document.title = name; }
+}
+function saveSettingsTab() {
+    const obj = {
+        storeName: document.getElementById('settings-store-name').value.trim() || '[Your Store] POS',
+        address1:  document.getElementById('settings-address1').value.trim(),
+        address2:  document.getElementById('settings-address2').value.trim(),
+        phone:     document.getElementById('settings-phone').value.trim(),
+    };
+    saveStoreSettings(obj);
+    applyStoreSettings();
+    logActivity('admin', `Store settings updated: "${obj.storeName}"`);
+    showAlert('Store settings saved!<br>Receipt header and app name updated.', 'success', 'Settings Saved');
+    updateReceiptPreview();
+}
+
+/* ═══════════════════════════════ EXPENSES ══════════════════════════════════════ */
 function getExpenses() { try { return JSON.parse(localStorage.getItem(EXPENSES_KEY) || '[]'); } catch { return []; } }
 function saveExpenses(arr) { localStorage.setItem(EXPENSES_KEY, JSON.stringify(arr)); }
 
@@ -1044,13 +962,12 @@ function addExpenseEntry() {
     if (amount <= 0) return showAlert('Enter a valid amount.', 'warning');
     const entry = { id: Date.now(), timestamp: new Date().toISOString(), description: desc, category: cat, amount };
     const arr = getExpenses(); arr.push(entry); saveExpenses(arr);
-    logActivity('admin', `Expense added: "${desc}" â‚±${amount.toFixed(2)} [${cat}]`);
+    logActivity('admin', `Expense added: "${desc}" ₱${amount.toFixed(2)} [${cat}]`);
     document.getElementById('expense-desc').value   = '';
     document.getElementById('expense-amount').value = '';
     renderExpensesTable();
     updateProfitCards();
 }
-
 function deleteExpenseEntry(id) {
     showConfirm('Delete this expense entry?', () => {
         const arr = getExpenses().filter(e => e.id !== id);
@@ -1060,7 +977,6 @@ function deleteExpenseEntry(id) {
         updateProfitCards();
     }, 'danger', 'Delete Expense');
 }
-
 function filterExpenses(range) {
     const now = new Date();
     return getExpenses().filter(e => {
@@ -1074,7 +990,6 @@ function filterExpenses(range) {
         }
     });
 }
-
 function renderExpensesTable() {
     const filter = document.getElementById('expense-filter').value;
     const data   = filterExpenses(filter);
@@ -1090,34 +1005,29 @@ function renderExpensesTable() {
             <td>${new Date(e.timestamp).toLocaleString()}</td>
             <td>${e.description}</td>
             <td><span style="background:#252525;padding:3px 8px;border-radius:4px;font-size:0.8rem;">${e.category}</span></td>
-            <td style="font-weight:bold;color:var(--danger-color);">â‚±${pesoFormatter.format(e.amount)}</td>
+            <td style="font-weight:bold;color:var(--danger-color);">₱${pesoFormatter.format(e.amount)}</td>
             <td><button class="btn-table-action btn-inline-delete" onclick="deleteExpenseEntry(${e.id})">Delete</button></td>
         `;
         tbody.appendChild(tr);
     });
 }
+function exportExpensesToCSV(forceFilter) {
+    const data = forceFilter === 'all' ? getExpenses() : filterExpenses(document.getElementById('expense-filter') ? document.getElementById('expense-filter').value : 'all');
+    let csv = 'Timestamp,Description,Category,Amount\n';
+    data.forEach(e => { csv += `"${new Date(e.timestamp).toLocaleString()}","${e.description}","${e.category}",${e.amount.toFixed(2)}\n`; });
+    downloadCSV(csv, `Expenses_${new Date().toISOString().slice(0,10)}.csv`);
+    logActivity('admin','Expenses exported to CSV');
+}
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-   PROFIT PERIOD SELECTOR
-   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/* ═══════════════════════════════ PROFIT PERIOD ══════════════════════════════════════ */
 function setProfitPeriod(period, btn) {
     profitPeriod = period;
     document.querySelectorAll('.profit-period-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     updateProfitCards();
 }
-
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-   FIXED PROFIT CARDS:
-   Card1: Sales (capital cost)  = total revenue
-   Card2: Gross Profit          = Sales Ã— 20%
-   Card3: Expenses              = sum of expense entries
-   Card4: Net Profit            = Gross Profit âˆ’ Expenses
-   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function updateProfitCards() {
     const now = new Date();
-
-    // Filter sales for the chosen profit period (cash + gcash only, exclude credit utang)
     const salesInPeriod = memorySalesJournal.filter(tx => {
         if (tx.paymentType === 'CREDIT_UTANG') return false;
         const d = new Date(tx.timestamp);
@@ -1129,48 +1039,24 @@ function updateProfitCards() {
             default:      return true;
         }
     });
-
-    // Card 1: Total Sales (capital cost)
-    const totalSales = salesInPeriod.reduce((s, tx) => s + tx.total, 0);
-
-    // Card 2: Gross Profit = Sales Ã— 20%
+    const totalSales  = salesInPeriod.reduce((s, tx) => s + tx.total, 0);
     const grossProfit = totalSales * 0.20;
-
-    // Card 3: Expenses (use same period as profit tabs, not expense-filter dropdown)
     const expensesInPeriod = filterExpenses(profitPeriod);
     const totalExpenses    = expensesInPeriod.reduce((s, e) => s + e.amount, 0);
-
-    // Card 4: Net Profit = Gross Profit âˆ’ Expenses
     const netProfit = grossProfit - totalExpenses;
-
-    // â€” Card 1: Sales â€”
-    document.getElementById('profit-capital').textContent     = `â‚±${pesoFormatter.format(totalSales)}`;
+    document.getElementById('profit-capital').textContent     = `₱${pesoFormatter.format(totalSales)}`;
     document.getElementById('profit-capital-sub').textContent = `${salesInPeriod.length} transaction${salesInPeriod.length !== 1 ? 's' : ''}`;
-
-    // â€” Card 2: Gross Profit â€”
     const grossEl = document.getElementById('profit-gross');
-    grossEl.textContent = `â‚±${pesoFormatter.format(Math.abs(grossProfit))}${grossProfit < 0 ? ' (LOSS)' : ''}`;
+    grossEl.textContent = `₱${pesoFormatter.format(Math.abs(grossProfit))}${grossProfit < 0 ? ' (LOSS)' : ''}`;
     grossEl.style.color = grossProfit < 0 ? 'var(--danger-color)' : 'var(--success-color)';
-
-    // â€” Card 3: Expenses â€”
-    document.getElementById('profit-expenses-amt').textContent   = `â‚±${pesoFormatter.format(totalExpenses)}`;
+    document.getElementById('profit-expenses-amt').textContent   = `₱${pesoFormatter.format(totalExpenses)}`;
     document.getElementById('profit-expenses-count').textContent = `${expensesInPeriod.length} expense entr${expensesInPeriod.length !== 1 ? 'ies' : 'y'}`;
-
-    // â€” Card 4: Net Profit â€”
     const netEl = document.getElementById('profit-net');
-    netEl.textContent = `â‚±${pesoFormatter.format(Math.abs(netProfit))}${netProfit < 0 ? ' (LOSS)' : ''}`;
+    netEl.textContent = `₱${pesoFormatter.format(Math.abs(netProfit))}${netProfit < 0 ? ' (LOSS)' : ''}`;
     netEl.style.color = netProfit < 0 ? 'var(--danger-color)' : '#a29bfe';
 }
 
-function exportExpensesToCSV(forceFilter) {
-    const data = forceFilter === 'all' ? getExpenses() : filterExpenses(document.getElementById('expense-filter') ? document.getElementById('expense-filter').value : 'all');
-    let csv = 'Timestamp,Description,Category,Amount\n';
-    data.forEach(e => { csv += `"${new Date(e.timestamp).toLocaleString()}","${e.description}","${e.category}",${e.amount.toFixed(2)}\n`; });
-    downloadCSV(csv, `Expenses_${new Date().toISOString().slice(0,10)}.csv`);
-    logActivity('admin','Expenses exported to CSV');
-}
-
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• USERS DB â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/* ═══════════════════════════════ USERS DB ══════════════════════════════════════ */
 function initUsersDB() {
     return new Promise((resolve, reject) => {
         const req = indexedDB.open(USERS_DB_NAME, USERS_DB_VERSION);
@@ -1191,7 +1077,7 @@ function usersAdd(userObj) { return new Promise((res,rej) => { if (!usersDB) ret
 function usersDelete(username) { return new Promise((res,rej) => { if (!usersDB) return rej("Users DB not ready"); const tx = usersDB.transaction(USERS_STORE,"readwrite"); const r = tx.objectStore(USERS_STORE).delete(username); r.onsuccess = () => res(); r.onerror = e => rej(e.target.error); }); }
 function simpleHash(str) { let h = 0; for (let i=0;i<str.length;i++){h=((h<<5)-h)+str.charCodeAt(i);h|=0;} return h.toString(16); }
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• AUTH â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/* ═══════════════════════════════ AUTH ══════════════════════════════════════ */
 function switchAuthTab(tab) {
     document.querySelectorAll('.auth-tab').forEach((t,i) => t.classList.toggle('active', (i===0&&tab==='login')||(i===1&&tab==='signup')));
     document.getElementById('login-form').classList.toggle('active', tab==='login');
@@ -1235,7 +1121,8 @@ async function handleSignUp() {
 function launchApp(user) {
     document.getElementById('auth-screen').style.display = 'none';
     document.getElementById('app-main').classList.add('visible');
-    document.getElementById('logged-in-badge').textContent = `ðŸ‘¤ ${user.fullname} (${user.role})`;
+    document.getElementById('logged-in-badge').textContent = `👤 ${user.fullname} (${user.role})`;
+    applyStoreSettings();
     initIndexedDBStore();
 }
 function handleLogout() {
@@ -1253,7 +1140,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('login-username').addEventListener('keydown', e => { if (e.key==='Enter') handleLogin(); });
 });
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• ADMIN GATE â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/* ═══════════════════════════════ ADMIN GATE ══════════════════════════════════════ */
 function requireAdminPassword() {
     document.getElementById('admin-gate-password').value = '';
     document.getElementById('admin-gate-error').style.display = 'none';
@@ -1282,11 +1169,11 @@ function changeAdminPassword() {
     if (p1!==p2){msg.style.color='var(--danger-color)';msg.textContent='Passwords do not match.';return;}
     setAdminPassword(p1);
     logActivity('admin',`Admin password changed`);
-    msg.style.color='var(--success-color)'; msg.textContent='âœ“ Admin password updated.';
+    msg.style.color='var(--success-color)'; msg.textContent='✔ Admin password updated.';
     document.getElementById('new-admin-pw-1').value=''; document.getElementById('new-admin-pw-2').value='';
 }
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• POS DB â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/* ═══════════════════════════════ POS DB ══════════════════════════════════════ */
 function initIndexedDBStore() {
     const request = indexedDB.open(POS_DB_NAME, POS_DB_VERSION);
     request.onupgradeneeded = function(e) {
@@ -1309,7 +1196,6 @@ function syncProductsDatabase() {
             systemProducts.forEach(p => storeW.put(p));
         } else {
             systemProducts = req.result;
-            // Ensure every product has a `sold` field
             systemProducts.forEach(p => { if (p.sold === undefined) p.sold = 0; });
         }
         fetchRecordsFromLocalDB();
@@ -1326,11 +1212,6 @@ function fetchRecordsFromLocalDB() {
         updateSalesSummaryCards(); renderSalesChart(); updateProfitCards();
     };
 }
-
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-   FIX: persistProductsToIndexedDB â€” returns a Promise so callers can
-   chain off it. Also ensures `sold` defaults to 0.
-   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function persistProductsToIndexedDB() {
     return new Promise((resolve, reject) => {
         if (!posDB) return resolve();
@@ -1344,17 +1225,16 @@ function persistProductsToIndexedDB() {
         tx.onerror    = e => reject(e.target.error);
     });
 }
-
 function wipeAndResetDatabaseSuite() {
-    showConfirm('âš ï¸ <strong>WARNING:</strong> This will permanently erase ALL data. Cannot be undone.', () => {
+    showConfirm('⚠️ <strong>WARNING:</strong> This will permanently erase ALL data. Cannot be undone.', () => {
         logActivity('admin','Database wipe initiated');
         if (posDB) posDB.close();
         const del = indexedDB.deleteDatabase(POS_DB_NAME);
         del.onsuccess = () => { showAlert('Database cleared. Reloading...','success'); setTimeout(() => window.location.reload(), 1500); };
-    }, 'danger', 'âš ï¸ Clear & Reset Database');
+    }, 'danger', '⚠️ Clear & Reset Database');
 }
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• GCASH DB â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/* ═══════════════════════════════ GCASH DB ══════════════════════════════════════ */
 function initGcashDB() {
     return new Promise((resolve, reject) => {
         const req = indexedDB.open(GCASH_DB_NAME, GCASH_DB_VERSION);
@@ -1389,7 +1269,7 @@ function gcashAddRecord(record) {
     });
 }
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• MODAL HELPERS â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/* ═══════════════════════════════ MODAL HELPERS ══════════════════════════════════════ */
 function openModal(id)  { document.getElementById(id).classList.add("active"); }
 function closeModal(id) { document.getElementById(id).classList.remove("active"); }
 function openAdminModal() {
@@ -1405,9 +1285,10 @@ function switchAdminTab(index) {
     if (index===0) { updateSalesSummaryCards(); renderSalesChart(); }
     if (index===1) { renderExpensesTable(); updateProfitCards(); }
     if (index===2) { renderInventoryDashboardTable(); }
+    if (index===8) { renderSettingsTab(); }
 }
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• SALES SUMMARY â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/* ═══════════════════════════════ SALES SUMMARY ══════════════════════════════════════ */
 function getSalesByRange(range) {
     const now = new Date();
     const filtered = memorySalesJournal.filter(tx => {
@@ -1425,17 +1306,17 @@ function getSalesByRange(range) {
 }
 function updateSalesSummaryCards() {
     const day=getSalesByRange('day'), week=getSalesByRange('week'), month=getSalesByRange('month'), year=getSalesByRange('year');
-    document.getElementById('card-today-amt').textContent = `â‚±${pesoFormatter.format(day.total)}`;
+    document.getElementById('card-today-amt').textContent = `₱${pesoFormatter.format(day.total)}`;
     document.getElementById('card-today-cnt').textContent = `${day.count} transaction${day.count!==1?'s':''}`;
-    document.getElementById('card-week-amt').textContent  = `â‚±${pesoFormatter.format(week.total)}`;
+    document.getElementById('card-week-amt').textContent  = `₱${pesoFormatter.format(week.total)}`;
     document.getElementById('card-week-cnt').textContent  = `${week.count} transaction${week.count!==1?'s':''}`;
-    document.getElementById('card-month-amt').textContent = `â‚±${pesoFormatter.format(month.total)}`;
+    document.getElementById('card-month-amt').textContent = `₱${pesoFormatter.format(month.total)}`;
     document.getElementById('card-month-cnt').textContent = `${month.count} transaction${month.count!==1?'s':''}`;
-    document.getElementById('card-year-amt').textContent  = `â‚±${pesoFormatter.format(year.total)}`;
+    document.getElementById('card-year-amt').textContent  = `₱${pesoFormatter.format(year.total)}`;
     document.getElementById('card-year-cnt').textContent  = `${year.count} transaction${year.count!==1?'s':''}`;
 }
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• SALES CHART â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/* ═══════════════════════════════ SALES CHART ══════════════════════════════════════ */
 function switchChartPeriod(period, btn) {
     currentChartPeriod = period;
     document.querySelectorAll('.chart-period-btn').forEach(b => b.classList.remove('active'));
@@ -1460,12 +1341,12 @@ function renderSalesChart() {
     gradient.addColorStop(0,'rgba(0,173,181,0.35)'); gradient.addColorStop(1,'rgba(0,173,181,0.01)');
     salesChartInstance = new Chart(ctx, {
         type:'line',
-        data:{ labels, datasets:[{ label:'Sales (â‚±)', data, borderColor:'#00adb5', backgroundColor:gradient, borderWidth:2.5, pointBackgroundColor:'#00adb5', pointRadius:data.length<=7?4:2, pointHoverRadius:6, tension:0.4, fill:true }] },
-        options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{display:false}, tooltip:{backgroundColor:'#1e1e1e',borderColor:'#333',borderWidth:1,titleColor:'#e0e0e0',bodyColor:'#00adb5',callbacks:{label:ctx=>' â‚±'+pesoFormatter.format(ctx.parsed.y)}} }, scales:{ x:{ticks:{color:'#888',font:{size:10},maxTicksLimit:12,maxRotation:45},grid:{color:'#232323'}}, y:{ticks:{color:'#888',font:{size:10},callback:v=>'â‚±'+pesoFormatter.format(v)},grid:{color:'#232323'}} } }
+        data:{ labels, datasets:[{ label:'Sales (₱)', data, borderColor:'#00adb5', backgroundColor:gradient, borderWidth:2.5, pointBackgroundColor:'#00adb5', pointRadius:data.length<=7?4:2, pointHoverRadius:6, tension:0.4, fill:true }] },
+        options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{display:false}, tooltip:{backgroundColor:'#1e1e1e',borderColor:'#333',borderWidth:1,titleColor:'#e0e0e0',bodyColor:'#00adb5',callbacks:{label:ctx=>' ₱'+pesoFormatter.format(ctx.parsed.y)}} }, scales:{ x:{ticks:{color:'#888',font:{size:10},maxTicksLimit:12,maxRotation:45},grid:{color:'#232323'}}, y:{ticks:{color:'#888',font:{size:10},callback:v=>'₱'+pesoFormatter.format(v)},grid:{color:'#232323'}} } }
     });
 }
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• DATE FILTER â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/* ═══════════════════════════════ DATE FILTER ══════════════════════════════════════ */
 function filterRecordsByTimeRange(records, range) {
     const now = new Date();
     return records.filter(rec => {
@@ -1480,7 +1361,7 @@ function filterRecordsByTimeRange(records, range) {
     });
 }
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• SALES TABLE â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/* ═══════════════════════════════ SALES TABLE ══════════════════════════════════════ */
 function renderSalesDashboardTable() {
     const filter   = document.getElementById("sales-date-filter").value;
     const filtered = filterRecordsByTimeRange(memorySalesJournal, filter);
@@ -1490,18 +1371,12 @@ function renderSalesDashboardTable() {
         const items = tx.isSettlement ? `[CREDIT COLLECTION] Ref: AR-TX-${1000+tx.settledInvoiceId}` : tx.items.map(i=>`${i.product.name} (x${i.quantity})`).join(", ");
         const payColor = tx.paymentType==='CASH'?'var(--success-color)':tx.paymentType==='GCASH_PAYMENT'?'#60a5fa':tx.paymentType==='CREDIT_SETTLED'?'#a4b0be':'var(--warning-color)';
         const tr = document.createElement("tr");
-        tr.innerHTML = `
-            <td>${new Date(tx.timestamp).toLocaleString()}</td>
-            <td style="font-weight:600;font-family:monospace;">AR-TX-${1000+(tx.id||idx)}</td>
-            <td style="max-width:400px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${items}">${items}</td>
-            <td><span style="color:${payColor};font-weight:bold;">${tx.paymentType}</span></td>
-            <td style="font-weight:bold;">â‚±${tx.total.toFixed(2)}</td>
-        `;
+        tr.innerHTML = `<td>${new Date(tx.timestamp).toLocaleString()}</td><td style="font-weight:600;font-family:monospace;">AR-TX-${1000+(tx.id||idx)}</td><td style="max-width:400px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${items}">${items}</td><td><span style="color:${payColor};font-weight:bold;">${tx.paymentType}</span></td><td style="font-weight:bold;">₱${tx.total.toFixed(2)}</td>`;
         tbody.appendChild(tr);
     });
 }
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• INVENTORY â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/* ═══════════════════════════════ INVENTORY ══════════════════════════════════════ */
 function renderInventoryDashboardTable() {
     const sort = document.getElementById("inventory-sort-filter").value;
     let display = [...systemProducts];
@@ -1517,14 +1392,13 @@ function renderInventoryDashboardTable() {
             <td style="font-family: monospace;">${p.id}</td>
             <td>${p.name}</td>
             <td style="font-family: monospace;">${p.barcode}</td>
-            <td>â‚±${p.price.toFixed(2)}</td>
+            <td>₱${p.price.toFixed(2)}</td>
             <td style="font-weight: bold; color: ${isLowStock ? 'var(--danger-color)' : 'white'};">${p.stock}</td>
             <td style="font-weight: bold; color: var(--accent-color);">${p.sold ?? 0}</td>
             <td>
                 <button class="btn-table-action btn-inline-edit" onclick="openProductCrudModal(true, '${safeId}')">Edit</button>
                 <button class="btn-table-action btn-inline-delete" onclick="deleteProductItem('${safeId}')">Delete</button>
-            </td>
-        `;
+            </td>`;
         tbody.appendChild(tr);
     });
 }
@@ -1559,14 +1433,10 @@ function saveProductCrudData() {
     if (mode==="ADD") {
         if (systemProducts.some(p=>p.id===id||p.barcode===barcode)) return showAlert("Duplicate SKU or Barcode.","danger");
         systemProducts.push({id, name, barcode, price, stock, sold: 0});
-        logActivity('admin',`Product added: "${name}" (SKU:${id}, â‚±${price}, Stock:${stock})`);
+        logActivity('admin',`Product added: "${name}" (SKU:${id}, ₱${price}, Stock:${stock})`);
     } else {
         const p = systemProducts.find(x=>x.id===id);
-        if (p) {
-            const prevSold = p.sold ?? 0;
-            p.name=name; p.barcode=barcode; p.price=price; p.stock=stock;
-            p.sold = prevSold; // preserve sold count on edit
-        }
+        if (p) { const prevSold = p.sold ?? 0; p.name=name; p.barcode=barcode; p.price=price; p.stock=stock; p.sold=prevSold; }
         logActivity('admin',`Product updated: "${name}" (SKU:${id})`);
     }
     persistProductsToIndexedDB();
@@ -1609,12 +1479,10 @@ function handleBulkCsvUpload(event) {
                 const existIdx=systemProducts.findIndex(p=>p.id===id);
                 if (existIdx>-1){
                     const item={...systemProducts[existIdx], name, barcode, price, stock: systemProducts[existIdx].stock+stock};
-                    systemProducts[existIdx]=item; updated++;
-                    store.put(item);
+                    systemProducts[existIdx]=item; updated++; store.put(item);
                 } else {
                     const item={id,name,barcode,price,stock,sold:0};
-                    systemProducts.push(item); added++;
-                    store.put(item);
+                    systemProducts.push(item); added++; store.put(item);
                 }
             }
             tx.oncomplete = function() { renderInventoryDashboardTable(); renderCashierCatalog(); logActivity('admin',`Bulk import: Added ${added}, Updated ${updated}, Skipped ${skipped}`); showAlert(`<strong>Import Complete!</strong><br>Added: ${added} | Updated: ${updated} | Skipped: ${skipped}`,"success","Bulk Import Done"); };
@@ -1624,23 +1492,23 @@ function handleBulkCsvUpload(event) {
     reader.readAsText(input.files[0]);
 }
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• CREDIT LEDGER â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/* ═══════════════════════════════ CREDIT LEDGER ══════════════════════════════════════ */
 function renderLedgerDashboardTable() {
     const tbody = document.getElementById("ledger-table-body");
     tbody.innerHTML = "";
     const entries = memorySalesJournal.filter(tx=>tx.paymentType==="CREDIT_UTANG"&&tx.total>0);
     entries.forEach(tx => {
         const names  = tx.items.map(i=>i.product.name).join("<br>");
-        const prices = tx.items.map(i=>`â‚±${i.product.price.toFixed(2)} (x${i.quantity})`).join("<br>");
+        const prices = tx.items.map(i=>`₱${i.product.price.toFixed(2)} (x${i.quantity})`).join("<br>");
         const tr     = document.createElement("tr");
-        tr.innerHTML = `<td>${new Date(tx.timestamp).toLocaleDateString()}</td><td style="font-weight:bold;color:var(--warning-color);">${tx.customerName}</td><td style="color:var(--text-muted);font-size:0.85rem;">${names}</td><td style="font-family:monospace;font-size:0.85rem;">${prices}</td><td style="font-weight:bold;color:var(--danger-color);">â‚±${tx.total.toFixed(2)}</td><td><button class="btn-table-action" onclick="initiateLedgerSettlementModal(${tx.id},'${tx.customerName.replace(/'/g,"\\'")}',${tx.total})">Settle</button></td>`;
+        tr.innerHTML = `<td>${new Date(tx.timestamp).toLocaleDateString()}</td><td style="font-weight:bold;color:var(--warning-color);">${tx.customerName}</td><td style="color:var(--text-muted);font-size:0.85rem;">${names}</td><td style="font-family:monospace;font-size:0.85rem;">${prices}</td><td style="font-weight:bold;color:var(--danger-color);">₱${tx.total.toFixed(2)}</td><td><button class="btn-table-action" onclick="initiateLedgerSettlementModal(${tx.id},'${tx.customerName.replace(/'/g,"\\'")}',${tx.total})">Settle</button></td>`;
         tbody.appendChild(tr);
     });
 }
 function initiateLedgerSettlementModal(invoiceId, customerName, balance) {
     targetedLedgerInvoiceId = invoiceId;
     document.getElementById("settle-customer-name").value    = customerName;
-    document.getElementById("settle-outstanding-total").value = `â‚±${balance.toFixed(2)}`;
+    document.getElementById("settle-outstanding-total").value = `₱${balance.toFixed(2)}`;
     document.getElementById("settle-cash-input").value        = "";
     openModal("settlement-modal");
     setTimeout(()=>document.getElementById("settle-cash-input").focus(),250);
@@ -1661,7 +1529,7 @@ document.getElementById("process-settlement-btn").onclick = function() {
         store.put(invoice).onsuccess = function() {
             const entry = { timestamp: new Date().toISOString(), items:[], total:paid, paymentType:"CASH", isSettlement:true, settledInvoiceId:targetedLedgerInvoiceId, customerName:invoice.customerName };
             store.add(entry).onsuccess = function() {
-                logActivity('sale',`Credit settled: "${invoice.customerName}" paid â‚±${paid.toFixed(2)}, remaining â‚±${invoice.total.toFixed(2)}`);
+                logActivity('sale',`Credit settled: "${invoice.customerName}" paid ₱${paid.toFixed(2)}, remaining ₱${invoice.total.toFixed(2)}`);
                 fetchRecordsFromLocalDB();
                 closeModal("settlement-modal");
                 printReceipt({ timestamp: new Date().toISOString(), customerName: invoice.customerName, method:'CREDIT SETTLEMENT', items:[{name:'Credit Payment', qty:1, price:paid}], subtotal:paid, discount:0, cash:paid, change:0, total:paid });
@@ -1670,7 +1538,7 @@ document.getElementById("process-settlement-btn").onclick = function() {
     };
 };
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• CATALOG â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/* ═══════════════════════════════ CATALOG ══════════════════════════════════════ */
 function renderCashierCatalog(search="") {
     const grid = document.getElementById("catalog-grid");
     grid.innerHTML = "";
@@ -1680,7 +1548,7 @@ function renderCashierCatalog(search="") {
         const card = document.createElement("div");
         card.className = "product-card";
         card.onclick   = () => addItemToRegisterBasket(p.id);
-        card.innerHTML = `<div class="product-name">${p.name}</div><div><div class="product-price">â‚±${p.price.toFixed(2)}</div><div class="product-stock">Stock: ${p.stock}</div></div>`;
+        card.innerHTML = `<div class="product-name">${p.name}</div><div><div class="product-price">₱${p.price.toFixed(2)}</div><div class="product-stock">Stock: ${p.stock}</div></div>`;
         grid.appendChild(card);
     });
 }
@@ -1717,28 +1585,27 @@ function renderRegisterBasketCart() {
             <div class="cart-item-details">
                 <div class="cart-item-name">${item.product.name}</div>
                 <div class="cart-item-qty-controls">
-                    <button class="qty-btn" onclick="adjustBasketItemQuantity('${item.product.id}',-1)">âˆ’</button>
+                    <button class="qty-btn" onclick="adjustBasketItemQuantity('${item.product.id}',-1)">−</button>
                     <span style="font-weight:bold;">${item.quantity}</span>
                     <button class="qty-btn" onclick="adjustBasketItemQuantity('${item.product.id}',1)">+</button>
                 </div>
             </div>
-            <div class="cart-item-price-group">â‚±${lineTotal.toFixed(2)}</div>
-            <button class="remove-item-btn" onclick="forceRemoveBasketItem('${item.product.id}')">âœ•</button>
-        `;
+            <div class="cart-item-price-group">₱${lineTotal.toFixed(2)}</div>
+            <button class="remove-item-btn" onclick="forceRemoveBasketItem('${item.product.id}')">✕</button>`;
         container.appendChild(row);
     });
     container.scrollTop = scrollPos;
-    document.getElementById("summary-total").innerText = `â‚±${calculateActiveBasketTotalSum().toFixed(2)}`;
+    document.getElementById("summary-total").innerText = `₱${calculateActiveBasketTotalSum().toFixed(2)}`;
 }
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• UNIFIED CHECKOUT â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/* ═══════════════════════════════ UNIFIED CHECKOUT ══════════════════════════════════════ */
 function openCheckoutModal(preferredMethod) {
     if (activeCart.length === 0) return showAlert("Your cart is empty.","warning","Empty Cart");
     checkoutPaymentMethod = preferredMethod || 'CASH';
     const total = calculateActiveBasketTotalSum();
-    document.getElementById('checkout-total').value = `â‚±${total.toFixed(2)}`;
+    document.getElementById('checkout-total').value = `₱${total.toFixed(2)}`;
     document.getElementById('checkout-tendered').value = '';
-    document.getElementById('checkout-change').value = 'â‚±0.00';
+    document.getElementById('checkout-change').value = '₱0.00';
     document.getElementById('checkout-gcash-ref').value = '';
     document.getElementById('checkout-gcash-mobile').value = '';
     document.getElementById('checkout-customer-name').value = '';
@@ -1770,7 +1637,7 @@ function calcChange() {
     const total    = calculateActiveBasketTotalSum();
     const tendered = parseFloat(document.getElementById('checkout-tendered').value) || 0;
     const change   = tendered - total;
-    document.getElementById('checkout-change').value = change >= 0 ? `â‚±${change.toFixed(2)}` : 'Insufficient Cash';
+    document.getElementById('checkout-change').value = change >= 0 ? `₱${change.toFixed(2)}` : 'Insufficient Cash';
 }
 function processCheckout() {
     const total = calculateActiveBasketTotalSum();
@@ -1790,30 +1657,18 @@ function processCheckout() {
     }
 }
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-   FIX: TRANSACTION PIPELINE
-   - Properly deducts stock from systemProducts
-   - Properly increments sold count per product
-   - Waits for persistProductsToIndexedDB to complete before fetching records
-   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/* ═══════════════════════════════ TRANSACTION PIPELINE ══════════════════════════════════════ */
 function executeCommitTransactionPipeline(channel, meta={}) {
     const total    = calculateActiveBasketTotalSum();
     const subtotal = total;
-    const entry    = {
-        timestamp: new Date().toISOString(),
-        items: JSON.parse(JSON.stringify(activeCart)),
-        total,
-        paymentType: channel,
-        ...meta
-    };
+    const entry    = { timestamp: new Date().toISOString(), items: JSON.parse(JSON.stringify(activeCart)), total, paymentType: channel, ...meta };
     const itemsSummary = activeCart.map(i=>`${i.product.name} x${i.quantity}`).join(', ');
 
-    // â”€â”€ FIX: Update stock AND sold count on the master product list â”€â”€
     activeCart.forEach(item => {
         const p = systemProducts.find(x => x.id === item.product.id);
         if (p) {
             p.stock -= item.quantity;
-            if (p.stock < 0) p.stock = 0; // guard against negative
+            if (p.stock < 0) p.stock = 0;
             p.sold  = (p.sold || 0) + item.quantity;
         }
     });
@@ -1831,15 +1686,11 @@ function executeCommitTransactionPipeline(channel, meta={}) {
         gcashMobile: meta.gcashMobile || null,
     };
 
-    const cartSnapshot = [...activeCart]; // keep for receipt/log before clearing
-
-    // â”€â”€ FIX: Save sale record, then persist products, then reload data â”€â”€
     if (posDB) {
         const dbTx = posDB.transaction(POS_SALES_STORE, "readwrite");
         const store = dbTx.objectStore(POS_SALES_STORE);
         store.add(entry);
         dbTx.oncomplete = () => {
-            // Persist updated stock+sold to IndexedDB, then reload everything
             persistProductsToIndexedDB().then(() => {
                 fetchRecordsFromLocalDB();
                 updateSalesSummaryCards();
@@ -1849,135 +1700,135 @@ function executeCommitTransactionPipeline(channel, meta={}) {
         };
     }
 
-    logActivity('sale',`${channel} sale: â‚±${total.toFixed(2)} â€” ${itemsSummary}${meta.customerName?` | Customer: ${meta.customerName}`:''}`);
+    logActivity('sale',`${channel} sale: ₱${total.toFixed(2)} — ${itemsSummary}${meta.customerName?` | Customer: ${meta.customerName}`:''}`);
 
     if (channel !== 'CREDIT_UTANG') {
         printReceipt(receiptData);
     } else {
-        showAlert(`Credit entry posted for <strong>${meta.customerName}</strong>.<br>Amount: â‚±${total.toFixed(2)}`,'warning','Credit Posted');
+        showAlert(`Credit entry posted for <strong>${meta.customerName}</strong>.<br>Amount: ₱${total.toFixed(2)}`,'warning','Credit Posted');
     }
 
     activeCart = [];
     renderRegisterBasketCart();
-    renderCashierCatalog(); // refresh catalog to show new stock levels
+    renderCashierCatalog();
     closeModal('checkout-modal');
 }
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• RECEIPT PRINTER â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/* ═══════════════════════════════ RECEIPT PRINTER ══════════════════════════════════════ */
 function printReceipt(s) {
     const div = document.getElementById('receipt-print-area');
+
+    /* — Pull live store settings — */
+    const _ss    = getStoreSettings();
+    const _sName  = _ss.storeName || '[Your Store] POS';
+    const _sAddr1 = _ss.address1  || '';
+    const _sAddr2 = _ss.address2  || '';
+    const _sPhone = _ss.phone     || '';
+
     const customer = s.customerName ? s.customerName.toUpperCase() : "WALK-IN";
-    
-    // Receipt styling
-    div.style.fontSize = "2px";
+
+    div.style.fontSize   = "2px";
     div.style.lineHeight = "1.2";
-    div.style.paddingRight ="15px";
+    div.style.paddingRight = "15px";
     div.style.fontFamily = "Arial, sans-serif";
-    div.style.width = "100%"; // Forces wrapper to take full width
-    
+    div.style.width      = "100%";
+
     div.innerHTML = `
         <div style="text-align:center; margin:2px;">
-            <strong style="font-size:1em;">[Your Store] POS</strong>
-            <p style="font-size:10px;">#36 Donnan Bldg Josefina St</p>
-            <p style="font-size:10px;">4th Avenue Caloocan City Phil.</p>
-            <p style="font-size:10px;">Mobile Number: 0950 682 5698</p>
+            <strong style="font-size:.8em;">${_sName}</strong>
+            ${_sAddr1 ? `<p style="font-size:10px;">${_sAddr1}</p>` : ''}
+            ${_sAddr2 ? `<p style="font-size:10px;">${_sAddr2}</p>` : ''}
+            ${_sPhone ? `<p style="font-size:10px;">Mobile Number: ${_sPhone}</p>` : ''}
         </div>
-        
+
         <hr style="border-top:2px dashed #000; margin: 8px 0;">
-        
+
         <div style="margin-bottom:8px; font-size:9px;">
             Date: ${new Date(s.timestamp).toLocaleString()}<br>
             Customer: ${customer}<br>
             Method: ${s.method}${s.gcashRef ? '<br>GCash Ref: ' + s.gcashRef : ''}${s.gcashMobile ? '<br>Mobile: ' + s.gcashMobile : ''}
         </div>
-        
+
         <hr style="border-top:2px dashed #000; margin: 8px 0;">
-        
-        <!-- Items Section -->
+
         ${s.items.map(i => `
             <div style="margin-bottom:5px; width:100%;">
                 <div style="text-transform:uppercase; font-size:9px;">${i.name}</div>
                 <div style="width:100%;">
                     <span style="float:left; font-size:9px;">${i.qty} x ${i.price.toFixed(2)}</span>
-                    <span style="float:right; font-size:9px;">â‚±${(i.qty * i.price).toFixed(2)}</span>
+                    <span style="float:right; font-size:9px;">₱${(i.qty * i.price).toFixed(2)}</span>
                     <div style="clear:both;"></div>
                 </div>
-            </div>
-        `).join('')}
-        
+            </div>`).join('')}
+
         <hr style="border-top:2px dashed #000; margin: 8px 0;">
-        
-        <!-- Breakdown Section -->
+
         <div style="width:100%; margin-bottom:1px;">
             <span style="float:left;font-size:9px;">Subtotal:</span>
-            <span style="float:right;font-size:9px;">â‚±${s.subtotal.toFixed(2)}</span>
+            <span style="float:right;font-size:9px;">₱${s.subtotal.toFixed(2)}</span>
             <div style="clear:both;"></div>
         </div>
-        
+
         ${s.discount > 0 ? `
         <div style="width:100%; margin-bottom:1px;">
             <span style="float:left;font-size:9px;">Discount:</span>
-            <span style="float:right;font-size:9px;">-â‚±${s.discount.toFixed(2)}</span>
+            <span style="float:right;font-size:9px;">-₱${s.discount.toFixed(2)}</span>
             <div style="clear:both;"></div>
         </div>` : ''}
-        
+
         <div style="width:100%; margin-bottom:1px;">
             <span style="float:left;font-size:9px;">Payment:</span>
-            <span style="float:right;font-size:9px;">â‚±${s.cash.toFixed(2)}</span>
+            <span style="float:right;font-size:9px;">₱${s.cash.toFixed(2)}</span>
             <div style="clear:both;"></div>
         </div>
 
-        <!-- Total Section -->
         <div style="width:100%; margin-bottom:1px;">
             <span style="float:left; font-size:9px;">Total:</span>
-            <span style="float:right;font-size:10px;">â‚±${s.total.toFixed(2)}</span>
+            <span style="float:right;font-size:10px;">₱${s.total.toFixed(2)}</span>
             <div style="clear:both;"></div>
         </div>
-		
-		
-		<div style="font-size:1em; margin-top:10px; border-top:3px solid #000; padding-top:5px; width:100%;">
+
+        <div style="font-size:1em; margin-top:10px; border-top:3px solid #000; padding-top:5px; width:100%;">
             <strong style="float:left; font-size:10px;">Change:</strong>
-            <strong style="float:right; font-size:10px;">â‚±${s.change.toFixed(2)}</strong>
+            <strong style="float:right; font-size:10px;">₱${s.change.toFixed(2)}</strong>
             <div style="clear:both;"></div>
         </div>
-        
+
         <hr style="border-top:2px dashed #000; margin-top:15px;">
-        
+
         <div style="text-align:center; font-size: 9px; margin-top:10px; font-weight:bold; padding-bottom:20px;">
             Thanks for your purchase!<br>Please come again!!
         </div>
-		<br>
-        <div style="text-align:center; font-size: 4px; margin-top:10px; font-weight:bold; padding-bottom:20px;">
-            .
-        </div>
-		
+        <br>
+        <div style="text-align:center; font-size: 4px; margin-top:10px; padding-bottom:20px;">.</div>
     `;
-    
+
     const tgText = buildTelegramReceiptText(s);
     sendToTelegramText(tgText);
-    
     setTimeout(() => { window.print(); }, 250);
 }
+
 function buildTelegramReceiptText(s) {
+    const _tgStore = getStoreName();
     const customer = s.customerName ? s.customerName.toUpperCase() : "WALK-IN CLIENT";
-    let text = `ðŸ§¾ *MEICAI STORE - Receipt*\n`;
-    text += `ðŸ“… ${new Date(s.timestamp).toLocaleString()}\n`;
-    text += `ðŸ‘¤ Customer: ${customer}\n`;
-    text += `ðŸ’³ Method: ${s.method}\n`;
-    if (s.gcashRef) text += `ðŸ“± GCash Ref: ${s.gcashRef}\n`;
-    text += `${'â”€'.repeat(28)}\n`;
-    s.items.forEach(i => { text += `${i.name.toUpperCase()}\n  ${i.qty} x â‚±${i.price.toFixed(2)} = â‚±${(i.qty*i.price).toFixed(2)}\n`; });
-    text += `${'â”€'.repeat(28)}\n`;
-    text += `Subtotal: â‚±${s.subtotal.toFixed(2)}\n`;
-    if (s.discount > 0) text += `Discount: -â‚±${s.discount.toFixed(2)}\n`;
-    text += `Payment: â‚±${s.cash.toFixed(2)}\n`;
-    text += `Change: â‚±${s.change.toFixed(2)}\n`;
-    text += `*TOTAL: â‚±${s.total.toFixed(2)}*\n`;
-    text += `${'â”€'.repeat(28)}\nThanks for your purchase!`;
+    let text = `🧾 *${_tgStore} - Receipt*\n`;
+    text += `📅 ${new Date(s.timestamp).toLocaleString()}\n`;
+    text += `👤 Customer: ${customer}\n`;
+    text += `💳 Method: ${s.method}\n`;
+    if (s.gcashRef) text += `📱 GCash Ref: ${s.gcashRef}\n`;
+    text += `${'─'.repeat(28)}\n`;
+    s.items.forEach(i => { text += `${i.name.toUpperCase()}\n  ${i.qty} x ₱${i.price.toFixed(2)} = ₱${(i.qty*i.price).toFixed(2)}\n`; });
+    text += `${'─'.repeat(28)}\n`;
+    text += `Subtotal: ₱${s.subtotal.toFixed(2)}\n`;
+    if (s.discount > 0) text += `Discount: -₱${s.discount.toFixed(2)}\n`;
+    text += `Payment: ₱${s.cash.toFixed(2)}\n`;
+    text += `Change: ₱${s.change.toFixed(2)}\n`;
+    text += `*TOTAL: ₱${s.total.toFixed(2)}*\n`;
+    text += `${'─'.repeat(28)}\nThanks for your purchase!`;
     return text;
 }
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• CSV EXPORTS â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/* ═══════════════════════════════ CSV EXPORTS ══════════════════════════════════════ */
 function downloadCSV(content, filename) {
     const blob = new Blob([content],{type:'text/csv;charset=utf-8;'});
     const a = document.createElement("a");
@@ -2030,13 +1881,13 @@ async function exportUsersToCSV() {
 }
 async function backupAllDataToCSV() {
     logRestore(`Starting full backup at ${new Date().toLocaleString()}...`);
-    exportSalesJournalToCSV('all'); logRestore(`âœ“ Sales exported`);
-    exportInventoryCatalogToCSV(); logRestore(`âœ“ Inventory exported`);
-    exportCreditLedgerToCSV(); logRestore(`âœ“ Credit Ledger exported`);
-    try { await exportGcashFullToCSV(); logRestore(`âœ“ GCash exported`); } catch(e){logRestore(`âš  GCash export failed`);}
-    exportExpensesToCSV('all'); logRestore(`âœ“ Expenses exported`);
-    await exportUsersToCSV(); logRestore(`âœ“ Users exported`);
-    logRestore(`âœ… Full backup complete.`);
+    exportSalesJournalToCSV('all'); logRestore(`✔ Sales exported`);
+    exportInventoryCatalogToCSV(); logRestore(`✔ Inventory exported`);
+    exportCreditLedgerToCSV(); logRestore(`✔ Credit Ledger exported`);
+    try { await exportGcashFullToCSV(); logRestore(`✔ GCash exported`); } catch(e){logRestore(`⚠ GCash export failed`);}
+    exportExpensesToCSV('all'); logRestore(`✔ Expenses exported`);
+    await exportUsersToCSV(); logRestore(`✔ Users exported`);
+    logRestore(`✅ Full backup complete.`);
     logActivity('admin','Full system backup downloaded');
 }
 function logRestore(msg) { const el=document.getElementById('restore-log'); if(!el)return; el.innerHTML+=msg+'\n'; el.scrollTop=el.scrollHeight; }
@@ -2051,36 +1902,36 @@ function restoreFromCSV(event, type) {
             const rows = text.split(/\r?\n/).map(r=>r.trim()).filter(r=>r.length>0);
             logRestore(`\nRestoring ${type}...`);
             if (type==='inventory') {
-                if (rows.length<=1){logRestore('âš  No data rows.');return;}
+                if (rows.length<=1){logRestore('⚠ No data rows.');return;}
                 let delim=rows[0].includes(";")?";":rows[0].includes("\t")?"\t":",";
                 let added=0,updated=0;
-                if(!posDB){logRestore('âš  DB not ready.');return;}
+                if(!posDB){logRestore('⚠ DB not ready.');return;}
                 const tx=posDB.transaction(PRODUCTS_STORE,"readwrite"); const store=tx.objectStore(PRODUCTS_STORE);
                 for(let i=1;i<rows.length;i++){const cols=rows[i].split(delim).map(c=>c.replace(/^"|"$/g,'').trim());if(cols.length<5)continue;const[id,name,barcode]=cols;const price=parseFloat(cols[3])||0,stock=parseInt(cols[4])||0,sold=parseInt(cols[5])||0;if(!id||!name||!barcode)continue;const item={id,name,barcode,price,stock,sold};const existIdx=systemProducts.findIndex(p=>p.id===id);if(existIdx>-1){systemProducts[existIdx]=item;updated++;}else{systemProducts.push(item);added++;}store.put(item);}
-                tx.oncomplete=function(){renderInventoryDashboardTable();renderCashierCatalog();logRestore(`âœ“ Inventory restored â€” Added:${added}, Updated:${updated}`);};
+                tx.oncomplete=function(){renderInventoryDashboardTable();renderCashierCatalog();logRestore(`✔ Inventory restored — Added:${added}, Updated:${updated}`);};
             } else if (type==='sales') {
-                if(rows.length<=1){logRestore('âš  No data rows.');return;}
+                if(rows.length<=1){logRestore('⚠ No data rows.');return;}
                 let imported=0;
-                if(!posDB){logRestore('âš  DB not ready.');return;}
+                if(!posDB){logRestore('⚠ DB not ready.');return;}
                 const tx=posDB.transaction(POS_SALES_STORE,"readwrite");const store=tx.objectStore(POS_SALES_STORE);
                 for(let i=1;i<rows.length;i++){const cols=parseCSVRow(rows[i]);if(cols.length<5)continue;const entry={timestamp:cols[0]||new Date().toISOString(),items:[],total:parseFloat(cols[4])||0,paymentType:cols[3]||'CASH',_restored:true};store.add(entry);imported++;}
-                tx.oncomplete=function(){fetchRecordsFromLocalDB();logRestore(`âœ“ Sales restored â€” ${imported} records`);};
+                tx.oncomplete=function(){fetchRecordsFromLocalDB();logRestore(`✔ Sales restored — ${imported} records`);};
             } else if (type==='gcash') {
-                if(rows.length<=1){logRestore('âš  No data rows.');return;}
+                if(rows.length<=1){logRestore('⚠ No data rows.');return;}
                 gcashGetAll().then(()=>{
                     let imported=0;
                     const tx=gcashDB.transaction(GCASH_STORE,"readwrite");const store=tx.objectStore(GCASH_STORE);
                     for(let i=1;i<rows.length;i++){const cols=parseCSVRow(rows[i]);if(cols.length<5)continue;const record={dateCreated:new Date().toISOString(),timestamp:cols[0]||new Date().toLocaleString(),type:cols[1]||'GCASH IN',amount:parseFloat(cols[2])||0,mobile:cols[3]||'',name:cols[4]||'',refNo:cols[5]||'',profit:parseFloat(cols[6])||0,_restored:true};store.add(record);imported++;}
-                    tx.oncomplete=function(){renderGcashTransactions();logRestore(`âœ“ GCash restored â€” ${imported} records`);};
+                    tx.oncomplete=function(){renderGcashTransactions();logRestore(`✔ GCash restored — ${imported} records`);};
                 });
             }
-        } catch(err){logRestore(`âœ— Error: ${err}`);}
+        } catch(err){logRestore(`✗ Error: ${err}`);}
         input.value="";
     };
     reader.readAsText(input.files[0]);
 }
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• USERS TABLE â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/* ═══════════════════════════════ USERS TABLE ══════════════════════════════════════ */
 async function renderUsersTable() {
     const tbody = document.getElementById("users-table-body");
     tbody.innerHTML = "";
@@ -2097,8 +1948,7 @@ async function renderUsersTable() {
                 <td>${isCurrent
                     ? '<span style="color:var(--text-muted);font-size:0.8rem;">(current user)</span>'
                     : `<button class="btn-table-action btn-inline-delete" onclick="deleteUserAccount('${u.username.replace(/'/g,"\\'")}')">Delete</button>`
-                }</td>
-            `;
+                }</td>`;
             tbody.appendChild(tr);
         });
     } catch(e) {
@@ -2112,7 +1962,7 @@ async function deleteUserAccount(username) {
     }, 'danger', 'Delete User Account');
 }
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• SEARCH / BARCODE â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/* ═══════════════════════════════ SEARCH / BARCODE ══════════════════════════════════════ */
 document.getElementById("search-bar").oninput = e => renderCashierCatalog(e.target.value);
 document.getElementById("search-bar").onkeydown = function(e) {
     if (e.key==="Enter") {
@@ -2122,7 +1972,7 @@ document.getElementById("search-bar").onkeydown = function(e) {
     }
 };
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• KEYBOARD SHORTCUTS â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/* ═══════════════════════════════ KEYBOARD SHORTCUTS ══════════════════════════════════════ */
 window.onkeydown = function(e) {
     if (!document.getElementById('app-main').classList.contains('visible')) return;
     if (e.key==="F1") { e.preventDefault(); openCheckoutModal('CASH'); }
@@ -2139,7 +1989,7 @@ document.getElementById('admin-gate-password').addEventListener('keydown', e => 
 document.getElementById("checkout-cash-btn").onclick       = () => openCheckoutModal('CASH');
 document.getElementById("checkout-gcash-sale-btn").onclick = () => openCheckoutModal('GCASH');
 document.getElementById("checkout-credit-btn").onclick     = () => openCheckoutModal('CREDIT');
-document.getElementById("clear-cart-btn").onclick          = function() {
+document.getElementById("clear-cart-btn").onclick = function() {
     if (activeCart.length>0) {
         showConfirm("Clear all items from the current cart?", () => {
             logActivity('sale',`Cart voided (${activeCart.length} items)`);
@@ -2148,7 +1998,7 @@ document.getElementById("clear-cart-btn").onclick          = function() {
     }
 };
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• GCASH LEDGER MODAL â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/* ═══════════════════════════════ GCASH LEDGER MODAL ══════════════════════════════════════ */
 function openGcashModal() {
     ["gcash-mobile","gcash-amount","gcash-customer-name","gcash-ref-no"].forEach(id=>document.getElementById(id).value="");
     selectGcashType("GCASH IN");
@@ -2176,19 +2026,10 @@ async function handleGcashSubmit() {
         try { const allRecords=await gcashGetAll(); if(allRecords.some(tx=>tx.refNo===refNo)) return showAlert(`Reference "${refNo}" already used.`,"danger","Duplicate Detected"); } catch(err){}
     }
     const profit = calculateProfit(amount);
-    const record = {
-        dateCreated: new Date().toISOString(),
-        timestamp:   new Date().toLocaleString(),
-        type,
-        amount,
-        mobile,
-        name,
-        refNo: refNo || 'N/A',
-        profit
-    };
+    const record = { dateCreated: new Date().toISOString(), timestamp: new Date().toLocaleString(), type, amount, mobile, name, refNo: refNo || 'N/A', profit };
     try {
         await gcashAddRecord(record);
-        logActivity('gcash',`${type}: â‚±${amount.toFixed(2)} for ${name} (${mobile})${refNo?', Ref:'+refNo:''}`);
+        logActivity('gcash',`${type}: ₱${amount.toFixed(2)} for ${name} (${mobile})${refNo?', Ref:'+refNo:''}`);
         renderGcashTransactions(); closeGcashModal();
     } catch(err) { showAlert("Transaction failed: "+err,"danger"); }
 }
@@ -2215,50 +2056,32 @@ async function renderGcashTransactions() {
     try {
         let data=await gcashGetAll();
         data=data.filter(tx=>gcashMatchesFilter(tx.dateCreated||tx.timestamp));
-        if(data.length===0){
-            emptyState.style.display="block";
-            document.getElementById("gcash-summary-footer").style.display="none";
-            return;
-        }
-        emptyState.style.display="none";
-        document.getElementById("gcash-summary-footer").style.display="block";
+        if(data.length===0){emptyState.style.display="block";document.getElementById("gcash-summary-footer").style.display="none";return;}
+        emptyState.style.display="none";document.getElementById("gcash-summary-footer").style.display="block";
         let inCount=0,outCount=0,inAmt=0,outAmt=0,inProfit=0,outProfit=0;
         data.forEach(tx=>{
-            const amt     = parseFloat(tx.amount);
-            const profit  = tx.profit != null ? parseFloat(tx.profit) : calculateProfit(amt);
-            const isIn    = tx.type === "GCASH IN";
-            const badge   = isIn
-                ? '<span class="badge badge-in">CASH IN</span>'
-                : '<span class="badge badge-out">CASH OUT</span>';
-            if(isIn){inCount++;inAmt+=amt;inProfit+=profit;}
-            else    {outCount++;outAmt+=amt;outProfit+=profit;}
-            const displayName = tx.name  || 'â€”';
-            const displayRef  = tx.refNo || 'â€”';
-            const tr = document.createElement("tr");
-            tr.innerHTML = `
-                <td>${tx.timestamp}</td>
-                <td>${badge}</td>
-                <td style="font-weight:600;">â‚±${pesoFormatter.format(amt)}</td>
-                <td style="font-family:monospace;">${tx.mobile || 'â€”'}</td>
-                <td>${displayName}</td>
-                <td style="font-family:monospace;color:var(--text-muted);">${displayRef}</td>
-                <td style="font-weight:600;color:var(--success-color);">â‚±${pesoFormatter.format(profit)}</td>
-            `;
+            const amt=parseFloat(tx.amount);
+            const profit=tx.profit!=null?parseFloat(tx.profit):calculateProfit(amt);
+            const isIn=tx.type==="GCASH IN";
+            const badge=isIn?'<span class="badge badge-in">CASH IN</span>':'<span class="badge badge-out">CASH OUT</span>';
+            if(isIn){inCount++;inAmt+=amt;inProfit+=profit;}else{outCount++;outAmt+=amt;outProfit+=profit;}
+            const tr=document.createElement("tr");
+            tr.innerHTML=`<td>${tx.timestamp}</td><td>${badge}</td><td style="font-weight:600;">₱${pesoFormatter.format(amt)}</td><td style="font-family:monospace;">${tx.mobile||'—'}</td><td>${tx.name||'—'}</td><td style="font-family:monospace;color:var(--text-muted);">${tx.refNo||'—'}</td><td style="font-weight:600;color:var(--success-color);">₱${pesoFormatter.format(profit)}</td>`;
             tbody.appendChild(tr);
         });
-        document.getElementById("gcash-in-count").innerText    = `Cash In: ${inCount}`;
-        document.getElementById("gcash-in-amount").innerText   = `â‚±${pesoFormatter.format(inAmt)}`;
-        document.getElementById("gcash-in-profit").innerText   = `â‚±${pesoFormatter.format(inProfit)}`;
-        document.getElementById("gcash-out-count").innerText   = `Cash Out: ${outCount}`;
-        document.getElementById("gcash-out-amount").innerText  = `â‚±${pesoFormatter.format(outAmt)}`;
-        document.getElementById("gcash-out-profit").innerText  = `â‚±${pesoFormatter.format(outProfit)}`;
-        document.getElementById("gcash-total-count").innerText  = `Total: ${inCount+outCount}`;
-        document.getElementById("gcash-total-amount").innerText = `â‚±${pesoFormatter.format(inAmt+outAmt)}`;
-        document.getElementById("gcash-total-profit").innerText = `â‚±${pesoFormatter.format(inProfit+outProfit)}`;
+        document.getElementById("gcash-in-count").innerText=`Cash In: ${inCount}`;
+        document.getElementById("gcash-in-amount").innerText=`₱${pesoFormatter.format(inAmt)}`;
+        document.getElementById("gcash-in-profit").innerText=`₱${pesoFormatter.format(inProfit)}`;
+        document.getElementById("gcash-out-count").innerText=`Cash Out: ${outCount}`;
+        document.getElementById("gcash-out-amount").innerText=`₱${pesoFormatter.format(outAmt)}`;
+        document.getElementById("gcash-out-profit").innerText=`₱${pesoFormatter.format(outProfit)}`;
+        document.getElementById("gcash-total-count").innerText=`Total: ${inCount+outCount}`;
+        document.getElementById("gcash-total-amount").innerText=`₱${pesoFormatter.format(inAmt+outAmt)}`;
+        document.getElementById("gcash-total-profit").innerText=`₱${pesoFormatter.format(inProfit+outProfit)}`;
     } catch(err){ console.error("GCash render error:",err); }
 }
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• BEST SELLERS â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/* ═══════════════════════════════ BEST SELLERS ══════════════════════════════════════ */
 function renderTopProducts() {
     const filter=document.getElementById("analytics-filter").value, now=new Date();
     const filteredSales=memorySalesJournal.filter(tx=>{
@@ -2272,18 +2095,20 @@ function renderTopProducts() {
     const tbody=document.getElementById("top-products-body");
     tbody.innerHTML="";
     if(sorted.length===0){tbody.innerHTML=`<tr><td colspan="4" style="text-align:center;color:var(--text-muted);padding:30px;">No sales data for this period.</td></tr>`;return;}
-    sorted.forEach((item,idx)=>{const tr=document.createElement("tr");tr.innerHTML=`<td style="font-weight:bold;color:var(--accent-color);">${idx+1}</td><td>${item.name}</td><td style="font-weight:bold;color:var(--success-color);">${item.qty}</td><td style="font-weight:bold;">â‚±${item.revenue.toFixed(2)}</td>`;tbody.appendChild(tr);});
+    sorted.forEach((item,idx)=>{const tr=document.createElement("tr");tr.innerHTML=`<td style="font-weight:bold;color:var(--accent-color);">${idx+1}</td><td>${item.name}</td><td style="font-weight:bold;color:var(--success-color);">${item.qty}</td><td style="font-weight:bold;">₱${item.revenue.toFixed(2)}</td>`;tbody.appendChild(tr);});
 }
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• INIT â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/* ═══════════════════════════════ INIT ══════════════════════════════════════ */
 window.onload = async function() {
     try {
+        applyStoreSettings();
         await initUsersDB();
         await initGcashDB();
         logActivity('system','POS system initialized');
     } catch(err) { console.error("DB init error:", err); }
 };
 
+/* ═══════════════════════════════ FULLSCREEN ══════════════════════════════════════ */
 const btn = document.getElementById('fullscreen-btn');
 const content = document.getElementById('content-area');
 btn.addEventListener('click', () => {
