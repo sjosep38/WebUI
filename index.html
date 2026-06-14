@@ -64,7 +64,7 @@
         .btn-admin-trigger:hover { background: var(--accent-color); color: #000; }
         .btn-logout { background: #222; color: var(--danger-color); border: 1px solid var(--danger-color); padding: 8px 16px; border-radius: 4px; cursor: pointer; font-size: 0.85rem; font-weight: bold; transition: all 0.2s; display: inline-flex; align-items: center; gap: 6px; }
         .btn-logout:hover { background: var(--danger-color); color: #fff; }
-        .logged-in-badge { font-size: 1.1rem; color: var(--success-color); font-weight: bold; padding: 5px 10px; background: rgba(46,213,115,0.1); border-radius: 4px; border: 1px solid rgba(46,213,115,0.3); }
+        .logged-in-badge { font-size: 1.1rem; color: var(--success-color); font-weight: bold; padding: 7px 10px; background: rgba(46,213,115,0.1); border-radius: 4px; border: 1px solid rgba(46,213,115,0.3); }
 
         .pos-container { display: grid; grid-template-columns: 1fr 400px; flex: 1; height: calc(100vh - 60vh); overflow: hidden; }
         .catalog-side { display: flex; flex-direction: column; border-right: 1px solid var(--border-color); background: #151515; overflow: hidden; }
@@ -136,7 +136,7 @@
         .sales-card.month .sales-card-amount { color: var(--warning-color); }
         .sales-card.year .sales-card-amount { color: #a29bfe; }
 
-        /* PROFIT CARDS — 4 cards */
+        /* PROFIT CARDS â€” 4 cards */
         .profit-summary-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 20px; }
         .profit-card { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 10px; padding: 16px 18px; position: relative; overflow: hidden; }
         .profit-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
@@ -410,7 +410,7 @@
             <div class="auth-form" id="signup-form">
                 <div class="auth-error" id="signup-error"></div>
                 <div class="auth-success" id="signup-success"></div>
-                <div class="signup-admin-gate"><strong>🔐 Admin Authorization Required</strong><span style="font-size:0.82rem;">Enter the admin password to create a new account.</span></div>
+                <div class="signup-admin-gate"><strong>ðŸ” Admin Authorization Required</strong><span style="font-size:0.82rem;">Enter the admin password to create a new account.</span></div>
                 <div class="auth-field"><label>Admin Password</label><input type="password" id="signup-admin-pw" placeholder="Enter admin password" style="text-align:center;"></div>
                 <div class="auth-field"><label>Full Name</label><input type="text" id="signup-fullname" style="text-align:center;" placeholder="Juan Dela Cruz"></div>
                 <div class="auth-field"><label>Username</label><input type="email" id="signup-username" style="text-align:center;" placeholder="Choose a username" autocomplete="username"></div>
@@ -427,11 +427,13 @@
 <header>
     <div class="logo-area"><h1 id="store-header-name">[Your Store] POS</h1></div>
     <div class="header-actions">
-        <button id="fullscreen-btn" class="btn-action full-screen" style="cursor: pointer; user-select: none;">Fullscreen</button>
-        <span class="logged-in-badge" id="logged-in-badge">👤 User</span>
-        <button class="btn-gcash" onclick="openGcashModal()">+ GCash Transaction</button>
-        <button class="btn-admin-trigger" onclick="requireAdminPassword()">Administrator Panel</button>
-        <button class="btn-logout" onclick="handleLogout()"><i class="fas fa-power-off"></i> Logout</button>
+     <!--   <button id="fullscreen-btn" class="btn-action full-screen" style="cursor: pointer; user-select: none;">Fullscreen</button> -->
+        <span class="logged-in-badge" id="logged-in-badge">ðŸ‘¤ User</span>
+        <button class="btn-gcash" onclick="openGcashModal()">+ GCash In / Out</button>
+       <button class="btn-admin-trigger" onclick="requireAdminPassword()">
+  <i class="fas fa-lock"></i> Admin Panel
+</button>
+        <button class="btn-logout" onclick="handleLogout()"><i class="fas fa-power-off"></i>  Logout</button>
     </div>
 </header>
 
@@ -447,14 +449,14 @@
         <div class="summary-board">
             <div class="summary-row grand-total">
                 <span>NET CHARGE TOTAL</span>
-                <span class="total-val" id="summary-total">₱0.00</span>
+                <span class="total-val" id="summary-total">â‚±0.00</span>
             </div>
         </div>
         <div class="action-pad">
-            <button class="btn-action pay-cash" id="checkout-cash-btn">💵 CASH(F1)</button>
-            <button class="btn-action pay-gcash" id="checkout-gcash-sale-btn">📱 GCASH(F2)</button>
-            <button class="btn-action pay-credit" id="checkout-credit-btn">💳CREDIT(F3)</button>
-            <button class="btn-action clear-cart" id="clear-cart-btn">🗑 VOID CART ITEMS</button>
+            <button class="btn-action pay-cash" id="checkout-cash-btn">ðŸ’µ CASH(F1)</button>
+            <button class="btn-action pay-gcash" id="checkout-gcash-sale-btn">ðŸ“± GCASH(F2)</button>
+            <button class="btn-action pay-credit" id="checkout-credit-btn">ðŸ’³CREDIT(F3)</button>
+            <button class="btn-action clear-cart" id="clear-cart-btn">ðŸ—‘ VOID CART ITEMS</button>
         </div>
     </div>
 </div>
@@ -463,15 +465,21 @@
 <!-- ADMIN PASSWORD GATE -->
 <div id="admin-gate-modal">
     <div class="admin-gate-box">
-        <h2>🔒 Admin Access</h2>
+        <h2>ðŸ”’ Admin Access</h2>
         <p>Enter the Administrator password to continue.</p>
         <div class="form-group">
             <label style="display:block;font-size:0.82rem;color:var(--text-muted);margin-bottom:6px;">Admin Password</label>
             <input type="password" class="form-control" id="admin-gate-password" style="text-align:center;" placeholder="Enter admin password" onkeydown="if(event.key==='Enter')verifyAdminPassword()">
         </div>
         <div style="display:flex;gap:10px;margin-top:16px;">
-            <button class="btn-modal cancel" style="flex:1;" onclick="closeAdminGate()">Cancel</button>
-            <button class="btn-modal confirm" style="flex:1;" onclick="verifyAdminPassword()">Unlock</button>
+			<button class="btn-modal cancel" style="flex:1;" onclick="closeAdminGate()">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                Cancel
+            </button>
+            <button class="btn-modal confirm" style="flex:1;" onclick="verifyAdminPassword()">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Unlock
+            </button>
         </div>
         <div class="admin-gate-error" id="admin-gate-error">Incorrect password. Try again.</div>
     </div>
@@ -482,30 +490,30 @@
     <div class="modal-box fullscreen-backoffice">
         <div class="admin-header">
             <div class="admin-tabs">
-                <div class="tab-btn active" onclick="switchAdminTab(0)">📈 Sales Report</div>
-                <div class="tab-btn" onclick="switchAdminTab(1)">💰 Profit & Expenses</div>
-                <div class="tab-btn" onclick="switchAdminTab(2)">📦 Inventory</div>
-                <div class="tab-btn" onclick="switchAdminTab(3)">💳 Credit Ledger</div>
-                <div class="tab-btn" onclick="switchAdminTab(4)">📱 GCash Logs</div>
-                <div class="tab-btn" onclick="switchAdminTab(5)">🏆 Best Sellers</div>
-                <div class="tab-btn" onclick="switchAdminTab(6)">👥 Users</div>
-                <div class="tab-btn" onclick="switchAdminTab(7)">💾 Backup</div>
+                <div class="tab-btn active" onclick="switchAdminTab(0)">ðŸ“ˆ Sales Report</div>
+                <div class="tab-btn" onclick="switchAdminTab(1)">ðŸ’° Profit & Expenses</div>
+                <div class="tab-btn" onclick="switchAdminTab(2)">ðŸ“¦ Inventory</div>
+                <div class="tab-btn" onclick="switchAdminTab(3)">ðŸ’³ Credit Ledger</div>
+                <div class="tab-btn" onclick="switchAdminTab(4)">ðŸ“± GCash Logs</div>
+                <div class="tab-btn" onclick="switchAdminTab(5)">ðŸ† Best Sellers</div>
+                <div class="tab-btn" onclick="switchAdminTab(6)">ðŸ‘¥ Users</div>
+                <div class="tab-btn" onclick="switchAdminTab(7)">ðŸ’¾ Backup</div>
             </div>
-            <div class="close-admin" onclick="closeModal('admin-modal')">✕ CLOSE [ESC]</div>
+            <div class="close-admin" onclick="closeModal('admin-modal')">âœ• CLOSE [ESC]</div>
         </div>
         <div class="admin-body">
 
             <!-- TAB 0: SALES -->
             <div class="tab-panel active" id="admin-tab-sales">
                 <div class="sales-summary-cards">
-                    <div class="sales-card today"><div class="sales-card-label">📅 Today</div><div class="sales-card-amount" id="card-today-amt">₱0.00</div><div class="sales-card-sub" id="card-today-cnt">0 transactions</div></div>
-                    <div class="sales-card week"><div class="sales-card-label">📆 This Week</div><div class="sales-card-amount" id="card-week-amt">₱0.00</div><div class="sales-card-sub" id="card-week-cnt">0 transactions</div></div>
-                    <div class="sales-card month"><div class="sales-card-label">🗓️ This Month</div><div class="sales-card-amount" id="card-month-amt">₱0.00</div><div class="sales-card-sub" id="card-month-cnt">0 transactions</div></div>
-                    <div class="sales-card year"><div class="sales-card-label">📊 This Year</div><div class="sales-card-amount" id="card-year-amt">₱0.00</div><div class="sales-card-sub" id="card-year-cnt">0 transactions</div></div>
+                    <div class="sales-card today"><div class="sales-card-label">ðŸ“… Today</div><div class="sales-card-amount" id="card-today-amt">â‚±0.00</div><div class="sales-card-sub" id="card-today-cnt">0 transactions</div></div>
+                    <div class="sales-card week"><div class="sales-card-label">ðŸ“† This Week</div><div class="sales-card-amount" id="card-week-amt">â‚±0.00</div><div class="sales-card-sub" id="card-week-cnt">0 transactions</div></div>
+                    <div class="sales-card month"><div class="sales-card-label">ðŸ—“ï¸ This Month</div><div class="sales-card-amount" id="card-month-amt">â‚±0.00</div><div class="sales-card-sub" id="card-month-cnt">0 transactions</div></div>
+                    <div class="sales-card year"><div class="sales-card-label">ðŸ“Š This Year</div><div class="sales-card-amount" id="card-year-amt">â‚±0.00</div><div class="sales-card-sub" id="card-year-cnt">0 transactions</div></div>
                 </div>
                 <div class="sales-chart-wrapper">
                     <div class="sales-chart-header">
-                        <span class="sales-chart-title">📈 Sales Revenue Chart</span>
+                        <span class="sales-chart-title">ðŸ“ˆ Sales Revenue Chart</span>
                         <div class="chart-period-tabs">
                             <button class="chart-period-btn active" onclick="switchChartPeriod('week',this)">7 Days</button>
                             <button class="chart-period-btn" onclick="switchChartPeriod('month',this)">30 Days</button>
@@ -547,42 +555,42 @@
                 <!--
                     FIXED Profit Card formulas:
                     Card1: Sales (capital cost) = total revenue from transactions
-                    Card2: Gross Profit = Sales × 20%
+                    Card2: Gross Profit = Sales Ã— 20%
                     Card3: Expenses = sum of expense entries
-                    Card4: Net Profit = Gross Profit − Expenses
+                    Card4: Net Profit = Gross Profit âˆ’ Expenses
                 -->
                 <div class="profit-summary-cards">
                     <div class="profit-card capital">
-                        <div class="profit-card-label">💵 Sales (Capital Cost)</div>
-                        <div class="profit-card-amount" id="profit-capital">₱0.00</div>
+                        <div class="profit-card-label">ðŸ’µ Sales (Capital Cost)</div>
+                        <div class="profit-card-amount" id="profit-capital">â‚±0.00</div>
                         <div class="profit-card-sub" id="profit-capital-sub">Cash + GCash transactions</div>
                     </div>
                     <div class="profit-card gross">
-                        <div class="profit-card-label">📊 Gross Profit</div>
-                        <div class="profit-card-amount" id="profit-gross">₱0.00</div>
-                        <div class="profit-card-sub">Sales × 20%</div>
+                        <div class="profit-card-label">ðŸ“Š Gross Profit</div>
+                        <div class="profit-card-amount" id="profit-gross">â‚±0.00</div>
+                        <div class="profit-card-sub">Sales Ã— 20%</div>
                     </div>
                     <div class="profit-card expenses">
-                        <div class="profit-card-label">📉 Expenses</div>
-                        <div class="profit-card-amount" id="profit-expenses-amt">₱0.00</div>
+                        <div class="profit-card-label">ðŸ“‰ Expenses</div>
+                        <div class="profit-card-amount" id="profit-expenses-amt">â‚±0.00</div>
                         <div class="profit-card-sub" id="profit-expenses-count">0 expense entries</div>
                     </div>
                     <div class="profit-card net">
-                        <div class="profit-card-label">✅ Net Profit</div>
-                        <div class="profit-card-amount" id="profit-net">₱0.00</div>
-                        <div class="profit-card-sub">Gross Profit − Expenses</div>
+                        <div class="profit-card-label">âœ… Net Profit</div>
+                        <div class="profit-card-amount" id="profit-net">â‚±0.00</div>
+                        <div class="profit-card-sub">Gross Profit âˆ’ Expenses</div>
                     </div>
                 </div>
 
                 <div class="expense-add-form">
-                    <h3>➕ Add Expense Entry</h3>
+                    <h3>âž• Add Expense Entry</h3>
                     <div class="expense-form-grid">
                         <div>
                             <label>Description</label>
                             <input type="text" id="expense-desc" placeholder="e.g. Electricity bill, Restocking...">
                         </div>
                         <div>
-                            <label>Amount (₱)</label>
+                            <label>Amount (â‚±)</label>
                             <input type="number" id="expense-amount" min="0" step="0.01" placeholder="0.00">
                         </div>
                         <div>
@@ -662,7 +670,7 @@
 
             <!-- TAB 4: GCASH LOGS -->
             <div class="tab-panel" id="admin-tab-gcash">
-                <h2 style="color:var(--accent-color); margin-bottom:16px;">📱 GCash Transaction Logs</h2>
+                <h2 style="color:var(--accent-color); margin-bottom:16px;">ðŸ“± GCash Transaction Logs</h2>
                 <div class="gcash-header-row">
                     <div class="gcash-filter-bar" style="width:100%;">
                         <button class="btn-filter active" onclick="gcashChangeFilter('daily',this)">Daily</button>
@@ -684,9 +692,9 @@
                 <div class="gcash-summary-container" id="gcash-summary-footer">
                     <table style="min-width:unset;width:100%;">
                         <tbody>
-                            <tr style="color:#60a5fa;"><td style="font-style:italic;font-size:0.8rem;color:#6b7280;">Cash In</td><td id="gcash-in-count">Count: 0</td><td id="gcash-in-amount">₱0.00</td><td></td><td></td><td id="gcash-in-profit">₱0.00</td></tr>
-                            <tr style="color:#f87171;"><td style="font-style:italic;font-size:0.8rem;color:#6b7280;">Cash Out</td><td id="gcash-out-count">Count: 0</td><td id="gcash-out-amount">₱0.00</td><td></td><td></td><td id="gcash-out-profit">₱0.00</td></tr>
-                            <tr style="font-weight:bold;border-top:1px dashed var(--border-color);background:#1a1a1a;"><td style="color:var(--text-muted);">Total</td><td id="gcash-total-count">Total: 0</td><td id="gcash-total-amount">₱0.00</td><td></td><td></td><td id="gcash-total-profit" style="color:var(--success-color);">₱0.00</td></tr>
+                            <tr style="color:#60a5fa;"><td style="font-style:italic;font-size:0.8rem;color:#6b7280;">Cash In</td><td id="gcash-in-count">Count: 0</td><td id="gcash-in-amount">â‚±0.00</td><td></td><td></td><td id="gcash-in-profit">â‚±0.00</td></tr>
+                            <tr style="color:#f87171;"><td style="font-style:italic;font-size:0.8rem;color:#6b7280;">Cash Out</td><td id="gcash-out-count">Count: 0</td><td id="gcash-out-amount">â‚±0.00</td><td></td><td></td><td id="gcash-out-profit">â‚±0.00</td></tr>
+                            <tr style="font-weight:bold;border-top:1px dashed var(--border-color);background:#1a1a1a;"><td style="color:var(--text-muted);">Total</td><td id="gcash-total-count">Total: 0</td><td id="gcash-total-amount">â‚±0.00</td><td></td><td></td><td id="gcash-total-profit" style="color:var(--success-color);">â‚±0.00</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -719,7 +727,7 @@
                     <button class="btn-csv btn-danger" style="margin-left:auto;" onclick="exportUsersToCSV()">Export Users (CSV)</button>
                 </div>
                 <div style="background:#1a2233;border:1px solid #2a3a5c;border-radius:8px;padding:14px;margin-bottom:16px;font-size:0.85rem;color:#60a5fa;">
-                    ⚙️ <strong>Change Admin Password:</strong>
+                    âš™ï¸ <strong>Change Admin Password:</strong>
                     <div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;">
                         <input type="password" id="new-admin-pw-1" class="form-control" style="max-width:200px;font-size:0.9rem;" placeholder="New admin password">
                         <input type="password" id="new-admin-pw-2" class="form-control" style="max-width:200px;font-size:0.9rem;" placeholder="Confirm new password">
@@ -738,21 +746,21 @@
 
             <!-- TAB 7: BACKUP -->
             <div class="tab-panel" id="admin-tab-backup">
-                <button class="btn-backup-all" onclick="backupAllDataToCSV()">💾 Download Full Backup (All Data CSVs)</button>
+                <button class="btn-backup-all" onclick="backupAllDataToCSV()">ðŸ’¾ Download Full Backup (All Data CSVs)</button>
                 <div class="backup-section-title">Individual Exports</div>
                 <div class="backup-grid">
-                    <div class="backup-card"><h4>📊 Sales Report</h4><p>All transaction records.</p><button class="btn-csv" onclick="exportSalesJournalToCSV('all')" style="width:100%">Download CSV</button></div>
-                    <div class="backup-card"><h4>📦 Inventory</h4><p>Product catalog with stock.</p><button class="btn-csv" onclick="exportInventoryCatalogToCSV()" style="width:100%">Download CSV</button></div>
-                    <div class="backup-card"><h4>💳 Credit Ledger</h4><p>Outstanding credit accounts.</p><button class="btn-csv" onclick="exportCreditLedgerToCSV()" style="width:100%">Download CSV</button></div>
-                    <div class="backup-card"><h4>📱 GCash Logs</h4><p>All GCash transactions.</p><button class="btn-csv" onclick="exportGcashFullToCSV()" style="width:100%">Download CSV</button></div>
-                    <div class="backup-card"><h4>💰 Expenses</h4><p>All expense records.</p><button class="btn-csv" onclick="exportExpensesToCSV('all')" style="width:100%">Download CSV</button></div>
-                    <div class="backup-card"><h4>👥 User Accounts</h4><p>Registered users list.</p><button class="btn-csv" onclick="exportUsersToCSV()" style="width:100%">Download CSV</button></div>
+                    <div class="backup-card"><h4>ðŸ“Š Sales Report</h4><p>All transaction records.</p><button class="btn-csv" onclick="exportSalesJournalToCSV('all')" style="width:100%">Download CSV</button></div>
+                    <div class="backup-card"><h4>ðŸ“¦ Inventory</h4><p>Product catalog with stock.</p><button class="btn-csv" onclick="exportInventoryCatalogToCSV()" style="width:100%">Download CSV</button></div>
+                    <div class="backup-card"><h4>ðŸ’³ Credit Ledger</h4><p>Outstanding credit accounts.</p><button class="btn-csv" onclick="exportCreditLedgerToCSV()" style="width:100%">Download CSV</button></div>
+                    <div class="backup-card"><h4>ðŸ“± GCash Logs</h4><p>All GCash transactions.</p><button class="btn-csv" onclick="exportGcashFullToCSV()" style="width:100%">Download CSV</button></div>
+                    <div class="backup-card"><h4>ðŸ’° Expenses</h4><p>All expense records.</p><button class="btn-csv" onclick="exportExpensesToCSV('all')" style="width:100%">Download CSV</button></div>
+                    <div class="backup-card"><h4>ðŸ‘¥ User Accounts</h4><p>Registered users list.</p><button class="btn-csv" onclick="exportUsersToCSV()" style="width:100%">Download CSV</button></div>
                 </div>
                 <div class="backup-section-title">Restore from Backup</div>
                 <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:16px;">
-                    <div><p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:6px;">Restore Inventory</p><label class="restore-zone" onclick="this.querySelector('input').click()"><div>📦 Drop or click to upload<br><span style="font-size:0.75rem;">InventoryMatrix.csv</span></div><input type="file" accept=".csv" onchange="restoreFromCSV(event,'inventory')"></label></div>
-                    <div><p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:6px;">Restore Sales</p><label class="restore-zone" onclick="this.querySelector('input').click()"><div>📊 Drop or click to upload<br><span style="font-size:0.75rem;">SalesJournal.csv</span></div><input type="file" accept=".csv" onchange="restoreFromCSV(event,'sales')"></label></div>
-                    <div><p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:6px;">Restore GCash</p><label class="restore-zone" onclick="this.querySelector('input').click()"><div>📱 Drop or click to upload<br><span style="font-size:0.75rem;">GCash_Transactions.csv</span></div><input type="file" accept=".csv" onchange="restoreFromCSV(event,'gcash')"></label></div>
+                    <div><p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:6px;">Restore Inventory</p><label class="restore-zone" onclick="this.querySelector('input').click()"><div>ðŸ“¦ Drop or click to upload<br><span style="font-size:0.75rem;">InventoryMatrix.csv</span></div><input type="file" accept=".csv" onchange="restoreFromCSV(event,'inventory')"></label></div>
+                    <div><p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:6px;">Restore Sales</p><label class="restore-zone" onclick="this.querySelector('input').click()"><div>ðŸ“Š Drop or click to upload<br><span style="font-size:0.75rem;">SalesJournal.csv</span></div><input type="file" accept=".csv" onchange="restoreFromCSV(event,'sales')"></label></div>
+                    <div><p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:6px;">Restore GCash</p><label class="restore-zone" onclick="this.querySelector('input').click()"><div>ðŸ“± Drop or click to upload<br><span style="font-size:0.75rem;">GCash_Transactions.csv</span></div><input type="file" accept=".csv" onchange="restoreFromCSV(event,'gcash')"></label></div>
                 </div>
                 <div class="restore-log" id="restore-log">Restore log will appear here...</div>
             </div>
@@ -764,17 +772,17 @@
 <div id="activity-log-modal">
     <div class="activity-log-box">
         <div class="activity-log-header">
-            <h2>📋 Activity Log</h2>
+            <h2>ðŸ“‹ Activity Log</h2>
             <div class="activity-log-actions">
                 <button class="btn-tg-send" onclick="sendLogToTelegram()">Send to Telegram</button>
                 <button class="btn-csv" onclick="exportActivityLogToCSV()">Export CSV</button>
                 <button onclick="clearActivityLog()" style="background:#2a1a1a;color:var(--danger-color);border:1px solid var(--danger-color);padding:8px 12px;border-radius:6px;cursor:pointer;font-size:0.82rem;font-weight:700;">Clear Log</button>
-                <button onclick="closeActivityLogModal()" style="background:#222;color:var(--text-muted);border:1px solid #333;padding:8px 14px;border-radius:6px;cursor:pointer;font-size:0.85rem;font-weight:700;">✕ Close</button>
+                <button onclick="closeActivityLogModal()" style="background:#222;color:var(--text-muted);border:1px solid #333;padding:8px 14px;border-radius:6px;cursor:pointer;font-size:0.85rem;font-weight:700;">âœ• Close</button>
             </div>
         </div>
         <div style="padding:12px 16px;border-bottom:1px solid #222;">
             <div class="telegram-config-bar">
-                <h4>✈️ Telegram Configuration</h4>
+                <h4>âœˆï¸ Telegram Configuration</h4>
                 <div class="telegram-config-inputs">
                     <div style="flex:1;"><label style="display:block;font-size:0.75rem;color:#6b7280;margin-bottom:4px;">Bot Token</label><input type="text" id="tg-bot-token" placeholder="123456789:ABCDEFabcdef..."></div>
                     <div style="flex:1;"><label style="display:block;font-size:0.75rem;color:#6b7280;margin-bottom:4px;">Chat ID</label><input type="text" id="tg-chat-id" placeholder="-100123456789"></div>
@@ -802,17 +810,17 @@
     <div class="gcash-form-box">
         <div class="gcash-form-header">
             <h3>GCash Transaction</h3>
-            <button class="gcash-close-btn" onclick="closeGcashModal()">✕</button>
+            <button class="gcash-close-btn" onclick="closeGcashModal()">âœ•</button>
         </div>
         <div class="gcash-type-row">
             <label id="gcash-in-label" class="gcash-type-label selected-in" onclick="selectGcashType('GCASH IN')"><input type="radio" name="gcashType" value="GCASH IN" checked style="margin:0;"> Cash In</label>
             <label id="gcash-out-label" class="gcash-type-label" onclick="selectGcashType('GCASH OUT')"><input type="radio" name="gcashType" value="GCASH OUT" style="margin:0;"> Cash Out</label>
         </div>
         <div class="gcash-field"><label>Mobile Number</label><input type="tel" id="gcash-mobile" required placeholder="09171234567" maxlength="13"></div>
-        <div class="gcash-field"><label>Amount (₱)</label><input type="number" id="gcash-amount" step="0.01" min="0.01" required placeholder="0.00"></div>
+        <div class="gcash-field"><label>Amount (â‚±)</label><input type="number" id="gcash-amount" step="0.01" min="0.01" required placeholder="0.00"></div>
         <div class="gcash-field"><label>Customer Name</label><input type="text" id="gcash-customer-name" required placeholder="Juan Dela Cruz"></div>
         <div class="gcash-field"><label>Reference Number</label><input type="text" id="gcash-ref-no" placeholder="e.g., 0123 456 789123"></div>
-        <button class="gcash-submit-btn" onclick="handleGcashSubmit()">✓ Save Transaction</button>
+        <button class="gcash-submit-btn" onclick="handleGcashSubmit()">âœ“ Save Transaction</button>
     </div>
 </div>
 
@@ -821,9 +829,9 @@
     <div class="modal-box">
         <h2 id="checkout-modal-title">Checkout</h2>
         <div class="payment-method-selector">
-            <button class="pay-method-btn active-cash" id="pmb-cash" onclick="selectCheckoutMethod('CASH')">💵 Cash</button>
-            <button class="pay-method-btn" id="pmb-gcash" onclick="selectCheckoutMethod('GCASH')">📱 GCash</button>
-            <button class="pay-method-btn" id="pmb-credit" onclick="selectCheckoutMethod('CREDIT')">💳 Credit</button>
+            <button class="pay-method-btn active-cash" id="pmb-cash" onclick="selectCheckoutMethod('CASH')">ðŸ’µ Cash</button>
+            <button class="pay-method-btn" id="pmb-gcash" onclick="selectCheckoutMethod('GCASH')">ðŸ“± GCash</button>
+            <button class="pay-method-btn" id="pmb-credit" onclick="selectCheckoutMethod('CREDIT')">ðŸ’³ Credit</button>
         </div>
         <div class="form-group"><label>Total Due</label><input type="text" class="form-control" id="checkout-total" readonly style="color:var(--success-color);font-weight:bold;"></div>
         <div id="checkout-cash-section">
@@ -878,7 +886,7 @@
 <div id="receipt-print-area" style="display:none;"></div>
 
 <script>
-/* ══════════════════════════════ DIALOG ══════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• DIALOG â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 const ICONS = {
     info:    `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`,
     danger:  `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`,
@@ -914,7 +922,7 @@ function showConfirm(message, onConfirm, type = 'warning', title = 'Confirm Acti
 }
 document.getElementById('app-dialog-overlay').addEventListener('click', function(e) { if (e.target === this) this.classList.remove('show'); });
 
-/* ══════════════════════════════ ACTIVITY LOG ══════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• ACTIVITY LOG â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 const ACTIVITY_LOG_KEY = 'pos_activity_log';
 let activityLogFilter = 'all';
 function getActivityLog() { try { return JSON.parse(localStorage.getItem(ACTIVITY_LOG_KEY) || '[]'); } catch { return []; } }
@@ -951,14 +959,14 @@ function exportActivityLogToCSV() {
     downloadCSV(csv, `ActivityLog_${new Date().toISOString().slice(0,10)}.csv`);
 }
 
-/* ══════════════════════════════ TELEGRAM ══════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• TELEGRAM â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 const TG_TOKEN_KEY = 'pos_tg_token', TG_CHAT_KEY = 'pos_tg_chat';
 function saveTelegramConfig() {
     const token = document.getElementById('tg-bot-token').value.trim();
     const chat  = document.getElementById('tg-chat-id').value.trim();
     if (!token || !chat) { setTgMsg('Both fields are required.', 'var(--danger-color)'); return; }
     localStorage.setItem(TG_TOKEN_KEY, token); localStorage.setItem(TG_CHAT_KEY, chat);
-    setTgMsg('✓ Telegram config saved!', 'var(--success-color)');
+    setTgMsg('âœ“ Telegram config saved!', 'var(--success-color)');
     logActivity('system','Telegram configuration updated');
 }
 function loadTelegramConfig() {
@@ -973,8 +981,8 @@ async function sendLogToTelegram() {
     if (activityLogFilter !== 'all') logs = logs.filter(l => l.type === activityLogFilter);
     if (logs.length === 0) { showAlert('No log entries to send.', 'info'); return; }
     const storeName = document.getElementById('store-header-name').textContent;
-    let text = `📋 *${storeName} – Activity Log*\n📅 ${new Date().toLocaleString()}\n${'─'.repeat(30)}\n\n`;
-    logs.slice(-30).forEach(l => { text += `[${l.type.toUpperCase()}] ${new Date(l.timestamp).toLocaleString()}\n👤 ${l.user}: ${l.message}\n\n`; });
+    let text = `ðŸ“‹ *${storeName} â€“ Activity Log*\nðŸ“… ${new Date().toLocaleString()}\n${'â”€'.repeat(30)}\n\n`;
+    logs.slice(-30).forEach(l => { text += `[${l.type.toUpperCase()}] ${new Date(l.timestamp).toLocaleString()}\nðŸ‘¤ ${l.user}: ${l.message}\n\n`; });
     try {
         const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ chat_id: chat, text, parse_mode:'Markdown' }) });
         const data = await res.json();
@@ -988,7 +996,7 @@ async function sendToTelegramText(text) {
     try { await fetch(`https://api.telegram.org/bot${token}/sendMessage`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ chat_id: chat, text, parse_mode:'Markdown' }) }); } catch(e) {}
 }
 
-/* ══════════════════════════════ GLOBALS ══════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• GLOBALS â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 let posDB = null, gcashDB = null, usersDB = null;
 const POS_DB_NAME    = "MatrixPOS32DatabaseSuite";
 const POS_DB_VERSION = 3;
@@ -1018,7 +1026,7 @@ const pesoFormatter = new Intl.NumberFormat('en-PH', { minimumFractionDigits: 2,
 function getAdminPassword() { return localStorage.getItem(DEFAULT_ADMIN_PW_KEY) || "admin123"; }
 function setAdminPassword(pw) { localStorage.setItem(DEFAULT_ADMIN_PW_KEY, pw); }
 
-/* ══════════════════════════════ EXPENSES ══════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• EXPENSES â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function getExpenses() { try { return JSON.parse(localStorage.getItem(EXPENSES_KEY) || '[]'); } catch { return []; } }
 function saveExpenses(arr) { localStorage.setItem(EXPENSES_KEY, JSON.stringify(arr)); }
 
@@ -1030,7 +1038,7 @@ function addExpenseEntry() {
     if (amount <= 0) return showAlert('Enter a valid amount.', 'warning');
     const entry = { id: Date.now(), timestamp: new Date().toISOString(), description: desc, category: cat, amount };
     const arr = getExpenses(); arr.push(entry); saveExpenses(arr);
-    logActivity('admin', `Expense added: "${desc}" ₱${amount.toFixed(2)} [${cat}]`);
+    logActivity('admin', `Expense added: "${desc}" â‚±${amount.toFixed(2)} [${cat}]`);
     document.getElementById('expense-desc').value   = '';
     document.getElementById('expense-amount').value = '';
     renderExpensesTable();
@@ -1076,16 +1084,16 @@ function renderExpensesTable() {
             <td>${new Date(e.timestamp).toLocaleString()}</td>
             <td>${e.description}</td>
             <td><span style="background:#252525;padding:3px 8px;border-radius:4px;font-size:0.8rem;">${e.category}</span></td>
-            <td style="font-weight:bold;color:var(--danger-color);">₱${pesoFormatter.format(e.amount)}</td>
+            <td style="font-weight:bold;color:var(--danger-color);">â‚±${pesoFormatter.format(e.amount)}</td>
             <td><button class="btn-table-action btn-inline-delete" onclick="deleteExpenseEntry(${e.id})">Delete</button></td>
         `;
         tbody.appendChild(tr);
     });
 }
 
-/* ═══════════════════════════════════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    PROFIT PERIOD SELECTOR
-   ═══════════════════════════════════════════════════════════════════════ */
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function setProfitPeriod(period, btn) {
     profitPeriod = period;
     document.querySelectorAll('.profit-period-btn').forEach(b => b.classList.remove('active'));
@@ -1093,13 +1101,13 @@ function setProfitPeriod(period, btn) {
     updateProfitCards();
 }
 
-/* ═══════════════════════════════════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    FIXED PROFIT CARDS:
    Card1: Sales (capital cost)  = total revenue
-   Card2: Gross Profit          = Sales × 20%
+   Card2: Gross Profit          = Sales Ã— 20%
    Card3: Expenses              = sum of expense entries
-   Card4: Net Profit            = Gross Profit − Expenses
-   ═══════════════════════════════════════════════════════════════════════ */
+   Card4: Net Profit            = Gross Profit âˆ’ Expenses
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function updateProfitCards() {
     const now = new Date();
 
@@ -1119,32 +1127,32 @@ function updateProfitCards() {
     // Card 1: Total Sales (capital cost)
     const totalSales = salesInPeriod.reduce((s, tx) => s + tx.total, 0);
 
-    // Card 2: Gross Profit = Sales × 20%
+    // Card 2: Gross Profit = Sales Ã— 20%
     const grossProfit = totalSales * 0.20;
 
     // Card 3: Expenses (use same period as profit tabs, not expense-filter dropdown)
     const expensesInPeriod = filterExpenses(profitPeriod);
     const totalExpenses    = expensesInPeriod.reduce((s, e) => s + e.amount, 0);
 
-    // Card 4: Net Profit = Gross Profit − Expenses
+    // Card 4: Net Profit = Gross Profit âˆ’ Expenses
     const netProfit = grossProfit - totalExpenses;
 
-    // — Card 1: Sales —
-    document.getElementById('profit-capital').textContent     = `₱${pesoFormatter.format(totalSales)}`;
+    // â€” Card 1: Sales â€”
+    document.getElementById('profit-capital').textContent     = `â‚±${pesoFormatter.format(totalSales)}`;
     document.getElementById('profit-capital-sub').textContent = `${salesInPeriod.length} transaction${salesInPeriod.length !== 1 ? 's' : ''}`;
 
-    // — Card 2: Gross Profit —
+    // â€” Card 2: Gross Profit â€”
     const grossEl = document.getElementById('profit-gross');
-    grossEl.textContent = `₱${pesoFormatter.format(Math.abs(grossProfit))}${grossProfit < 0 ? ' (LOSS)' : ''}`;
+    grossEl.textContent = `â‚±${pesoFormatter.format(Math.abs(grossProfit))}${grossProfit < 0 ? ' (LOSS)' : ''}`;
     grossEl.style.color = grossProfit < 0 ? 'var(--danger-color)' : 'var(--success-color)';
 
-    // — Card 3: Expenses —
-    document.getElementById('profit-expenses-amt').textContent   = `₱${pesoFormatter.format(totalExpenses)}`;
+    // â€” Card 3: Expenses â€”
+    document.getElementById('profit-expenses-amt').textContent   = `â‚±${pesoFormatter.format(totalExpenses)}`;
     document.getElementById('profit-expenses-count').textContent = `${expensesInPeriod.length} expense entr${expensesInPeriod.length !== 1 ? 'ies' : 'y'}`;
 
-    // — Card 4: Net Profit —
+    // â€” Card 4: Net Profit â€”
     const netEl = document.getElementById('profit-net');
-    netEl.textContent = `₱${pesoFormatter.format(Math.abs(netProfit))}${netProfit < 0 ? ' (LOSS)' : ''}`;
+    netEl.textContent = `â‚±${pesoFormatter.format(Math.abs(netProfit))}${netProfit < 0 ? ' (LOSS)' : ''}`;
     netEl.style.color = netProfit < 0 ? 'var(--danger-color)' : '#a29bfe';
 }
 
@@ -1156,7 +1164,7 @@ function exportExpensesToCSV(forceFilter) {
     logActivity('admin','Expenses exported to CSV');
 }
 
-/* ══════════════════════════════ USERS DB ══════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• USERS DB â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function initUsersDB() {
     return new Promise((resolve, reject) => {
         const req = indexedDB.open(USERS_DB_NAME, USERS_DB_VERSION);
@@ -1177,7 +1185,7 @@ function usersAdd(userObj) { return new Promise((res,rej) => { if (!usersDB) ret
 function usersDelete(username) { return new Promise((res,rej) => { if (!usersDB) return rej("Users DB not ready"); const tx = usersDB.transaction(USERS_STORE,"readwrite"); const r = tx.objectStore(USERS_STORE).delete(username); r.onsuccess = () => res(); r.onerror = e => rej(e.target.error); }); }
 function simpleHash(str) { let h = 0; for (let i=0;i<str.length;i++){h=((h<<5)-h)+str.charCodeAt(i);h|=0;} return h.toString(16); }
 
-/* ══════════════════════════════ AUTH ══════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• AUTH â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function switchAuthTab(tab) {
     document.querySelectorAll('.auth-tab').forEach((t,i) => t.classList.toggle('active', (i===0&&tab==='login')||(i===1&&tab==='signup')));
     document.getElementById('login-form').classList.toggle('active', tab==='login');
@@ -1221,7 +1229,7 @@ async function handleSignUp() {
 function launchApp(user) {
     document.getElementById('auth-screen').style.display = 'none';
     document.getElementById('app-main').classList.add('visible');
-    document.getElementById('logged-in-badge').textContent = `👤 ${user.fullname} (${user.role})`;
+    document.getElementById('logged-in-badge').textContent = `ðŸ‘¤ ${user.fullname} (${user.role})`;
     initIndexedDBStore();
 }
 function handleLogout() {
@@ -1239,7 +1247,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('login-username').addEventListener('keydown', e => { if (e.key==='Enter') handleLogin(); });
 });
 
-/* ══════════════════════════════ ADMIN GATE ══════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• ADMIN GATE â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function requireAdminPassword() {
     document.getElementById('admin-gate-password').value = '';
     document.getElementById('admin-gate-error').style.display = 'none';
@@ -1268,11 +1276,11 @@ function changeAdminPassword() {
     if (p1!==p2){msg.style.color='var(--danger-color)';msg.textContent='Passwords do not match.';return;}
     setAdminPassword(p1);
     logActivity('admin',`Admin password changed`);
-    msg.style.color='var(--success-color)'; msg.textContent='✓ Admin password updated.';
+    msg.style.color='var(--success-color)'; msg.textContent='âœ“ Admin password updated.';
     document.getElementById('new-admin-pw-1').value=''; document.getElementById('new-admin-pw-2').value='';
 }
 
-/* ══════════════════════════════ POS DB ══════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• POS DB â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function initIndexedDBStore() {
     const request = indexedDB.open(POS_DB_NAME, POS_DB_VERSION);
     request.onupgradeneeded = function(e) {
@@ -1313,10 +1321,10 @@ function fetchRecordsFromLocalDB() {
     };
 }
 
-/* ═══════════════════════════════════════════════════════════════════════
-   FIX: persistProductsToIndexedDB — returns a Promise so callers can
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   FIX: persistProductsToIndexedDB â€” returns a Promise so callers can
    chain off it. Also ensures `sold` defaults to 0.
-   ═══════════════════════════════════════════════════════════════════════ */
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function persistProductsToIndexedDB() {
     return new Promise((resolve, reject) => {
         if (!posDB) return resolve();
@@ -1332,15 +1340,15 @@ function persistProductsToIndexedDB() {
 }
 
 function wipeAndResetDatabaseSuite() {
-    showConfirm('⚠️ <strong>WARNING:</strong> This will permanently erase ALL data. Cannot be undone.', () => {
+    showConfirm('âš ï¸ <strong>WARNING:</strong> This will permanently erase ALL data. Cannot be undone.', () => {
         logActivity('admin','Database wipe initiated');
         if (posDB) posDB.close();
         const del = indexedDB.deleteDatabase(POS_DB_NAME);
         del.onsuccess = () => { showAlert('Database cleared. Reloading...','success'); setTimeout(() => window.location.reload(), 1500); };
-    }, 'danger', '⚠️ Clear & Reset Database');
+    }, 'danger', 'âš ï¸ Clear & Reset Database');
 }
 
-/* ══════════════════════════════ GCASH DB ══════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• GCASH DB â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function initGcashDB() {
     return new Promise((resolve, reject) => {
         const req = indexedDB.open(GCASH_DB_NAME, GCASH_DB_VERSION);
@@ -1375,7 +1383,7 @@ function gcashAddRecord(record) {
     });
 }
 
-/* ══════════════════════════════ MODAL HELPERS ══════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• MODAL HELPERS â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function openModal(id)  { document.getElementById(id).classList.add("active"); }
 function closeModal(id) { document.getElementById(id).classList.remove("active"); }
 function openAdminModal() {
@@ -1393,7 +1401,7 @@ function switchAdminTab(index) {
     if (index===2) { renderInventoryDashboardTable(); }
 }
 
-/* ══════════════════════════════ SALES SUMMARY ══════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• SALES SUMMARY â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function getSalesByRange(range) {
     const now = new Date();
     const filtered = memorySalesJournal.filter(tx => {
@@ -1411,17 +1419,17 @@ function getSalesByRange(range) {
 }
 function updateSalesSummaryCards() {
     const day=getSalesByRange('day'), week=getSalesByRange('week'), month=getSalesByRange('month'), year=getSalesByRange('year');
-    document.getElementById('card-today-amt').textContent = `₱${pesoFormatter.format(day.total)}`;
+    document.getElementById('card-today-amt').textContent = `â‚±${pesoFormatter.format(day.total)}`;
     document.getElementById('card-today-cnt').textContent = `${day.count} transaction${day.count!==1?'s':''}`;
-    document.getElementById('card-week-amt').textContent  = `₱${pesoFormatter.format(week.total)}`;
+    document.getElementById('card-week-amt').textContent  = `â‚±${pesoFormatter.format(week.total)}`;
     document.getElementById('card-week-cnt').textContent  = `${week.count} transaction${week.count!==1?'s':''}`;
-    document.getElementById('card-month-amt').textContent = `₱${pesoFormatter.format(month.total)}`;
+    document.getElementById('card-month-amt').textContent = `â‚±${pesoFormatter.format(month.total)}`;
     document.getElementById('card-month-cnt').textContent = `${month.count} transaction${month.count!==1?'s':''}`;
-    document.getElementById('card-year-amt').textContent  = `₱${pesoFormatter.format(year.total)}`;
+    document.getElementById('card-year-amt').textContent  = `â‚±${pesoFormatter.format(year.total)}`;
     document.getElementById('card-year-cnt').textContent  = `${year.count} transaction${year.count!==1?'s':''}`;
 }
 
-/* ══════════════════════════════ SALES CHART ══════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• SALES CHART â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function switchChartPeriod(period, btn) {
     currentChartPeriod = period;
     document.querySelectorAll('.chart-period-btn').forEach(b => b.classList.remove('active'));
@@ -1446,12 +1454,12 @@ function renderSalesChart() {
     gradient.addColorStop(0,'rgba(0,173,181,0.35)'); gradient.addColorStop(1,'rgba(0,173,181,0.01)');
     salesChartInstance = new Chart(ctx, {
         type:'line',
-        data:{ labels, datasets:[{ label:'Sales (₱)', data, borderColor:'#00adb5', backgroundColor:gradient, borderWidth:2.5, pointBackgroundColor:'#00adb5', pointRadius:data.length<=7?4:2, pointHoverRadius:6, tension:0.4, fill:true }] },
-        options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{display:false}, tooltip:{backgroundColor:'#1e1e1e',borderColor:'#333',borderWidth:1,titleColor:'#e0e0e0',bodyColor:'#00adb5',callbacks:{label:ctx=>' ₱'+pesoFormatter.format(ctx.parsed.y)}} }, scales:{ x:{ticks:{color:'#888',font:{size:10},maxTicksLimit:12,maxRotation:45},grid:{color:'#232323'}}, y:{ticks:{color:'#888',font:{size:10},callback:v=>'₱'+pesoFormatter.format(v)},grid:{color:'#232323'}} } }
+        data:{ labels, datasets:[{ label:'Sales (â‚±)', data, borderColor:'#00adb5', backgroundColor:gradient, borderWidth:2.5, pointBackgroundColor:'#00adb5', pointRadius:data.length<=7?4:2, pointHoverRadius:6, tension:0.4, fill:true }] },
+        options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{display:false}, tooltip:{backgroundColor:'#1e1e1e',borderColor:'#333',borderWidth:1,titleColor:'#e0e0e0',bodyColor:'#00adb5',callbacks:{label:ctx=>' â‚±'+pesoFormatter.format(ctx.parsed.y)}} }, scales:{ x:{ticks:{color:'#888',font:{size:10},maxTicksLimit:12,maxRotation:45},grid:{color:'#232323'}}, y:{ticks:{color:'#888',font:{size:10},callback:v=>'â‚±'+pesoFormatter.format(v)},grid:{color:'#232323'}} } }
     });
 }
 
-/* ══════════════════════════════ DATE FILTER ══════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• DATE FILTER â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function filterRecordsByTimeRange(records, range) {
     const now = new Date();
     return records.filter(rec => {
@@ -1466,7 +1474,7 @@ function filterRecordsByTimeRange(records, range) {
     });
 }
 
-/* ══════════════════════════════ SALES TABLE ══════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• SALES TABLE â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function renderSalesDashboardTable() {
     const filter   = document.getElementById("sales-date-filter").value;
     const filtered = filterRecordsByTimeRange(memorySalesJournal, filter);
@@ -1481,13 +1489,13 @@ function renderSalesDashboardTable() {
             <td style="font-weight:600;font-family:monospace;">AR-TX-${1000+(tx.id||idx)}</td>
             <td style="max-width:400px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${items}">${items}</td>
             <td><span style="color:${payColor};font-weight:bold;">${tx.paymentType}</span></td>
-            <td style="font-weight:bold;">₱${tx.total.toFixed(2)}</td>
+            <td style="font-weight:bold;">â‚±${tx.total.toFixed(2)}</td>
         `;
         tbody.appendChild(tr);
     });
 }
 
-/* ══════════════════════════════ INVENTORY ══════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• INVENTORY â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function renderInventoryDashboardTable() {
     const sort = document.getElementById("inventory-sort-filter").value;
     let display = [...systemProducts];
@@ -1503,7 +1511,7 @@ function renderInventoryDashboardTable() {
             <td style="font-family: monospace;">${p.id}</td>
             <td>${p.name}</td>
             <td style="font-family: monospace;">${p.barcode}</td>
-            <td>₱${p.price.toFixed(2)}</td>
+            <td>â‚±${p.price.toFixed(2)}</td>
             <td style="font-weight: bold; color: ${isLowStock ? 'var(--danger-color)' : 'white'};">${p.stock}</td>
             <td style="font-weight: bold; color: var(--accent-color);">${p.sold ?? 0}</td>
             <td>
@@ -1545,7 +1553,7 @@ function saveProductCrudData() {
     if (mode==="ADD") {
         if (systemProducts.some(p=>p.id===id||p.barcode===barcode)) return showAlert("Duplicate SKU or Barcode.","danger");
         systemProducts.push({id, name, barcode, price, stock, sold: 0});
-        logActivity('admin',`Product added: "${name}" (SKU:${id}, ₱${price}, Stock:${stock})`);
+        logActivity('admin',`Product added: "${name}" (SKU:${id}, â‚±${price}, Stock:${stock})`);
     } else {
         const p = systemProducts.find(x=>x.id===id);
         if (p) {
@@ -1610,23 +1618,23 @@ function handleBulkCsvUpload(event) {
     reader.readAsText(input.files[0]);
 }
 
-/* ══════════════════════════════ CREDIT LEDGER ══════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• CREDIT LEDGER â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function renderLedgerDashboardTable() {
     const tbody = document.getElementById("ledger-table-body");
     tbody.innerHTML = "";
     const entries = memorySalesJournal.filter(tx=>tx.paymentType==="CREDIT_UTANG"&&tx.total>0);
     entries.forEach(tx => {
         const names  = tx.items.map(i=>i.product.name).join("<br>");
-        const prices = tx.items.map(i=>`₱${i.product.price.toFixed(2)} (x${i.quantity})`).join("<br>");
+        const prices = tx.items.map(i=>`â‚±${i.product.price.toFixed(2)} (x${i.quantity})`).join("<br>");
         const tr     = document.createElement("tr");
-        tr.innerHTML = `<td>${new Date(tx.timestamp).toLocaleDateString()}</td><td style="font-weight:bold;color:var(--warning-color);">${tx.customerName}</td><td style="color:var(--text-muted);font-size:0.85rem;">${names}</td><td style="font-family:monospace;font-size:0.85rem;">${prices}</td><td style="font-weight:bold;color:var(--danger-color);">₱${tx.total.toFixed(2)}</td><td><button class="btn-table-action" onclick="initiateLedgerSettlementModal(${tx.id},'${tx.customerName.replace(/'/g,"\\'")}',${tx.total})">Settle</button></td>`;
+        tr.innerHTML = `<td>${new Date(tx.timestamp).toLocaleDateString()}</td><td style="font-weight:bold;color:var(--warning-color);">${tx.customerName}</td><td style="color:var(--text-muted);font-size:0.85rem;">${names}</td><td style="font-family:monospace;font-size:0.85rem;">${prices}</td><td style="font-weight:bold;color:var(--danger-color);">â‚±${tx.total.toFixed(2)}</td><td><button class="btn-table-action" onclick="initiateLedgerSettlementModal(${tx.id},'${tx.customerName.replace(/'/g,"\\'")}',${tx.total})">Settle</button></td>`;
         tbody.appendChild(tr);
     });
 }
 function initiateLedgerSettlementModal(invoiceId, customerName, balance) {
     targetedLedgerInvoiceId = invoiceId;
     document.getElementById("settle-customer-name").value    = customerName;
-    document.getElementById("settle-outstanding-total").value = `₱${balance.toFixed(2)}`;
+    document.getElementById("settle-outstanding-total").value = `â‚±${balance.toFixed(2)}`;
     document.getElementById("settle-cash-input").value        = "";
     openModal("settlement-modal");
     setTimeout(()=>document.getElementById("settle-cash-input").focus(),250);
@@ -1647,7 +1655,7 @@ document.getElementById("process-settlement-btn").onclick = function() {
         store.put(invoice).onsuccess = function() {
             const entry = { timestamp: new Date().toISOString(), items:[], total:paid, paymentType:"CASH", isSettlement:true, settledInvoiceId:targetedLedgerInvoiceId, customerName:invoice.customerName };
             store.add(entry).onsuccess = function() {
-                logActivity('sale',`Credit settled: "${invoice.customerName}" paid ₱${paid.toFixed(2)}, remaining ₱${invoice.total.toFixed(2)}`);
+                logActivity('sale',`Credit settled: "${invoice.customerName}" paid â‚±${paid.toFixed(2)}, remaining â‚±${invoice.total.toFixed(2)}`);
                 fetchRecordsFromLocalDB();
                 closeModal("settlement-modal");
                 printReceipt({ timestamp: new Date().toISOString(), customerName: invoice.customerName, method:'CREDIT SETTLEMENT', items:[{name:'Credit Payment', qty:1, price:paid}], subtotal:paid, discount:0, cash:paid, change:0, total:paid });
@@ -1656,7 +1664,7 @@ document.getElementById("process-settlement-btn").onclick = function() {
     };
 };
 
-/* ══════════════════════════════ CATALOG ══════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• CATALOG â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function renderCashierCatalog(search="") {
     const grid = document.getElementById("catalog-grid");
     grid.innerHTML = "";
@@ -1666,7 +1674,7 @@ function renderCashierCatalog(search="") {
         const card = document.createElement("div");
         card.className = "product-card";
         card.onclick   = () => addItemToRegisterBasket(p.id);
-        card.innerHTML = `<div class="product-name">${p.name}</div><div><div class="product-price">₱${p.price.toFixed(2)}</div><div class="product-stock">Stock: ${p.stock}</div></div>`;
+        card.innerHTML = `<div class="product-name">${p.name}</div><div><div class="product-price">â‚±${p.price.toFixed(2)}</div><div class="product-stock">Stock: ${p.stock}</div></div>`;
         grid.appendChild(card);
     });
 }
@@ -1703,28 +1711,28 @@ function renderRegisterBasketCart() {
             <div class="cart-item-details">
                 <div class="cart-item-name">${item.product.name}</div>
                 <div class="cart-item-qty-controls">
-                    <button class="qty-btn" onclick="adjustBasketItemQuantity('${item.product.id}',-1)">−</button>
+                    <button class="qty-btn" onclick="adjustBasketItemQuantity('${item.product.id}',-1)">âˆ’</button>
                     <span style="font-weight:bold;">${item.quantity}</span>
                     <button class="qty-btn" onclick="adjustBasketItemQuantity('${item.product.id}',1)">+</button>
                 </div>
             </div>
-            <div class="cart-item-price-group">₱${lineTotal.toFixed(2)}</div>
-            <button class="remove-item-btn" onclick="forceRemoveBasketItem('${item.product.id}')">✕</button>
+            <div class="cart-item-price-group">â‚±${lineTotal.toFixed(2)}</div>
+            <button class="remove-item-btn" onclick="forceRemoveBasketItem('${item.product.id}')">âœ•</button>
         `;
         container.appendChild(row);
     });
     container.scrollTop = scrollPos;
-    document.getElementById("summary-total").innerText = `₱${calculateActiveBasketTotalSum().toFixed(2)}`;
+    document.getElementById("summary-total").innerText = `â‚±${calculateActiveBasketTotalSum().toFixed(2)}`;
 }
 
-/* ══════════════════════════════ UNIFIED CHECKOUT ══════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• UNIFIED CHECKOUT â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function openCheckoutModal(preferredMethod) {
     if (activeCart.length === 0) return showAlert("Your cart is empty.","warning","Empty Cart");
     checkoutPaymentMethod = preferredMethod || 'CASH';
     const total = calculateActiveBasketTotalSum();
-    document.getElementById('checkout-total').value = `₱${total.toFixed(2)}`;
+    document.getElementById('checkout-total').value = `â‚±${total.toFixed(2)}`;
     document.getElementById('checkout-tendered').value = '';
-    document.getElementById('checkout-change').value = '₱0.00';
+    document.getElementById('checkout-change').value = 'â‚±0.00';
     document.getElementById('checkout-gcash-ref').value = '';
     document.getElementById('checkout-gcash-mobile').value = '';
     document.getElementById('checkout-customer-name').value = '';
@@ -1756,7 +1764,7 @@ function calcChange() {
     const total    = calculateActiveBasketTotalSum();
     const tendered = parseFloat(document.getElementById('checkout-tendered').value) || 0;
     const change   = tendered - total;
-    document.getElementById('checkout-change').value = change >= 0 ? `₱${change.toFixed(2)}` : 'Insufficient Cash';
+    document.getElementById('checkout-change').value = change >= 0 ? `â‚±${change.toFixed(2)}` : 'Insufficient Cash';
 }
 function processCheckout() {
     const total = calculateActiveBasketTotalSum();
@@ -1776,12 +1784,12 @@ function processCheckout() {
     }
 }
 
-/* ═══════════════════════════════════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    FIX: TRANSACTION PIPELINE
    - Properly deducts stock from systemProducts
    - Properly increments sold count per product
    - Waits for persistProductsToIndexedDB to complete before fetching records
-   ═══════════════════════════════════════════════════════════════════════ */
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function executeCommitTransactionPipeline(channel, meta={}) {
     const total    = calculateActiveBasketTotalSum();
     const subtotal = total;
@@ -1794,7 +1802,7 @@ function executeCommitTransactionPipeline(channel, meta={}) {
     };
     const itemsSummary = activeCart.map(i=>`${i.product.name} x${i.quantity}`).join(', ');
 
-    // ── FIX: Update stock AND sold count on the master product list ──
+    // â”€â”€ FIX: Update stock AND sold count on the master product list â”€â”€
     activeCart.forEach(item => {
         const p = systemProducts.find(x => x.id === item.product.id);
         if (p) {
@@ -1819,7 +1827,7 @@ function executeCommitTransactionPipeline(channel, meta={}) {
 
     const cartSnapshot = [...activeCart]; // keep for receipt/log before clearing
 
-    // ── FIX: Save sale record, then persist products, then reload data ──
+    // â”€â”€ FIX: Save sale record, then persist products, then reload data â”€â”€
     if (posDB) {
         const dbTx = posDB.transaction(POS_SALES_STORE, "readwrite");
         const store = dbTx.objectStore(POS_SALES_STORE);
@@ -1835,12 +1843,12 @@ function executeCommitTransactionPipeline(channel, meta={}) {
         };
     }
 
-    logActivity('sale',`${channel} sale: ₱${total.toFixed(2)} — ${itemsSummary}${meta.customerName?` | Customer: ${meta.customerName}`:''}`);
+    logActivity('sale',`${channel} sale: â‚±${total.toFixed(2)} â€” ${itemsSummary}${meta.customerName?` | Customer: ${meta.customerName}`:''}`);
 
     if (channel !== 'CREDIT_UTANG') {
         printReceipt(receiptData);
     } else {
-        showAlert(`Credit entry posted for <strong>${meta.customerName}</strong>.<br>Amount: ₱${total.toFixed(2)}`,'warning','Credit Posted');
+        showAlert(`Credit entry posted for <strong>${meta.customerName}</strong>.<br>Amount: â‚±${total.toFixed(2)}`,'warning','Credit Posted');
     }
 
     activeCart = [];
@@ -1849,7 +1857,7 @@ function executeCommitTransactionPipeline(channel, meta={}) {
     closeModal('checkout-modal');
 }
 
-/* ══════════════════════════════ RECEIPT PRINTER ══════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• RECEIPT PRINTER â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function printReceipt(s) {
     const div = document.getElementById('receipt-print-area');
     const customer = s.customerName ? s.customerName.toUpperCase() : "WALK-IN";
@@ -1863,15 +1871,15 @@ function printReceipt(s) {
     
     div.innerHTML = `
         <div style="text-align:center; margin:2px;">
-            <strong style="font-size:1.1em;">MEICAI STORE</strong>
-            <p style="font-size:11px;">#36 Donnan Bldg Josefina St</p>
-            <p style="font-size:11px;">4th Avenue Caloocan City Phil.</p>
-            <p style="font-size:11px;">Mobile Number: 0950 682 5698</p>
+            <strong style="font-size:1em;">[Your Store] POS</strong>
+            <p style="font-size:10px;">#36 Donnan Bldg Josefina St</p>
+            <p style="font-size:10px;">4th Avenue Caloocan City Phil.</p>
+            <p style="font-size:10px;">Mobile Number: 0950 682 5698</p>
         </div>
         
         <hr style="border-top:2px dashed #000; margin: 8px 0;">
         
-        <div style="margin-bottom:8px; font-size:11px;">
+        <div style="margin-bottom:8px; font-size:9px;">
             Date: ${new Date(s.timestamp).toLocaleString()}<br>
             Customer: ${customer}<br>
             Method: ${s.method}${s.gcashRef ? '<br>GCash Ref: ' + s.gcashRef : ''}${s.gcashMobile ? '<br>Mobile: ' + s.gcashMobile : ''}
@@ -1882,10 +1890,10 @@ function printReceipt(s) {
         <!-- Items Section -->
         ${s.items.map(i => `
             <div style="margin-bottom:5px; width:100%;">
-                <div style="text-transform:uppercase; font-size:10px;">${i.name}</div>
+                <div style="text-transform:uppercase; font-size:9px;">${i.name}</div>
                 <div style="width:100%;">
-                    <span style="float:left; font-size:10px;">${i.qty} x ${i.price.toFixed(2)}</span>
-                    <span style="float:right; font-size:10px;">₱${(i.qty * i.price).toFixed(2)}</span>
+                    <span style="float:left; font-size:9px;">${i.qty} x ${i.price.toFixed(2)}</span>
+                    <span style="float:right; font-size:9px;">â‚±${(i.qty * i.price).toFixed(2)}</span>
                     <div style="clear:both;"></div>
                 </div>
             </div>
@@ -1895,40 +1903,41 @@ function printReceipt(s) {
         
         <!-- Breakdown Section -->
         <div style="width:100%; margin-bottom:1px;">
-            <span style="float:left;font-size:11px;">Subtotal:</span>
-            <span style="float:right;font-size:11px;">₱${s.subtotal.toFixed(2)}</span>
+            <span style="float:left;font-size:9px;">Subtotal:</span>
+            <span style="float:right;font-size:9px;">â‚±${s.subtotal.toFixed(2)}</span>
             <div style="clear:both;"></div>
         </div>
         
         ${s.discount > 0 ? `
         <div style="width:100%; margin-bottom:1px;">
-            <span style="float:left;font-size:11px;">Discount:</span>
-            <span style="float:right;font-size:11px;">-₱${s.discount.toFixed(2)}</span>
+            <span style="float:left;font-size:9px;">Discount:</span>
+            <span style="float:right;font-size:9px;">-â‚±${s.discount.toFixed(2)}</span>
             <div style="clear:both;"></div>
         </div>` : ''}
         
         <div style="width:100%; margin-bottom:1px;">
-            <span style="float:left;font-size:11px;">Payment:</span>
-            <span style="float:right;font-size:11px;">₱${s.cash.toFixed(2)}</span>
+            <span style="float:left;font-size:9px;">Payment:</span>
+            <span style="float:right;font-size:9px;">â‚±${s.cash.toFixed(2)}</span>
             <div style="clear:both;"></div>
         </div>
-        
-        <div style="width:100%; margin-bottom:1px;">
-            <span style="float:left; font-size:11px;">Change:</span>
-            <span style="float:right; font-size:11px;">₱${s.change.toFixed(2)}</span>
-            <div style="clear:both;"></div>
-        </div>
-        
+
         <!-- Total Section -->
-        <div style="font-size:1em; margin-top:10px; border-top:3px solid #000; padding-top:5px; width:100%;">
-            <strong style="float:left; font-size:11px;">TOTAL:</strong>
-            <strong style="float:right;font-size:11px;">₱${s.total.toFixed(2)}</strong>
+        <div style="width:100%; margin-bottom:1px;">
+            <span style="float:left; font-size:9px;">Total:</span>
+            <span style="float:right;font-size:10px;">â‚±${s.total.toFixed(2)}</span>
+            <div style="clear:both;"></div>
+        </div>
+		
+		
+		<div style="font-size:1em; margin-top:10px; border-top:3px solid #000; padding-top:5px; width:100%;">
+            <strong style="float:left; font-size:10px;">Change:</strong>
+            <strong style="float:right; font-size:10px;">â‚±${s.change.toFixed(2)}</strong>
             <div style="clear:both;"></div>
         </div>
         
         <hr style="border-top:2px dashed #000; margin-top:15px;">
         
-        <div style="text-align:center; font-size: 11px; margin-top:10px; font-weight:bold; padding-bottom:20px;">
+        <div style="text-align:center; font-size: 9px; margin-top:10px; font-weight:bold; padding-bottom:20px;">
             Thanks for your purchase!<br>Please come again!!
         </div>
 		<br>
@@ -1944,25 +1953,25 @@ function printReceipt(s) {
     setTimeout(() => { window.print(); }, 250);
 }
 function buildTelegramReceiptText(s) {
-    const customer = s.customerName ? s.customerName.toUpperCase() : "WALK-IN";
-    let text = `🧾 *MEICAI STORE - Receipt*\n`;
-    text += `📅 ${new Date(s.timestamp).toLocaleString()}\n`;
-    text += `👤 Customer: ${customer}\n`;
-    text += `💳 Method: ${s.method}\n`;
-    if (s.gcashRef) text += `📱 GCash Ref: ${s.gcashRef}\n`;
-    text += `${'─'.repeat(28)}\n`;
-    s.items.forEach(i => { text += `${i.name.toUpperCase()}\n  ${i.qty} x ₱${i.price.toFixed(2)} = ₱${(i.qty*i.price).toFixed(2)}\n`; });
-    text += `${'─'.repeat(28)}\n`;
-    text += `Subtotal: ₱${s.subtotal.toFixed(2)}\n`;
-    if (s.discount > 0) text += `Discount: -₱${s.discount.toFixed(2)}\n`;
-    text += `Payment: ₱${s.cash.toFixed(2)}\n`;
-    text += `Change: ₱${s.change.toFixed(2)}\n`;
-    text += `*TOTAL: ₱${s.total.toFixed(2)}*\n`;
-    text += `${'─'.repeat(28)}\nThanks for your purchase!`;
+    const customer = s.customerName ? s.customerName.toUpperCase() : "WALK-IN CLIENT";
+    let text = `ðŸ§¾ *MEICAI STORE - Receipt*\n`;
+    text += `ðŸ“… ${new Date(s.timestamp).toLocaleString()}\n`;
+    text += `ðŸ‘¤ Customer: ${customer}\n`;
+    text += `ðŸ’³ Method: ${s.method}\n`;
+    if (s.gcashRef) text += `ðŸ“± GCash Ref: ${s.gcashRef}\n`;
+    text += `${'â”€'.repeat(28)}\n`;
+    s.items.forEach(i => { text += `${i.name.toUpperCase()}\n  ${i.qty} x â‚±${i.price.toFixed(2)} = â‚±${(i.qty*i.price).toFixed(2)}\n`; });
+    text += `${'â”€'.repeat(28)}\n`;
+    text += `Subtotal: â‚±${s.subtotal.toFixed(2)}\n`;
+    if (s.discount > 0) text += `Discount: -â‚±${s.discount.toFixed(2)}\n`;
+    text += `Payment: â‚±${s.cash.toFixed(2)}\n`;
+    text += `Change: â‚±${s.change.toFixed(2)}\n`;
+    text += `*TOTAL: â‚±${s.total.toFixed(2)}*\n`;
+    text += `${'â”€'.repeat(28)}\nThanks for your purchase!`;
     return text;
 }
 
-/* ══════════════════════════════ CSV EXPORTS ══════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• CSV EXPORTS â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function downloadCSV(content, filename) {
     const blob = new Blob([content],{type:'text/csv;charset=utf-8;'});
     const a = document.createElement("a");
@@ -2015,13 +2024,13 @@ async function exportUsersToCSV() {
 }
 async function backupAllDataToCSV() {
     logRestore(`Starting full backup at ${new Date().toLocaleString()}...`);
-    exportSalesJournalToCSV('all'); logRestore(`✓ Sales exported`);
-    exportInventoryCatalogToCSV(); logRestore(`✓ Inventory exported`);
-    exportCreditLedgerToCSV(); logRestore(`✓ Credit Ledger exported`);
-    try { await exportGcashFullToCSV(); logRestore(`✓ GCash exported`); } catch(e){logRestore(`⚠ GCash export failed`);}
-    exportExpensesToCSV('all'); logRestore(`✓ Expenses exported`);
-    await exportUsersToCSV(); logRestore(`✓ Users exported`);
-    logRestore(`✅ Full backup complete.`);
+    exportSalesJournalToCSV('all'); logRestore(`âœ“ Sales exported`);
+    exportInventoryCatalogToCSV(); logRestore(`âœ“ Inventory exported`);
+    exportCreditLedgerToCSV(); logRestore(`âœ“ Credit Ledger exported`);
+    try { await exportGcashFullToCSV(); logRestore(`âœ“ GCash exported`); } catch(e){logRestore(`âš  GCash export failed`);}
+    exportExpensesToCSV('all'); logRestore(`âœ“ Expenses exported`);
+    await exportUsersToCSV(); logRestore(`âœ“ Users exported`);
+    logRestore(`âœ… Full backup complete.`);
     logActivity('admin','Full system backup downloaded');
 }
 function logRestore(msg) { const el=document.getElementById('restore-log'); if(!el)return; el.innerHTML+=msg+'\n'; el.scrollTop=el.scrollHeight; }
@@ -2036,36 +2045,36 @@ function restoreFromCSV(event, type) {
             const rows = text.split(/\r?\n/).map(r=>r.trim()).filter(r=>r.length>0);
             logRestore(`\nRestoring ${type}...`);
             if (type==='inventory') {
-                if (rows.length<=1){logRestore('⚠ No data rows.');return;}
+                if (rows.length<=1){logRestore('âš  No data rows.');return;}
                 let delim=rows[0].includes(";")?";":rows[0].includes("\t")?"\t":",";
                 let added=0,updated=0;
-                if(!posDB){logRestore('⚠ DB not ready.');return;}
+                if(!posDB){logRestore('âš  DB not ready.');return;}
                 const tx=posDB.transaction(PRODUCTS_STORE,"readwrite"); const store=tx.objectStore(PRODUCTS_STORE);
                 for(let i=1;i<rows.length;i++){const cols=rows[i].split(delim).map(c=>c.replace(/^"|"$/g,'').trim());if(cols.length<5)continue;const[id,name,barcode]=cols;const price=parseFloat(cols[3])||0,stock=parseInt(cols[4])||0,sold=parseInt(cols[5])||0;if(!id||!name||!barcode)continue;const item={id,name,barcode,price,stock,sold};const existIdx=systemProducts.findIndex(p=>p.id===id);if(existIdx>-1){systemProducts[existIdx]=item;updated++;}else{systemProducts.push(item);added++;}store.put(item);}
-                tx.oncomplete=function(){renderInventoryDashboardTable();renderCashierCatalog();logRestore(`✓ Inventory restored — Added:${added}, Updated:${updated}`);};
+                tx.oncomplete=function(){renderInventoryDashboardTable();renderCashierCatalog();logRestore(`âœ“ Inventory restored â€” Added:${added}, Updated:${updated}`);};
             } else if (type==='sales') {
-                if(rows.length<=1){logRestore('⚠ No data rows.');return;}
+                if(rows.length<=1){logRestore('âš  No data rows.');return;}
                 let imported=0;
-                if(!posDB){logRestore('⚠ DB not ready.');return;}
+                if(!posDB){logRestore('âš  DB not ready.');return;}
                 const tx=posDB.transaction(POS_SALES_STORE,"readwrite");const store=tx.objectStore(POS_SALES_STORE);
                 for(let i=1;i<rows.length;i++){const cols=parseCSVRow(rows[i]);if(cols.length<5)continue;const entry={timestamp:cols[0]||new Date().toISOString(),items:[],total:parseFloat(cols[4])||0,paymentType:cols[3]||'CASH',_restored:true};store.add(entry);imported++;}
-                tx.oncomplete=function(){fetchRecordsFromLocalDB();logRestore(`✓ Sales restored — ${imported} records`);};
+                tx.oncomplete=function(){fetchRecordsFromLocalDB();logRestore(`âœ“ Sales restored â€” ${imported} records`);};
             } else if (type==='gcash') {
-                if(rows.length<=1){logRestore('⚠ No data rows.');return;}
+                if(rows.length<=1){logRestore('âš  No data rows.');return;}
                 gcashGetAll().then(()=>{
                     let imported=0;
                     const tx=gcashDB.transaction(GCASH_STORE,"readwrite");const store=tx.objectStore(GCASH_STORE);
                     for(let i=1;i<rows.length;i++){const cols=parseCSVRow(rows[i]);if(cols.length<5)continue;const record={dateCreated:new Date().toISOString(),timestamp:cols[0]||new Date().toLocaleString(),type:cols[1]||'GCASH IN',amount:parseFloat(cols[2])||0,mobile:cols[3]||'',name:cols[4]||'',refNo:cols[5]||'',profit:parseFloat(cols[6])||0,_restored:true};store.add(record);imported++;}
-                    tx.oncomplete=function(){renderGcashTransactions();logRestore(`✓ GCash restored — ${imported} records`);};
+                    tx.oncomplete=function(){renderGcashTransactions();logRestore(`âœ“ GCash restored â€” ${imported} records`);};
                 });
             }
-        } catch(err){logRestore(`✗ Error: ${err}`);}
+        } catch(err){logRestore(`âœ— Error: ${err}`);}
         input.value="";
     };
     reader.readAsText(input.files[0]);
 }
 
-/* ══════════════════════════════ USERS TABLE ══════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• USERS TABLE â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 async function renderUsersTable() {
     const tbody = document.getElementById("users-table-body");
     tbody.innerHTML = "";
@@ -2097,7 +2106,7 @@ async function deleteUserAccount(username) {
     }, 'danger', 'Delete User Account');
 }
 
-/* ══════════════════════════════ SEARCH / BARCODE ══════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• SEARCH / BARCODE â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 document.getElementById("search-bar").oninput = e => renderCashierCatalog(e.target.value);
 document.getElementById("search-bar").onkeydown = function(e) {
     if (e.key==="Enter") {
@@ -2107,7 +2116,7 @@ document.getElementById("search-bar").onkeydown = function(e) {
     }
 };
 
-/* ══════════════════════════════ KEYBOARD SHORTCUTS ══════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• KEYBOARD SHORTCUTS â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 window.onkeydown = function(e) {
     if (!document.getElementById('app-main').classList.contains('visible')) return;
     if (e.key==="F1") { e.preventDefault(); openCheckoutModal('CASH'); }
@@ -2133,7 +2142,7 @@ document.getElementById("clear-cart-btn").onclick          = function() {
     }
 };
 
-/* ══════════════════════════════ GCASH LEDGER MODAL ══════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• GCASH LEDGER MODAL â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function openGcashModal() {
     ["gcash-mobile","gcash-amount","gcash-customer-name","gcash-ref-no"].forEach(id=>document.getElementById(id).value="");
     selectGcashType("GCASH IN");
@@ -2173,7 +2182,7 @@ async function handleGcashSubmit() {
     };
     try {
         await gcashAddRecord(record);
-        logActivity('gcash',`${type}: ₱${amount.toFixed(2)} for ${name} (${mobile})${refNo?', Ref:'+refNo:''}`);
+        logActivity('gcash',`${type}: â‚±${amount.toFixed(2)} for ${name} (${mobile})${refNo?', Ref:'+refNo:''}`);
         renderGcashTransactions(); closeGcashModal();
     } catch(err) { showAlert("Transaction failed: "+err,"danger"); }
 }
@@ -2217,33 +2226,33 @@ async function renderGcashTransactions() {
                 : '<span class="badge badge-out">CASH OUT</span>';
             if(isIn){inCount++;inAmt+=amt;inProfit+=profit;}
             else    {outCount++;outAmt+=amt;outProfit+=profit;}
-            const displayName = tx.name  || '—';
-            const displayRef  = tx.refNo || '—';
+            const displayName = tx.name  || 'â€”';
+            const displayRef  = tx.refNo || 'â€”';
             const tr = document.createElement("tr");
             tr.innerHTML = `
                 <td>${tx.timestamp}</td>
                 <td>${badge}</td>
-                <td style="font-weight:600;">₱${pesoFormatter.format(amt)}</td>
-                <td style="font-family:monospace;">${tx.mobile || '—'}</td>
+                <td style="font-weight:600;">â‚±${pesoFormatter.format(amt)}</td>
+                <td style="font-family:monospace;">${tx.mobile || 'â€”'}</td>
                 <td>${displayName}</td>
                 <td style="font-family:monospace;color:var(--text-muted);">${displayRef}</td>
-                <td style="font-weight:600;color:var(--success-color);">₱${pesoFormatter.format(profit)}</td>
+                <td style="font-weight:600;color:var(--success-color);">â‚±${pesoFormatter.format(profit)}</td>
             `;
             tbody.appendChild(tr);
         });
         document.getElementById("gcash-in-count").innerText    = `Cash In: ${inCount}`;
-        document.getElementById("gcash-in-amount").innerText   = `₱${pesoFormatter.format(inAmt)}`;
-        document.getElementById("gcash-in-profit").innerText   = `₱${pesoFormatter.format(inProfit)}`;
+        document.getElementById("gcash-in-amount").innerText   = `â‚±${pesoFormatter.format(inAmt)}`;
+        document.getElementById("gcash-in-profit").innerText   = `â‚±${pesoFormatter.format(inProfit)}`;
         document.getElementById("gcash-out-count").innerText   = `Cash Out: ${outCount}`;
-        document.getElementById("gcash-out-amount").innerText  = `₱${pesoFormatter.format(outAmt)}`;
-        document.getElementById("gcash-out-profit").innerText  = `₱${pesoFormatter.format(outProfit)}`;
+        document.getElementById("gcash-out-amount").innerText  = `â‚±${pesoFormatter.format(outAmt)}`;
+        document.getElementById("gcash-out-profit").innerText  = `â‚±${pesoFormatter.format(outProfit)}`;
         document.getElementById("gcash-total-count").innerText  = `Total: ${inCount+outCount}`;
-        document.getElementById("gcash-total-amount").innerText = `₱${pesoFormatter.format(inAmt+outAmt)}`;
-        document.getElementById("gcash-total-profit").innerText = `₱${pesoFormatter.format(inProfit+outProfit)}`;
+        document.getElementById("gcash-total-amount").innerText = `â‚±${pesoFormatter.format(inAmt+outAmt)}`;
+        document.getElementById("gcash-total-profit").innerText = `â‚±${pesoFormatter.format(inProfit+outProfit)}`;
     } catch(err){ console.error("GCash render error:",err); }
 }
 
-/* ══════════════════════════════ BEST SELLERS ══════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• BEST SELLERS â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function renderTopProducts() {
     const filter=document.getElementById("analytics-filter").value, now=new Date();
     const filteredSales=memorySalesJournal.filter(tx=>{
@@ -2257,10 +2266,10 @@ function renderTopProducts() {
     const tbody=document.getElementById("top-products-body");
     tbody.innerHTML="";
     if(sorted.length===0){tbody.innerHTML=`<tr><td colspan="4" style="text-align:center;color:var(--text-muted);padding:30px;">No sales data for this period.</td></tr>`;return;}
-    sorted.forEach((item,idx)=>{const tr=document.createElement("tr");tr.innerHTML=`<td style="font-weight:bold;color:var(--accent-color);">${idx+1}</td><td>${item.name}</td><td style="font-weight:bold;color:var(--success-color);">${item.qty}</td><td style="font-weight:bold;">₱${item.revenue.toFixed(2)}</td>`;tbody.appendChild(tr);});
+    sorted.forEach((item,idx)=>{const tr=document.createElement("tr");tr.innerHTML=`<td style="font-weight:bold;color:var(--accent-color);">${idx+1}</td><td>${item.name}</td><td style="font-weight:bold;color:var(--success-color);">${item.qty}</td><td style="font-weight:bold;">â‚±${item.revenue.toFixed(2)}</td>`;tbody.appendChild(tr);});
 }
 
-/* ══════════════════════════════ INIT ══════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• INIT â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 window.onload = async function() {
     try {
         await initUsersDB();
