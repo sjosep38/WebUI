@@ -284,7 +284,13 @@
         @media (max-width: 768px) { body { overflow-y: auto; } .pos-container { display: flex; flex-direction: column; height: auto; overflow: visible; } .catalog-side { height: auto; overflow: visible; border-right: none; border-bottom: 1px solid var(--border-color); } .product-grid { max-height: 400px; overflow-y: auto; } .cart-side { height: auto; overflow: visible; } .cart-items-list { max-height: 350px; } .modal-box.fullscreen-backoffice { height: 95vh; } .admin-tabs { width: 100%; overflow-x: auto; } .tab-btn { flex-shrink: 0; padding: 12px 10px; font-size: 0.8rem; } .sales-summary-cards { grid-template-columns: 1fr 1fr; } .profit-summary-cards { grid-template-columns: 1fr 1fr; } .action-pad { grid-template-columns: 1fr 1fr 1fr; } }
         @media (max-width: 600px) { .product-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; padding: 10px; } .product-card { height: 110px; padding: 8px; } .action-pad { grid-template-columns: 1fr 1fr 1fr; padding: 10px; gap: 6px; } .btn-action { padding: 10px 4px; font-size: 0.78rem; } .expense-form-grid { grid-template-columns: 1fr 1fr; } .sales-summary-cards { grid-template-columns: 1fr 1fr; } .profit-summary-cards { grid-template-columns: 1fr 1fr; } }
         #receipt-print { display: none; font-family: 'Courier New', Courier, monospace; width: 58mm; padding: 2mm; color: #000; }
-    </style>
+   /* Apply this to the body or specific containers */
+body {
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none;     /* IE 10 and Older */
+  user-select: none;         /* Standard syntax */
+}
+   </style>
 </head>
 <body>
 <div id="content-area">
@@ -2125,6 +2131,25 @@ btn.addEventListener('click', () => {
     } else {
         document.exitFullscreen();
     }
+});
+document.addEventListener('contextmenu', function(e) {
+  e.preventDefault();
+  alert("Right-click is disabled on this page.");
+});
+
+document.addEventListener('keydown', function(e) {
+  // Disable Ctrl+S (Save)
+  if (e.ctrlKey && e.key === 's') {
+    e.preventDefault();
+  }
+  // Disable Ctrl+U (View Source)
+  if (e.ctrlKey && e.key === 'u') {
+    e.preventDefault();
+  }
+  // Disable F12 (Developer Tools)
+  if (e.key === 'F12') {
+    e.preventDefault();
+  }
 });
 </script>
 </body>
