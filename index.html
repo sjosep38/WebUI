@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>[Your Store] POS</title>
+    <title></title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
@@ -304,7 +304,7 @@
 <div id="auth-screen">
     <div class="auth-wrapper">
         <div class="auth-logo">
-            <h1 id="auth-logo-name">[Your Store] POS</h1>
+            <h1 id="auth-logo-name"></h1>
             <p>Enterprise Point of Sale System</p>
         </div>
         <div class="auth-card">
@@ -337,7 +337,7 @@
 <!-- MAIN APP -->
 <div id="app-main">
 <header>
-    <div class="logo-area"><h1 id="store-header-name">[Your Store] POS</h1></div>
+    <div class="logo-area"><h1 id="store-header-name"></h1></div>
     <div class="header-actions">
      <!--   <button id="fullscreen-btn" class="btn-action full-screen" style="cursor: pointer; user-select: none;">Fullscreen</button> -->
         <span class="logged-in-badge" id="logged-in-badge">👤 User</span>
@@ -901,10 +901,10 @@ function getStoreSettings() {
     try { return JSON.parse(localStorage.getItem(STORE_SETTINGS_KEY) || '{}'); } catch { return {}; }
 }
 function saveStoreSettings(obj) { localStorage.setItem(STORE_SETTINGS_KEY, JSON.stringify(obj)); }
-function getStoreName() { return getStoreSettings().storeName || '[Your Store] POS'; }
+function getStoreName() { return getStoreSettings().storeName || ''; }
 function applyStoreSettings() {
     const s = getStoreSettings();
-    const name = s.storeName || '[Your Store] POS';
+    const name = s.storeName || '';
     const headerEl = document.getElementById('store-header-name');
     if (headerEl) headerEl.textContent = name;
     document.title = name;
@@ -944,7 +944,7 @@ function updateReceiptPreview() {
 }
 function saveSettingsTab() {
     const obj = {
-        storeName: document.getElementById('settings-store-name').value.trim() || '[Your Store] POS',
+        storeName: document.getElementById('settings-store-name').value.trim() || '',
         address1:  document.getElementById('settings-address1').value.trim(),
         address2:  document.getElementById('settings-address2').value.trim(),
         phone:     document.getElementById('settings-phone').value.trim(),
@@ -1726,7 +1726,7 @@ function printReceipt(s) {
 
     /* — Pull live store settings — */
     const _ss    = getStoreSettings();
-    const _sName  = _ss.storeName || '[Your Store] POS';
+    const _sName  = _ss.storeName || '';
     const _sAddr1 = _ss.address1  || '';
     const _sAddr2 = _ss.address2  || '';
     const _sPhone = _ss.phone     || '';
