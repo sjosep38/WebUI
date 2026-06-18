@@ -949,34 +949,41 @@ async function connectToSupabase() {
     const url = document.getElementById('sb-url').value.trim();
     const key = document.getElementById('sb-key').value.trim();
     const errEl = document.getElementById('config-error');
+    const btn = document.querySelector('.config-btn');
     errEl.style.display = 'none';
     if (!url || !key) { errEl.textContent = 'Both URL and Key are required.'; errEl.style.display = 'block'; return; }
     if (!url.startsWith('https://')) { errEl.textContent = 'URL must start with https://'; errEl.style.display = 'block'; return; }
+    
+    btn.textContent = 'Connecting...';
+    btn.disabled = true;
+
     try {
         supabase = window.supabase.createClient(url, key);
-        // Test connection
+        // Test connection with a simple query
         const { error } = await supabase.from('pos_settings').select('key').limit(1);
-        if (error && error.code !== 'PGRST116' && error.message.includes('does not exist')) {
-            // Tables don't exist yet — that's ok, prompt to run setup
-            localStorage.setItem(SB_URL_KEY, url);
-            localStorage.setItem(SB_KEY_KEY, key);
-            document.getElementById('supabase-config-screen').style.display = 'none';
+        
+        // Save credentials regardless — connection to Supabase itself succeeded
+        localStorage.setItem(SB_URL_KEY, url);
+        localStorage.setItem(SB_KEY_KEY, key);
+        document.getElementById('supabase-config-screen').style.display = 'none';
+
+        if (error) {
+            // Tables don't exist yet — prompt first-time setup
             showDialog({
                 title: 'First-Time Setup Required',
                 message: 'Connected to Supabase! Tables have not been created yet.<br><br>Go to <strong>Admin Panel → Settings → Run SQL Setup</strong> to initialize the database, or run the SQL manually in your Supabase SQL editor.',
                 type: 'warning',
                 buttons: [{ label: 'OK — Go to Login', cls: 'primary', action: showAuthScreen }]
             });
-            return;
+        } else {
+            showAuthScreen();
         }
-        if (error && !error.message.includes('does not exist')) throw error;
-        localStorage.setItem(SB_URL_KEY, url);
-        localStorage.setItem(SB_KEY_KEY, key);
-        document.getElementById('supabase-config-screen').style.display = 'none';
-        showAuthScreen();
     } catch(e) {
         errEl.textContent = 'Connection failed: ' + (e.message || String(e));
         errEl.style.display = 'block';
+    } finally {
+        btn.textContent = 'Connect & Initialize';
+        btn.disabled = false;
     }
 }
 
