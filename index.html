@@ -709,11 +709,11 @@
                         <div class="settings-section-title">🔌 Supabase Connection</div>
                         <div class="form-group">
                             <label style="display:block;font-size:0.82rem;color:var(--text-muted);margin-bottom:6px;">Project URL</label>
-                            <input type="text" class="form-control" id="settings-sb-url" placeholder="https://xxxx.supabase.co" value="" autocomplete="off">
+                            <input type="text" class="form-control" id="settings-sb-url" placeholder="https://xxxx.supabase.co" autocomplete="off">
                         </div>
                         <div class="form-group">
                             <label style="display:block;font-size:0.82rem;color:var(--text-muted);margin-bottom:6px;">Anon Key</label>
-                            <input type="text" class="form-control" id="settings-sb-key" placeholder="eyJ..." value="" autocomplete="off">
+                            <input type="text" class="form-control" id="settings-sb-key" placeholder="eyJ..." autocomplete="off">
                         </div>
                         <button class="btn-csv" onclick="updateSupabaseCredentials()" style="margin-right:8px;">Update Connection</button>
                         <button class="btn-csv" style="background:#a29bfe;color:#000;" onclick="runSqlSetup()">Run SQL Setup (First Time)</button>
@@ -849,7 +849,7 @@
 ═══════════════════════════════════════════════════════════════════════════ */
 const SB_URL_KEY = 'pos_sb_url';
 const SB_KEY_KEY = 'pos_sb_key';
-let supabase = null;
+let db = null;
 
 // The SQL needed to set up all tables in Supabase
 const SETUP_SQL = `
@@ -949,41 +949,34 @@ async function connectToSupabase() {
     const url = document.getElementById('sb-url').value.trim();
     const key = document.getElementById('sb-key').value.trim();
     const errEl = document.getElementById('config-error');
-    const btn = document.querySelector('.config-btn');
     errEl.style.display = 'none';
     if (!url || !key) { errEl.textContent = 'Both URL and Key are required.'; errEl.style.display = 'block'; return; }
     if (!url.startsWith('https://')) { errEl.textContent = 'URL must start with https://'; errEl.style.display = 'block'; return; }
-    
-    btn.textContent = 'Connecting...';
-    btn.disabled = true;
-
     try {
-        supabase = window.supabase.createClient(url, key);
-        // Test connection with a simple query
-        const { error } = await supabase.from('pos_settings').select('key').limit(1);
-        
-        // Save credentials regardless — connection to Supabase itself succeeded
-        localStorage.setItem(SB_URL_KEY, url);
-        localStorage.setItem(SB_KEY_KEY, key);
-        document.getElementById('supabase-config-screen').style.display = 'none';
-
-        if (error) {
-            // Tables don't exist yet — prompt first-time setup
+        db = window.supabase.createClient(url, key);
+        // Test connection
+        const { error } = await db.from('pos_settings').select('key').limit(1);
+        if (error && error.code !== 'PGRST116' && error.message.includes('does not exist')) {
+            // Tables don't exist yet — that's ok, prompt to run setup
+            localStorage.setItem(SB_URL_KEY, url);
+            localStorage.setItem(SB_KEY_KEY, key);
+            document.getElementById('supabase-config-screen').style.display = 'none';
             showDialog({
                 title: 'First-Time Setup Required',
                 message: 'Connected to Supabase! Tables have not been created yet.<br><br>Go to <strong>Admin Panel → Settings → Run SQL Setup</strong> to initialize the database, or run the SQL manually in your Supabase SQL editor.',
                 type: 'warning',
                 buttons: [{ label: 'OK — Go to Login', cls: 'primary', action: showAuthScreen }]
             });
-        } else {
-            showAuthScreen();
+            return;
         }
+        if (error && !error.message.includes('does not exist')) throw error;
+        localStorage.setItem(SB_URL_KEY, url);
+        localStorage.setItem(SB_KEY_KEY, key);
+        document.getElementById('supabase-config-screen').style.display = 'none';
+        showAuthScreen();
     } catch(e) {
         errEl.textContent = 'Connection failed: ' + (e.message || String(e));
         errEl.style.display = 'block';
-    } finally {
-        btn.textContent = 'Connect & Initialize';
-        btn.disabled = false;
     }
 }
 
@@ -1016,7 +1009,7 @@ async function updateSupabaseCredentials() {
     if (!url || !key) { msgEl.style.color='var(--danger-color)'; msgEl.textContent='Both fields required.'; return; }
     localStorage.setItem(SB_URL_KEY, url);
     localStorage.setItem(SB_KEY_KEY, key);
-    supabase = window.supabase.createClient(url, key);
+    db = window.supabase.createClient(url, key);
     msgEl.style.color = 'var(--success-color)';
     msgEl.textContent = '✔ Connection updated. Reload to apply.';
 }
@@ -1085,7 +1078,7 @@ let storeSettings = {};
 
 async function loadStoreSettings() {
     try {
-        const { data, error } = await supabase.from('pos_settings').select('*');
+        const { data, error } = await db.from('pos_settings').select('*');
         if (error) throw error;
         storeSettings = {};
         (data || []).forEach(row => storeSettings[row.key] = row.value);
@@ -1098,7 +1091,7 @@ async function saveStoreSettingsToDB(obj) {
     const rows = Object.entries(obj).map(([key, value]) => ({ key, value: String(value) }));
     try {
         for (const row of rows) {
-            await supabase.from('pos_settings').upsert(row, { onConflict: 'key' });
+            await db.from('pos_settings').upsert(row, { onConflict: 'key' });
         }
         storeSettings = { ...storeSettings, ...obj };
     } catch(e) {
@@ -1159,7 +1152,7 @@ async function saveSettingsTab() {
 async function logActivity(type, message) {
     const username = currentLoggedInUser ? currentLoggedInUser.username : 'system';
     try {
-        await supabase.from('pos_activity_log').insert({ type, username, message });
+        await db.from('pos_activity_log').insert({ type, username, message });
     } catch(e) { console.warn('Log failed:', e); }
 }
 function setLogFilter(filter, btn) {
@@ -1172,7 +1165,7 @@ async function renderActivityLog() {
     const body = document.getElementById('activity-log-body');
     body.innerHTML = '<div class="log-empty">Loading...</div>';
     try {
-        let query = supabase.from('pos_activity_log').select('*').order('timestamp', { ascending: false }).limit(200);
+        let query = db.from('pos_activity_log').select('*').order('timestamp', { ascending: false }).limit(200);
         if (activityLogFilter !== 'all') query = query.eq('type', activityLogFilter);
         const { data, error } = await query;
         if (error) throw error;
@@ -1188,13 +1181,13 @@ function openActivityLogModal() { loadTelegramConfig(); activityLogFilter='all';
 function closeActivityLogModal() { document.getElementById('activity-log-modal').classList.remove('active'); }
 async function clearActivityLog() {
     showConfirm('Clear all activity log entries?', async () => {
-        await supabase.from('pos_activity_log').delete().neq('id', 0);
+        await db.from('pos_activity_log').delete().neq('id', 0);
         renderActivityLog();
         logActivity('system','Activity log cleared');
     }, 'danger', 'Clear Activity Log');
 }
 async function exportActivityLogToCSV() {
-    const { data } = await supabase.from('pos_activity_log').select('*').order('timestamp');
+    const { data } = await db.from('pos_activity_log').select('*').order('timestamp');
     let csv = 'Timestamp,Type,User,Message\n';
     (data||[]).forEach(l => { csv += `"${new Date(l.timestamp).toLocaleString()}","${l.type}","${l.username}","${l.message.replace(/"/g,'""')}"\n`; });
     downloadCSV(csv, `ActivityLog_${new Date().toISOString().slice(0,10)}.csv`);
@@ -1220,7 +1213,7 @@ function setTgMsg(msg, color) { const el=document.getElementById('tg-config-msg'
 async function sendLogToTelegram() {
     const token=localStorage.getItem(TG_TOKEN_KEY), chat=localStorage.getItem(TG_CHAT_KEY);
     if (!token||!chat) { showAlert('Configure Telegram first.','warning'); return; }
-    const { data: logs } = await supabase.from('pos_activity_log').select('*').order('timestamp',{ascending:false}).limit(30);
+    const { data: logs } = await db.from('pos_activity_log').select('*').order('timestamp',{ascending:false}).limit(30);
     if (!logs||logs.length===0) { showAlert('No log entries to send.','info'); return; }
     const storeName = getStoreName();
     let text = `📋 *${storeName} — Activity Log*\n📅 ${new Date().toLocaleString()}\n${'─'.repeat(30)}\n\n`;
@@ -1253,7 +1246,7 @@ async function handleLogin() {
     const password = document.getElementById('login-password').value;
     if (!username||!password) return showAuthMsg('login-error','Please fill in all fields.');
     try {
-        const { data, error } = await supabase.from('pos_users').select('*').eq('username', username).single();
+        const { data, error } = await db.from('pos_users').select('*').eq('username', username).single();
         if (error||!data) return showAuthMsg('login-error','Username not found.');
         if (data.password_hash !== simpleHash(password)) return showAuthMsg('login-error','Incorrect password.');
         currentLoggedInUser = { username: data.username, fullname: data.fullname, role: data.role };
@@ -1273,9 +1266,9 @@ async function handleSignUp() {
     if (password.length < 6) return showAuthMsg('signup-error','Password must be at least 6 characters.');
     if (password !== confirm) return showAuthMsg('signup-error','Passwords do not match.');
     try {
-        const { count } = await supabase.from('pos_users').select('*', { count: 'exact', head: true });
+        const { count } = await db.from('pos_users').select('*', { count: 'exact', head: true });
         const role = (count === 0) ? 'admin' : 'cashier';
-        const { error } = await supabase.from('pos_users').insert({ username, fullname, password_hash: simpleHash(password), role });
+        const { error } = await db.from('pos_users').insert({ username, fullname, password_hash: simpleHash(password), role });
         if (error) { if (error.code==='23505') return showAuthMsg('signup-error','Username already exists.'); throw error; }
         logActivity('auth', `New account: "${username}" (role: ${role})`);
         showAuthMsg('signup-success', `Account created! Role: ${role}. Please sign in.`, false);
@@ -1319,13 +1312,13 @@ async function loadAllData() {
 }
 
 async function loadProducts() {
-    const { data, error } = await supabase.from('pos_products').select('*').order('id');
+    const { data, error } = await db.from('pos_products').select('*').order('id');
     if (error) { console.error('Load products error:', error); return; }
     systemProducts = (data||[]).map(p => ({ id: p.id, name: p.name, barcode: p.barcode, price: parseFloat(p.price), stock: p.stock, sold: p.sold||0 }));
 }
 
 async function loadSales() {
-    const { data, error } = await supabase.from('pos_sales').select('*').order('timestamp', { ascending: false });
+    const { data, error } = await db.from('pos_sales').select('*').order('timestamp', { ascending: false });
     if (error) { console.error('Load sales error:', error); return; }
     memorySalesJournal = (data||[]).map(tx => ({
         id: tx.id,
@@ -1557,13 +1550,13 @@ async function saveProductCrudData() {
     try {
         if (mode==='ADD') {
             if (systemProducts.some(p=>p.id===id||p.barcode===barcode)) return showAlert('Duplicate SKU or Barcode.','danger');
-            const { error }=await supabase.from('pos_products').insert({...row,sold:0});
+            const { error }=await db.from('pos_products').insert({...row,sold:0});
             if (error) throw error;
             systemProducts.push({...row,sold:0});
             logActivity('admin',`Product added: "${name}" (SKU:${id}, ₱${price}, Stock:${stock})`);
         } else {
             const prevSold=systemProducts.find(x=>x.id===id)?.sold||0;
-            const { error }=await supabase.from('pos_products').update({...row,sold:prevSold}).eq('id',id);
+            const { error }=await db.from('pos_products').update({...row,sold:prevSold}).eq('id',id);
             if (error) throw error;
             const idx=systemProducts.findIndex(x=>x.id===id);
             if (idx>-1) systemProducts[idx]={...row,sold:prevSold};
@@ -1575,7 +1568,7 @@ async function saveProductCrudData() {
 async function deleteProductItem(productId) {
     const p=systemProducts.find(x=>x.id===productId);
     showConfirm(`Remove product "${p?p.name:productId}"?`, async ()=>{
-        const { error }=await supabase.from('pos_products').delete().eq('id',productId);
+        const { error }=await db.from('pos_products').delete().eq('id',productId);
         if (error) return showAlert('Delete failed: '+error.message,'danger');
         systemProducts=systemProducts.filter(p=>p.id!==productId);
         logActivity('admin',`Product deleted: "${p?p.name:productId}"`);
@@ -1602,11 +1595,11 @@ async function handleBulkCsvUpload(event) {
                 const existIdx=systemProducts.findIndex(p=>p.id===id);
                 if (existIdx>-1){
                     const item={...systemProducts[existIdx],name,barcode,price,stock:systemProducts[existIdx].stock+stock};
-                    await supabase.from('pos_products').upsert(item,{onConflict:'id'});
+                    await db.from('pos_products').upsert(item,{onConflict:'id'});
                     systemProducts[existIdx]=item; updated++;
                 } else {
                     const item={id,name,barcode,price,stock,sold:0};
-                    await supabase.from('pos_products').upsert(item,{onConflict:'id'});
+                    await db.from('pos_products').upsert(item,{onConflict:'id'});
                     systemProducts.push(item); added++;
                 }
             }
@@ -1653,15 +1646,15 @@ function initiateLedgerSettlementModal(invoiceId, customerName, balance) {
 document.getElementById('process-settlement-btn').onclick=async function(){
     const paid=parseFloat(document.getElementById('settle-cash-input').value)||0;
     if (paid<=0) return showAlert('Enter a valid payment amount.','warning');
-    const { data: invoice, error }=await supabase.from('pos_sales').select('*').eq('id',targetedLedgerInvoiceId).single();
+    const { data: invoice, error }=await db.from('pos_sales').select('*').eq('id',targetedLedgerInvoiceId).single();
     if (error||!invoice) return showAlert('Invoice not found.','danger');
     const prev=parseFloat(invoice.total);
     if (paid>prev) return showAlert('Payment exceeds outstanding balance.','danger');
     const newTotal=parseFloat((prev-paid).toFixed(2));
     const updates={ total: newTotal };
     if (newTotal<=0) updates.payment_type='CREDIT_SETTLED';
-    await supabase.from('pos_sales').update(updates).eq('id',targetedLedgerInvoiceId);
-    await supabase.from('pos_sales').insert({ timestamp: new Date().toISOString(), items: [], total: paid, payment_type:'CASH', is_settlement: true, settled_invoice_id: targetedLedgerInvoiceId, customer_name: invoice.customer_name, tendered: paid, change_due: 0 });
+    await db.from('pos_sales').update(updates).eq('id',targetedLedgerInvoiceId);
+    await db.from('pos_sales').insert({ timestamp: new Date().toISOString(), items: [], total: paid, payment_type:'CASH', is_settlement: true, settled_invoice_id: targetedLedgerInvoiceId, customer_name: invoice.customer_name, tendered: paid, change_due: 0 });
     logActivity('sale',`Credit settled: "${invoice.customer_name}" paid ₱${paid.toFixed(2)}`);
     await loadSales();
     renderLedgerDashboardTable(); renderSalesDashboardTable(); updateSalesSummaryCards();
@@ -1826,7 +1819,7 @@ async function executeCommitTransactionPipeline(channel, meta={}) {
     };
 
     try {
-        await supabase.from('pos_sales').insert(saleRow);
+        await db.from('pos_sales').insert(saleRow);
 
         // Update stock & sold counts in Supabase
         for (const item of cartSnapshot) {
@@ -1834,7 +1827,7 @@ async function executeCommitTransactionPipeline(channel, meta={}) {
             if (p) {
                 p.stock-=item.quantity; if(p.stock<0)p.stock=0;
                 p.sold=(p.sold||0)+item.quantity;
-                await supabase.from('pos_products').update({stock:p.stock,sold:p.sold}).eq('id',p.id);
+                await db.from('pos_products').update({stock:p.stock,sold:p.sold}).eq('id',p.id);
             }
         }
 
@@ -1867,7 +1860,7 @@ async function addExpenseEntry() {
     const cat   =document.getElementById('expense-category').value;
     if (!desc)   return showAlert('Description is required.','warning');
     if (amount<=0) return showAlert('Enter a valid amount.','warning');
-    const { error }=await supabase.from('pos_expenses').insert({description:desc,category:cat,amount});
+    const { error }=await db.from('pos_expenses').insert({description:desc,category:cat,amount});
     if (error) return showAlert('Save failed: '+error.message,'danger');
     logActivity('admin',`Expense added: "${desc}" ₱${amount.toFixed(2)} [${cat}]`);
     document.getElementById('expense-desc').value='';
@@ -1876,14 +1869,14 @@ async function addExpenseEntry() {
 }
 async function deleteExpenseEntry(id) {
     showConfirm('Delete this expense entry?', async ()=>{
-        await supabase.from('pos_expenses').delete().eq('id',id);
+        await db.from('pos_expenses').delete().eq('id',id);
         logActivity('admin',`Expense deleted (id: ${id})`);
         renderExpensesTable(); updateProfitCards();
     },'danger','Delete Expense');
 }
 async function getFilteredExpenses(range) {
     const now=new Date();
-    let query=supabase.from('pos_expenses').select('*').order('timestamp',{ascending:false});
+    let query=db.from('pos_expenses').select('*').order('timestamp',{ascending:false});
     if (range==='day'){const s=new Date(now);s.setHours(0,0,0,0);query=query.gte('timestamp',s.toISOString());}
     else if (range==='week'){query=query.gte('timestamp',new Date(now-7*864e5).toISOString());}
     else if (range==='month'){const s=new Date(now.getFullYear(),now.getMonth(),1);query=query.gte('timestamp',s.toISOString());}
@@ -1974,11 +1967,11 @@ async function handleGcashSubmit(){
     if (!amount||amount<=0) return showAlert('Enter a valid amount.','warning');
     if (!name) return showAlert('Customer name is required.','warning');
     if (refNo&&refNo!=='N/A'){
-        const { count }=await supabase.from('pos_gcash').select('*',{count:'exact',head:true}).eq('ref_no',refNo);
+        const { count }=await db.from('pos_gcash').select('*',{count:'exact',head:true}).eq('ref_no',refNo);
         if (count>0) return showAlert(`Reference "${refNo}" already used.`,'danger','Duplicate Detected');
     }
     const profit=calculateProfit(amount);
-    const { error }=await supabase.from('pos_gcash').insert({timestamp:new Date().toLocaleString(),type,amount,mobile,name,ref_no:refNo||'N/A',profit});
+    const { error }=await db.from('pos_gcash').insert({timestamp:new Date().toLocaleString(),type,amount,mobile,name,ref_no:refNo||'N/A',profit});
     if (error) return showAlert('Transaction failed: '+error.message,'danger');
     logActivity('gcash',`${type}: ₱${amount.toFixed(2)} for ${name} (${mobile})${refNo?', Ref:'+refNo:''}`);
     renderGcashTransactions(); closeGcashModal();
@@ -1993,7 +1986,7 @@ async function renderGcashTransactions(){
     const tbody=document.getElementById('gcash-table-body'),emptyState=document.getElementById('gcash-empty-state');
     tbody.innerHTML='';
     const now=new Date();
-    let query=supabase.from('pos_gcash').select('*').order('date_created',{ascending:false});
+    let query=db.from('pos_gcash').select('*').order('date_created',{ascending:false});
     if (gcashCurrentFilter==='daily'){const s=new Date(now);s.setHours(0,0,0,0);query=query.gte('date_created',s.toISOString());}
     else if (gcashCurrentFilter==='weekly'){query=query.gte('date_created',new Date(now-7*864e5).toISOString());}
     else if (gcashCurrentFilter==='monthly'){const s=new Date(now.getFullYear(),now.getMonth(),1);query=query.gte('date_created',s.toISOString());}
@@ -2023,7 +2016,7 @@ async function renderGcashTransactions(){
     document.getElementById('gcash-total-profit').innerText=`₱${pesoFormatter.format(inProfit+outProfit)}`;
 }
 async function exportGcashToCSV(forceAll){
-    let query=supabase.from('pos_gcash').select('*').order('date_created',{ascending:false});
+    let query=db.from('pos_gcash').select('*').order('date_created',{ascending:false});
     if (!forceAll&&gcashCurrentFilter!=='all'){
         const now=new Date();
         if(gcashCurrentFilter==='daily'){const s=new Date(now);s.setHours(0,0,0,0);query=query.gte('date_created',s.toISOString());}
@@ -2063,7 +2056,7 @@ async function renderUsersTable(){
     const tbody=document.getElementById('users-table-body');
     tbody.innerHTML='';
     try {
-        const { data:users,error }=await supabase.from('pos_users').select('*').order('created_at');
+        const { data:users,error }=await db.from('pos_users').select('*').order('created_at');
         if (error) throw error;
         (users||[]).forEach(u=>{
             const isCurrent=currentLoggedInUser&&u.username===currentLoggedInUser.username;
@@ -2075,14 +2068,14 @@ async function renderUsersTable(){
 }
 async function deleteUserAccount(username){
     showConfirm(`Delete user "<strong>${username}</strong>"?`, async ()=>{
-        const { error }=await supabase.from('pos_users').delete().eq('username',username);
+        const { error }=await db.from('pos_users').delete().eq('username',username);
         if (error) return showAlert('Error deleting user: '+error.message,'danger');
         logActivity('admin',`User deleted: "${username}"`);
         renderUsersTable();
     },'danger','Delete User Account');
 }
 async function exportUsersToCSV(){
-    const { data:users }=await supabase.from('pos_users').select('*');
+    const { data:users }=await db.from('pos_users').select('*');
     let csv='Username,Full Name,Role,Created At\n';
     (users||[]).forEach(u=>{csv+=`"${u.username}","${u.fullname}","${u.role}","${new Date(u.created_at).toLocaleString()}"\n`;});
     downloadCSV(csv,'Users.csv');
@@ -2111,7 +2104,7 @@ async function restoreFromCSV(event, type){
                     const [id,name,barcode]=cols;
                     const price=parseFloat(cols[3])||0,stock=parseInt(cols[4])||0,sold=parseInt(cols[5])||0;
                     if(!id||!name||!barcode)continue;
-                    await supabase.from('pos_products').upsert({id,name,barcode,price,stock,sold},{onConflict:'id'});
+                    await db.from('pos_products').upsert({id,name,barcode,price,stock,sold},{onConflict:'id'});
                     imported++;
                 }
                 await loadProducts(); renderInventoryDashboardTable(); renderCashierCatalog();
@@ -2122,7 +2115,7 @@ async function restoreFromCSV(event, type){
                 for(let i=1;i<rows.length;i++){
                     const cols=parseCSVRow(rows[i]);
                     if(cols.length<5)continue;
-                    await supabase.from('pos_sales').insert({timestamp:cols[0]||new Date().toISOString(),items:[],total:parseFloat(cols[4])||0,payment_type:cols[3]||'CASH'});
+                    await db.from('pos_sales').insert({timestamp:cols[0]||new Date().toISOString(),items:[],total:parseFloat(cols[4])||0,payment_type:cols[3]||'CASH'});
                     imported++;
                 }
                 await loadSales(); renderSalesDashboardTable();
@@ -2133,7 +2126,7 @@ async function restoreFromCSV(event, type){
                 for(let i=1;i<rows.length;i++){
                     const cols=parseCSVRow(rows[i]);
                     if(cols.length<5)continue;
-                    await supabase.from('pos_gcash').insert({timestamp:cols[0]||new Date().toLocaleString(),type:cols[1]||'GCASH IN',amount:parseFloat(cols[2])||0,mobile:cols[3]||'',name:cols[4]||'',ref_no:cols[5]||'',profit:parseFloat(cols[6])||0});
+                    await db.from('pos_gcash').insert({timestamp:cols[0]||new Date().toLocaleString(),type:cols[1]||'GCASH IN',amount:parseFloat(cols[2])||0,mobile:cols[3]||'',name:cols[4]||'',ref_no:cols[5]||'',profit:parseFloat(cols[6])||0});
                     imported++;
                 }
                 renderGcashTransactions();
