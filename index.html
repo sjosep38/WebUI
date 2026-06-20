@@ -448,9 +448,9 @@
             </div>
         </div>
         <div class="action-pad">
-            <button class="btn-action pay-cash" id="checkout-cash-btn">💵 CASH(F1)</button>
-            <button class="btn-action pay-gcash" id="checkout-gcash-sale-btn">📱 GCASH(F2)</button>
-            <button class="btn-action pay-credit" id="checkout-credit-btn">💳 CREDIT(F3)</button>
+            <button class="btn-action pay-cash" id="checkout-cash-btn">💵<br>CASH (F1)</button>
+            <button class="btn-action pay-gcash" id="checkout-gcash-sale-btn">📱<br>GCASH (F2)</button>
+            <button class="btn-action pay-credit" id="checkout-credit-btn">💳<br>CREDIT(F3)</button>
             <button class="btn-action clear-cart" id="clear-cart-btn">🗑 VOID CART ITEMS</button>
         </div>
     </div>
@@ -574,6 +574,13 @@
                     <select class="select-filter" id="inventory-sort-filter" onchange="renderInventoryDashboardTable()">
                         <option value="normal">Default SKU</option><option value="qty-asc">Stock Lowest First</option><option value="qty-desc">Stock Highest First</option>
                     </select>
+					<button 
+    onclick="deleteAllProductItems()" 
+    style="background-color: #dc3545; color: white; border: none; padding: 10px 15px; border-radius: 4px; font-weight: bold; cursor: pointer;"
+    onmouseover="this.style.backgroundColor='#bd2130'" 
+    onmouseout="this.style.backgroundColor='#dc3545'">
+    ⚠️ Delete All Products
+</button>
                 </div>
                 <div class="table-wrapper">
                     <table><thead><tr><th>SKU/ID</th><th>Name</th><th>Barcode</th><th>Price</th><th>Stock</th><th>Sold</th><th>Actions</th></tr></thead><tbody id="inventory-table-body"></tbody></table>
@@ -2174,7 +2181,7 @@ function printReceipt(s){
             <strong style="font-size:.8em;">${storeSettings.storeName||''}</strong>
             ${storeSettings.address1?`<p style="font-size:10px;">${storeSettings.address1}</p>`:''}
             ${storeSettings.address2?`<p style="font-size:10px;">${storeSettings.address2}</p>`:''}
-            ${storeSettings.phone?`<p style="font-size:10px;">Mobile: ${storeSettings.phone}</p>`:''}
+            ${storeSettings.phone?`<p style="font-size:10px;">Mobile Number: ${storeSettings.phone}</p>`:''}
         </div>
         <hr style="border-top:2px dashed #000;margin:8px 0;">
         <div style="margin-bottom:8px;font-size:9px;">
@@ -2256,6 +2263,45 @@ document.addEventListener('DOMContentLoaded',()=>{
 
 // Disable right-click
 document.addEventListener('contextmenu',e=>e.preventDefault());
+
+async function deleteAllProductItems() {
+    // Optional backup link element inside the confirmation modal
+    const backupLinkHtml = `
+        <div style="margin: 15px 0; padding: 10px; background: #fff5f5; border-left: 4px solid #dc3545; border-radius: 4px; text-align: left;">
+            <p style="margin: 0 0 8px 0; color: #333; font-size: 13px;"><strong>Tip:</strong> Export your data before wiping the database.</p>
+            <a href="#" onclick="if(window.backupAllDataToCSV()) {} else {(''); }; return false;" style="display: inline-block; background-color: #6c757d; color: white; padding: 5px 10px; text-decoration: none; border-radius: 3px; font-size: 12px;">
+                📥 Backup Data Link
+            </a>
+        </div>
+    `;
+
+    // Trigger the custom confirm dialog
+    showConfirm(
+        `WARNING: This action will permanently remove EVERY product from the database. ${backupLinkHtml} Are you absolutely sure you want to proceed?`, 
+        async () => {
+            // .neq('id', 0) acts as a catch-all to target all records in Supabase safely
+            const { error } = await db.from('pos_products').delete().neq('id', 0); 
+            
+            if (error) {
+                return showAlert('Bulk delete failed: ' + error.message, 'danger');
+            }
+            
+            // Wipe local application state cache
+            systemProducts = [];
+            
+            // Log action to admin audit trail
+            logActivity('admin', 'Executed global inventory wipe (All products deleted)');
+            
+            // Refresh application UI components
+            renderInventoryDashboardTable();
+            renderCashierCatalog();
+            
+            showAlert('All products have been successfully deleted.', 'success');
+        }, 
+        'danger', 
+        'DELETE ALL PRODUCTS'
+    );
+}
 </script>
 </body>
 </html>
