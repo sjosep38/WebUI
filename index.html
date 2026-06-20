@@ -74,8 +74,9 @@
         .btn-logout { background: #222; color: var(--danger-color); border: 1px solid var(--danger-color); padding: 8px 16px; border-radius: 4px; cursor: pointer; font-size: 0.85rem; font-weight: bold; display: inline-flex; align-items: center; gap: 6px; }
         .btn-logout:hover { background: var(--danger-color); color: #fff; }
         .logged-in-badge { font-size: 1.1rem; color: var(--success-color); font-weight: bold; padding: 5px 10px; background: rgba(46,213,115,0.1); border-radius: 4px; border: 1px solid rgba(46,213,115,0.3); }
-        .db-status { font-size: 0.75rem; padding: 4px 10px; border-radius: 4px; font-weight: 600; }
-        .db-status.connected { background: rgba(46,213,115,0.1); color: var(--success-color); border: 1px solid rgba(46,213,115,0.3); }
+		.db-status  { font-size: 1.1rem; color: var(--success-color); font-weight: bold; padding: 5px 10px; background: rgba(46,213,115,0.1); border-radius: 4px; border: 1px solid rgba(46,213,115,0.3); }
+               
+	   .db-status.connected { background: rgba(46,213,115,0.1); color: var(--success-color); border: 1px solid rgba(46,213,115,0.3); }
         .db-status.disconnected { background: rgba(255,71,87,0.1); color: var(--danger-color); border: 1px solid rgba(255,71,87,0.3); }
 
         /* ── POS ── */
@@ -423,7 +424,7 @@
 <header>
     <div class="logo-area"><h1 id="store-header-name">POS SYSTEM</h1></div>
     <div class="header-actions">
-        <span class="db-status connected" id="db-status-badge">● Supabase Connected</span>
+        <span class="db-status connected" id="db-status-badge">● Connected Online</span>
         <span class="logged-in-badge" id="logged-in-badge">👤 User</span>
         <button class="btn-gcash" onclick="openGcashModal()">+ GCash Transaction</button>
         <button class="btn-admin-trigger" onclick="requireAdminPassword()"><i class="fas fa-lock"></i> Admin Panel</button>
