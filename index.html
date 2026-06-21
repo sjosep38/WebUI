@@ -91,16 +91,16 @@
         .product-price { color: var(--accent-color); font-weight: bold; font-size: 1.1rem; }
         .product-stock { font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; }
         .cart-side { display: flex; flex-direction: column; background: var(--panel-bg); overflow: hidden; }
-        .cart-items-list { flex: auto; overflow-y: auto; padding: 1px; min-height: 0; scroll-behavior: smooth; height: 300px; margin: 5px; background: linear-gradient(0deg,rgba(54,54,54,1) 0%, rgba(64,64,64,1) 100%); }
+        .cart-items-list { flex: auto; overflow-y: auto; padding: 1px; min-height: 0; scroll-behavior: smooth; height: 300px; margin: 5px; background: black; }
         .cart-items-list::-webkit-scrollbar { width: 4px; }
         .cart-items-list::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
         .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 8px; border-bottom: 1px solid var(--border-color); font-size: 0.95rem; }
         .cart-item-details { flex: 1; min-width: 0; }
-        .cart-item-name { text-overflow: ellipsis; overflow: hidden; font-weight: 500; }
+        .cart-item-name { text-overflow: ellipsis; overflow: hidden; font-weight: 500; color:#00FF04; font-family:monospace; text-transform: uppercase; }
         .cart-item-qty-controls { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
-        .qty-btn { background: #333; border: none; color: white; width: 24px; height: 24px; border-radius: 4px; cursor: pointer; font-weight: bold; display: inline-flex; align-items: center; justify-content: center; }
+        .qty-btn { background: #ffae00; border: none; color: #f7e1b2; width: 24px; height: 24px; border-radius: 4px; cursor: pointer; font-weight: bold; display: inline-flex; align-items: center; justify-content: center; }
         .qty-btn:hover { background: var(--accent-color); color: #000; }
-        .cart-item-price-group { text-align: right; font-weight: bold; margin-left: 1px; min-width: 60px; }
+        .cart-item-price-group { text-align: right; color:#00FF04; font-weight: bold; margin-left: 1px; min-width: 60px; }
         .remove-item-btn { color: var(--danger-color); background: none; border: none; margin-left: 15px; cursor: pointer; font-size: 1.2rem; padding: 0 5px; display: inline-flex; align-items: center; }
         .summary-board { background: #1a1a1a; padding: 15px 20px; border-top: 2px solid var(--border-color); }
         .summary-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 1rem; color: var(--text-muted); }
@@ -450,10 +450,10 @@
             </div>
         </div>
         <div class="action-pad">
-            <button class="btn-action pay-cash" id="checkout-cash-btn">💵 CASH(F1)</button>
-            <button class="btn-action pay-gcash" id="checkout-gcash-sale-btn">📱 GCASH(F2)</button>
-            <button class="btn-action pay-credit" id="checkout-credit-btn">💳 CREDIT(F3)</button>
-            <button class="btn-action clear-cart" id="clear-cart-btn">🗑 VOID CART ITEMS</button>
+            <button class="btn-action pay-cash" id="checkout-cash-btn">💵<br>CASH (F1)</button>
+            <button class="btn-action pay-gcash" id="checkout-gcash-sale-btn">📱<br>GCASH (F2)</button>
+            <button class="btn-action pay-credit" id="checkout-credit-btn">💳<br>CREDIT(F3)</button>
+            <button class="btn-action clear-cart" id="clear-cart-btn">🗑 CLEAR CART ITEMS</button>
         </div>
     </div>
 </div>
