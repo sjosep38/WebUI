@@ -214,7 +214,7 @@
     color: var(--text-main);
     border: 1px solid var(--border-color);
     padding: 8px 14px;
-    border-radius: 8px;
+    border-radius: 4px;
     cursor: pointer;
     font-size: 0.82rem;
     font-weight: 700;
@@ -266,13 +266,13 @@
 }
 .theme-swatch {
     border: 2px solid var(--border-color);
-    border-radius: 8px;
-    padding: 8px 10px;
+    border-radius: 4px;
+    padding: 8px 16px;
     cursor: pointer;
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     font-weight: 600;
     color: var(--text-main);
     transition: all 0.15s;
@@ -390,8 +390,8 @@
         .btn-admin-trigger:hover { background: var(--accent-color); color: var(--accent-text); }
         .btn-logout { background: var(--input-bg); color: var(--danger-color); border: 1px solid var(--danger-color); padding: 8px 16px; border-radius: 4px; cursor: pointer; font-size: 0.85rem; font-weight: bold; display: inline-flex; align-items: center; gap: 6px; }
         .btn-logout:hover { background: var(--danger-color); color: #fff; }
-        .logged-in-badge { font-size: 1.1rem; color: var(--success-color); font-weight: bold; padding: 5px 10px; background: color-mix(in srgb, var(--success-color) 10%, transparent); border-radius: 4px; border: 1px solid color-mix(in srgb, var(--success-color) 30%, transparent); }
-        .db-status { font-size: 1.1rem; color: var(--success-color); font-weight: bold; padding: 5px 10px; background: color-mix(in srgb, var(--success-color) 10%, transparent); border-radius: 4px; border: 1px solid color-mix(in srgb, var(--success-color) 30%, transparent); }
+        .logged-in-badge { font-size: .85rem; color: var(--success-color); font-weight: bold; padding: 8px 16px; background: color-mix(in srgb, var(--success-color) 10%, transparent); border-radius: 4px; border: 1px solid color-mix(in srgb, var(--success-color) 30%, transparent); }
+        .db-status { font-size: .85rem; color: var(--success-color); font-weight: bold; padding: 8px 16px; background: color-mix(in srgb, var(--success-color) 10%, transparent); border-radius: 4px; border: 1px solid color-mix(in srgb, var(--success-color) 30%, transparent); }
         .db-status.connected { background: color-mix(in srgb, var(--success-color) 10%, transparent); color: var(--success-color); border: 1px solid color-mix(in srgb, var(--success-color) 30%, transparent); }
         .db-status.disconnected { background: color-mix(in srgb, var(--danger-color) 10%, transparent); color: var(--danger-color); border: 1px solid color-mix(in srgb, var(--danger-color) 30%, transparent); }
 
@@ -497,7 +497,7 @@
         .btn-csv:hover { opacity: 0.9; }
         .btn-danger { background: var(--danger-color) !important; color: white !important; }
         .btn-warning { background: var(--warning-color) !important; color: black !important; }
-        .btn-gcash { background: var(--input-bg); color: #0E84B3; border: 1px solid #4DC2F0; padding: 9px 14px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 6px; }
+        .btn-gcash { background: var(--input-bg); color: #0E84B3; border: 1px solid #4DC2F0; padding: 8px 16px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 6px; }
         .btn-gcash:hover { background: #0E84B3; color: #fff; }
         .modal-buttons { display: flex; justify-content: flex-end; gap: 10px; margin-top: 25px; }
         .btn-modal { padding: 12px 22px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 6px; }
