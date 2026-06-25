@@ -447,6 +447,49 @@
         .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: #fff; animation: spin 0.6s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
+
+/* ════════════════════════════════════════════════════════════
+   LOYALTY SYSTEM
+════════════════════════════════════════════════════════════ */
+.loyalty-search-bar { display:flex; gap:8px; align-items:center; background:var(--input-bg); border:1px solid var(--border-color); border-radius:8px; padding:6px 10px; margin-bottom:10px; }
+.loyalty-search-bar input { flex:1; background:transparent; border:none; outline:none; color:var(--text-main); font-size:0.88rem; }
+.loyalty-search-bar button { background:var(--accent-color); color:var(--accent-text); border:none; border-radius:5px; padding:5px 10px; cursor:pointer; font-size:0.8rem; font-weight:700; white-space:nowrap; }
+.loyalty-attached-card { background:color-mix(in srgb,var(--success-color) 10%,var(--panel-bg-2)); border:1px solid color-mix(in srgb,var(--success-color) 30%,transparent); border-radius:8px; padding:10px 14px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px; }
+.loyalty-attached-name { font-weight:700; color:var(--success-color); font-size:0.9rem; }
+.loyalty-attached-pts { font-size:0.8rem; color:var(--text-muted); }
+.loyalty-attached-card button { background:transparent; border:none; color:var(--danger-color); cursor:pointer; font-size:1rem; padding:2px 6px; }
+.loyalty-redeem-row { display:flex; gap:8px; align-items:center; margin-bottom:10px; background:color-mix(in srgb,var(--warning-color) 8%,var(--panel-bg-2)); border:1px solid color-mix(in srgb,var(--warning-color) 25%,transparent); border-radius:8px; padding:8px 12px; flex-wrap:wrap; }
+.loyalty-redeem-row label { font-size:0.78rem; color:var(--warning-color); font-weight:700; white-space:nowrap; }
+.loyalty-redeem-row input { flex:1; min-width:80px; background:var(--input-bg-2); border:1px solid var(--border-color); color:var(--text-main); border-radius:5px; padding:5px 8px; font-size:0.9rem; }
+.loyalty-redeem-row span { font-size:0.78rem; color:var(--text-muted); white-space:nowrap; }
+.loyalty-pts-earned-preview { font-size:0.78rem; color:var(--accent-color); text-align:right; margin-bottom:8px; font-weight:600; }
+.loyalty-card-required-banner { background:color-mix(in srgb,var(--accent-color) 12%,transparent); border:1px solid color-mix(in srgb,var(--accent-color) 35%,transparent); border-radius:6px; padding:7px 12px; font-size:0.78rem; color:var(--accent-color); font-weight:600; margin-bottom:8px; display:flex; align-items:center; gap:6px; }
+.loyalty-stats-cards { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:20px; }
+.loyalty-stat-card { background:var(--panel-bg); border:1px solid var(--border-color); border-radius:10px; padding:16px 18px; position:relative; overflow:hidden; }
+.loyalty-stat-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; }
+.loyalty-stat-card.total::before { background:#a29bfe; }
+.loyalty-stat-card.active-m::before { background:var(--success-color); }
+.loyalty-stat-card.redeemed::before { background:var(--warning-color); }
+.loyalty-stat-label { font-size:0.75rem; color:var(--text-muted); font-weight:600; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:8px; }
+.loyalty-stat-value { font-size:1.4rem; font-weight:800; }
+.loyalty-stat-card.total .loyalty-stat-value { color:#a29bfe; }
+.loyalty-stat-card.active-m .loyalty-stat-value { color:var(--success-color); }
+.loyalty-stat-card.redeemed .loyalty-stat-value { color:var(--warning-color); }
+.loyalty-register-form { background:var(--panel-bg); border:1px solid var(--border-color); border-radius:8px; padding:18px; margin-bottom:20px; }
+.loyalty-register-form h3 { color:var(--accent-color); font-size:0.95rem; margin-bottom:14px; }
+.loyalty-reg-grid { display:grid; grid-template-columns:2fr 1fr 1fr auto; gap:10px; align-items:end; }
+.loyalty-reg-grid input,.loyalty-reg-grid select { padding:9px 12px; background:var(--input-bg-2); border:1px solid var(--border-color); color:var(--text-main); border-radius:4px; font-size:0.88rem; width:100%; }
+.loyalty-reg-grid label { display:block; font-size:0.75rem; color:var(--text-muted); margin-bottom:4px; }
+#loyalty-history-modal { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); display:none; justify-content:center; align-items:center; z-index:7000; padding:10px; }
+#loyalty-history-modal.active { display:flex; }
+.loyalty-history-box { background:var(--panel-bg); border:1px solid var(--border-color); border-radius:12px; width:100%; max-width:640px; max-height:88vh; display:flex; flex-direction:column; box-shadow:0 24px 60px var(--shadow); overflow:hidden; }
+.loyalty-history-header { background:var(--admin-header-bg); padding:16px 20px; border-bottom:1px solid var(--border-color); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; }
+.loyalty-history-header h3 { color:var(--accent-color); font-size:1rem; }
+.loyalty-history-body { flex:1; overflow-y:auto; padding:16px; }
+.pts-badge { display:inline-block; background:color-mix(in srgb,var(--accent-color) 15%,transparent); color:var(--accent-color); border:1px solid color-mix(in srgb,var(--accent-color) 30%,transparent); padding:3px 9px; border-radius:99px; font-size:0.78rem; font-weight:700; }
+.card-num-badge { font-family:monospace; font-size:0.8rem; color:var(--text-muted); letter-spacing:1px; }
+@media (max-width:600px){.loyalty-reg-grid{grid-template-columns:1fr 1fr;}.loyalty-stats-cards{grid-template-columns:1fr;}}
+
         @media print {
             body * { display: none !important; }
             #receipt-print-area, #receipt-print-area * { display: block !important; }
@@ -532,9 +575,31 @@
 <header>
     <div class="logo-area"><h1 id="store-header-name">POS SYSTEM</h1></div>
     <div class="header-actions">
-        
+        <span class="db-status connected" id="db-status-badge">● Connected Online</span>
         <span class="logged-in-badge" id="logged-in-badge">👤 User</span>
-        
+        <div class="theme-picker-wrap" id="header-theme-picker">
+            <button class="btn-theme-toggle" onclick="toggleThemeDropdown()" id="theme-toggle-btn">
+                <span id="theme-toggle-icon">🎨</span>
+                <span id="theme-toggle-label">Theme</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="theme-dropdown" id="theme-dropdown">
+                <div class="theme-dropdown-title">🎨 Choose Theme</div>
+                <div class="theme-mode-label">🌙 Dark Themes</div>
+                <div class="theme-grid">
+                    <div class="theme-swatch" onclick="applyTheme('dark-teal')" data-theme-id="dark-teal"><div class="swatch-dots"><span class="dot" style="background:#121212"></span><span class="dot" style="background:#00adb5"></span><span class="dot" style="background:#2ed573"></span></div><span>Dark Teal</span></div>
+                    <div class="theme-swatch" onclick="applyTheme('dark-purple')" data-theme-id="dark-purple"><div class="swatch-dots"><span class="dot" style="background:#0f0f1a"></span><span class="dot" style="background:#7c5cbf"></span><span class="dot" style="background:#4ade80"></span></div><span>Dark Purple</span></div>
+                    <div class="theme-swatch" onclick="applyTheme('dark-amber')" data-theme-id="dark-amber"><div class="swatch-dots"><span class="dot" style="background:#110e00"></span><span class="dot" style="background:#f59e0b"></span><span class="dot" style="background:#34d399"></span></div><span>Dark Amber</span></div>
+                    <div class="theme-swatch" onclick="applyTheme('dark-red')" data-theme-id="dark-red"><div class="swatch-dots"><span class="dot" style="background:#120808"></span><span class="dot" style="background:#ef4444"></span><span class="dot" style="background:#4ade80"></span></div><span>Dark Red</span></div>
+                </div>
+                <div class="theme-mode-label" style="margin-top:12px;">☀️ Light Themes</div>
+                <div class="theme-grid">
+                    <div class="theme-swatch" onclick="applyTheme('light-clean')" data-theme-id="light-clean"><div class="swatch-dots"><span class="dot" style="background:#f4f5f7"></span><span class="dot" style="background:#0891b2"></span><span class="dot" style="background:#059669"></span></div><span>Light Clean</span></div>
+                    <div class="theme-swatch" onclick="applyTheme('light-warm')" data-theme-id="light-warm"><div class="swatch-dots"><span class="dot" style="background:#fdf6ec"></span><span class="dot" style="background:#b45309"></span><span class="dot" style="background:#16a34a"></span></div><span>Light Warm</span></div>
+                    <div class="theme-swatch" onclick="applyTheme('light-mint')" data-theme-id="light-mint"><div class="swatch-dots"><span class="dot" style="background:#f0fdf8"></span><span class="dot" style="background:#0d9488"></span><span class="dot" style="background:#16a34a"></span></div><span>Light Mint</span></div>
+                </div>
+            </div>
+        </div>
         <button class="btn-gcash" onclick="openGcashModal()">+ GCash Transaction</button>
         <button class="btn-admin-trigger" onclick="requireAdminPassword()"><i class="fas fa-lock"></i> Admin Panel</button>
         <button class="btn-logout" onclick="handleLogout()"><i class="fas fa-power-off"></i> Logout</button>
@@ -556,7 +621,7 @@
                 <button class="pricing-toggle-btn active-retail" id="btn-retail" onclick="setPricingMode('retail')">🏷️ Retail</button>
                 <button class="pricing-toggle-btn" id="btn-wholesale" onclick="setPricingMode('wholesale')">📦 Wholesale</button>
             </div>
-        <!--    <span class="pricing-mode-indicator retail" id="pricing-mode-indicator">RETAIL</span> -->
+             <!--<span class="pricing-mode-indicator retail" id="pricing-mode-indicator">RETAIL</span> -->
         </div>
         <div class="cart-items-list" id="cart-item-container"></div>
         <div class="summary-board">
@@ -603,9 +668,10 @@
                 <div class="tab-btn" onclick="switchAdminTab(3)">💳 Creditors Ledger</div>
                 <div class="tab-btn" onclick="switchAdminTab(4)">📱 GCash Transactions</div>
                 <div class="tab-btn" onclick="switchAdminTab(5)">🏆 Best Sellers</div>
-                <div class="tab-btn" onclick="switchAdminTab(6)">👥 Registered Users</div>
-                <div class="tab-btn" onclick="switchAdminTab(7)">💾 Backup &amp; Restore</div>
-                <div class="tab-btn" onclick="switchAdminTab(8)">⚙️ System Settings</div>
+                <div class="tab-btn" onclick="switchAdminTab(6)">🎁 Loyalty Members</div>
+                <div class="tab-btn" onclick="switchAdminTab(7)">👥 Registered Users</div>
+                <div class="tab-btn" onclick="switchAdminTab(8)">💾 Backup &amp; Restore</div>
+                <div class="tab-btn" onclick="switchAdminTab(9)">⚙️ System Settings</div>
                 <div class="close-admin" onclick="closeModal('admin-modal')">✕ Close [ESC]</div>
             </div>
         </div>
@@ -736,6 +802,31 @@
                     <table><thead><tr><th>#</th><th>Product Name</th><th>Units Sold</th><th>Revenue</th></tr></thead><tbody id="top-products-body"></tbody></table>
                 </div>
             </div>
+            <!-- TAB: LOYALTY MEMBERS -->
+            <div class="tab-panel" id="admin-tab-loyalty">
+                <div class="loyalty-stats-cards">
+                    <div class="loyalty-stat-card total"><div class="loyalty-stat-label">👥 Total Members</div><div class="loyalty-stat-value" id="loy-stat-total">0</div></div>
+                    <div class="loyalty-stat-card active-m"><div class="loyalty-stat-label">⭐ Total Points Issued</div><div class="loyalty-stat-value" id="loy-stat-pts">0</div></div>
+                    <div class="loyalty-stat-card redeemed"><div class="loyalty-stat-label">🎁 Total Points Redeemed</div><div class="loyalty-stat-value" id="loy-stat-redeemed">0</div></div>
+                </div>
+                <div class="loyalty-register-form">
+                    <h3>➕ Register New Loyalty Member</h3>
+                    <div class="loyalty-reg-grid">
+                        <div><label>Full Name *</label><input type="text" id="loy-reg-name" placeholder="Juan Dela Cruz"></div>
+                        <div><label>Mobile Number *</label><input type="tel" id="loy-reg-mobile" placeholder="09XXXXXXXXX" maxlength="13"></div>
+                        <div><label>Address</label><input type="text" id="loy-reg-address" placeholder="Street, City"></div>
+                        <div><label>&nbsp;</label><button class="btn-csv" onclick="registerLoyaltyMember()" style="width:100%;justify-content:center;padding:10px;">Register</button></div>
+                    </div>
+                    <div id="loy-reg-msg" style="margin-top:8px;font-size:0.82rem;"></div>
+                </div>
+                <div class="report-controls">
+                    <input type="text" class="select-filter" id="loy-search" placeholder="Search by name or card no..." oninput="renderLoyaltyTable()" style="min-width:220px;padding:8px 12px;">
+                    <button class="btn-csv" style="margin-left:auto;" onclick="exportLoyaltyToCSV()">Export CSV</button>
+                </div>
+                <div class="table-wrapper">
+                    <table><thead><tr><th>Card No.</th><th>Full Name</th><th>Mobile</th><th>Address</th><th>Registered</th><th>Points Balance</th><th>Total Earned</th><th>Total Redeemed</th><th>Actions</th></tr></thead><tbody id="loyalty-table-body"></tbody></table>
+                </div>
+            </div>
             <div class="tab-panel" id="admin-tab-users">
                 <div class="report-controls">
                     <span style="color:var(--accent-color);font-weight:bold;">Registered Users</span>
@@ -748,8 +839,7 @@
                         <input type="password" id="new-admin-pw-2" class="form-control" style="max-width:200px;font-size:0.9rem;" placeholder="Confirm new password">
                         <button class="btn-csv" onclick="changeAdminPassword()">Update Password</button>
                         <button style="background:color-mix(in srgb, var(--gcash-color) 10%, var(--panel-bg));color:#60a5fa;border:1px solid color-mix(in srgb, var(--gcash-color) 30%, transparent);padding:8px 16px;border-radius:4px;cursor:pointer;font-size:0.85rem;font-weight:bold;" onclick="openActivityLogModal()">Activity Log</button>
-						<span class="db-status connected" id="db-status-badge">● Connected Online</span>
-					</div>
+                    </div>
                     <div id="admin-pw-change-msg" style="margin-top:8px;font-size:0.82rem;"></div>
                 </div>
                 <div class="users-table-wrapper">
@@ -872,6 +962,31 @@
             <button class="pay-method-btn" id="pmb-gcash" onclick="selectCheckoutMethod('GCASH')">📱 GCash</button>
             <button class="pay-method-btn" id="pmb-credit" onclick="selectCheckoutMethod('CREDIT')">💳 Credit</button>
         </div>
+        <!-- LOYALTY MEMBER ATTACH -->
+        <div id="checkout-loyalty-section">
+            <div id="loyalty-card-required-msg" class="loyalty-card-required-banner" style="display:none;">
+                📦 Wholesale mode: Loyalty Card Number required to proceed
+            </div>
+            <div id="loyalty-no-customer" class="loyalty-search-bar">
+                <input type="text" id="checkout-loyalty-search" placeholder="Search loyalty member (name / card no.)..." oninput="liveSearchLoyalty()">
+                <button onclick="liveSearchLoyalty()">🔍 Find</button>
+            </div>
+            <div id="loyalty-search-results" style="display:none;background:var(--panel-bg-2);border:1px solid var(--border-color);border-radius:6px;max-height:130px;overflow-y:auto;margin-bottom:10px;"></div>
+            <div id="loyalty-customer-attached" class="loyalty-attached-card" style="display:none;">
+                <div>
+                    <div class="loyalty-attached-name" id="loyalty-attached-name-display">—</div>
+                    <div class="loyalty-attached-pts">Card: <span id="loyalty-attached-card-display" class="card-num-badge">—</span> &nbsp;|&nbsp; Balance: <span id="loyalty-attached-balance-display" class="pts-badge">0 pts</span> &nbsp;|&nbsp; Will earn: <span id="loyalty-will-earn-display" style="color:var(--accent-color);font-weight:700;">+0 pts</span></div>
+                </div>
+                <button onclick="detachLoyaltyCustomer()" title="Remove">✕</button>
+            </div>
+            <!-- REDEEM POINTS -->
+            <div id="loyalty-redeem-section" class="loyalty-redeem-row" style="display:none;">
+                <label>🎁 Redeem Points:</label>
+                <input type="number" id="checkout-redeem-pts" min="0" step="1" placeholder="0" oninput="calcRedeemDiscount()">
+                <span id="checkout-redeem-max-label">Max: 0 pts</span>
+                <span id="checkout-redeem-value-label" style="color:var(--warning-color);font-weight:700;"></span>
+            </div>
+        </div>
         <div class="form-group"><label>Total Due</label><input type="text" class="form-control" id="checkout-total" readonly style="color:var(--success-color);font-weight:bold;"></div>
         <div id="checkout-cash-section">
             <div class="form-group"><label>Cash Tendered</label><input type="number" class="form-control" id="checkout-tendered" step="0.01" placeholder="0.00" autocomplete="off" oninput="calcChange()"></div>
@@ -919,6 +1034,29 @@
             <button class="btn-modal cancel" onclick="closeModal('settlement-modal')">Cancel</button>
             <button class="btn-modal confirm" id="process-settlement-btn">Post &amp; Print</button>
         </div>
+    </div>
+</div>
+<!-- LOYALTY POINTS HISTORY MODAL -->
+<div id="loyalty-history-modal">
+    <div class="loyalty-history-box">
+        <div class="loyalty-history-header">
+            <h3>⭐ Points History — <span id="lhist-member-name"></span></h3>
+            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+                <span style="font-size:0.82rem;color:var(--text-muted);">Card: <span id="lhist-card-no" class="card-num-badge"></span></span>
+                <span class="pts-badge" id="lhist-balance"></span>
+                <button onclick="closeLoyaltyHistory()" style="background:var(--input-bg);color:var(--text-muted);border:1px solid var(--border-color);padding:7px 14px;border-radius:6px;cursor:pointer;font-size:0.85rem;font-weight:700;">✕ Close</button>
+            </div>
+        </div>
+        <!-- Manual adjust -->
+        <div style="padding:12px 16px;border-bottom:1px solid var(--border-color);display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;background:var(--panel-bg-2);">
+            <div><label style="font-size:0.75rem;color:var(--text-muted);display:block;margin-bottom:4px;">Manual Adjust Points</label>
+            <input type="number" id="lhist-adjust-pts" class="form-control" style="max-width:130px;font-size:0.9rem;" placeholder="e.g. +50 or -20"></div>
+            <div><label style="font-size:0.75rem;color:var(--text-muted);display:block;margin-bottom:4px;">Reason</label>
+            <input type="text" id="lhist-adjust-reason" class="form-control" style="max-width:220px;font-size:0.9rem;" placeholder="Correction, bonus, etc."></div>
+            <button class="btn-csv" onclick="manualAdjustPoints()" style="white-space:nowrap;">Apply Adjustment</button>
+            <div id="lhist-adjust-msg" style="font-size:0.8rem;align-self:center;"></div>
+        </div>
+        <div class="loyalty-history-body" id="lhist-body"></div>
     </div>
 </div>
 <div id="receipt-print-area" style="display:none;"></div>
@@ -982,7 +1120,7 @@ function setPricingMode(mode) {
 const SB_URL_KEY = 'pos_sb_url';
 const SB_KEY_KEY = 'pos_sb_key';
 let db = null;
-const SETUP_SQL = `CREATE TABLE IF NOT EXISTS pos_users (id BIGSERIAL PRIMARY KEY, username TEXT UNIQUE NOT NULL, fullname TEXT NOT NULL, password_hash TEXT NOT NULL, role TEXT NOT NULL DEFAULT 'cashier', created_at TIMESTAMPTZ DEFAULT NOW());CREATE TABLE IF NOT EXISTS pos_products (id TEXT PRIMARY KEY, name TEXT NOT NULL, barcode TEXT UNIQUE NOT NULL, price NUMERIC(10,2) NOT NULL DEFAULT 0, stock INTEGER NOT NULL DEFAULT 0, sold INTEGER NOT NULL DEFAULT 0);CREATE TABLE IF NOT EXISTS pos_sales (id BIGSERIAL PRIMARY KEY, timestamp TIMESTAMPTZ DEFAULT NOW(), items JSONB NOT NULL DEFAULT '[]', total NUMERIC(10,2) NOT NULL DEFAULT 0, payment_type TEXT NOT NULL, customer_name TEXT, gcash_ref TEXT, gcash_mobile TEXT, tendered NUMERIC(10,2), change_due NUMERIC(10,2), is_settlement BOOLEAN DEFAULT FALSE, settled_invoice_id BIGINT);CREATE TABLE IF NOT EXISTS pos_gcash (id BIGSERIAL PRIMARY KEY, date_created TIMESTAMPTZ DEFAULT NOW(), timestamp TEXT NOT NULL, type TEXT NOT NULL, amount NUMERIC(10,2) NOT NULL, mobile TEXT, name TEXT, ref_no TEXT, profit NUMERIC(10,2) DEFAULT 0);CREATE TABLE IF NOT EXISTS pos_expenses (id BIGSERIAL PRIMARY KEY, timestamp TIMESTAMPTZ DEFAULT NOW(), description TEXT NOT NULL, category TEXT NOT NULL, amount NUMERIC(10,2) NOT NULL);CREATE TABLE IF NOT EXISTS pos_activity_log (id BIGSERIAL PRIMARY KEY, timestamp TIMESTAMPTZ DEFAULT NOW(), type TEXT NOT NULL, username TEXT, message TEXT NOT NULL);CREATE TABLE IF NOT EXISTS pos_settings (key TEXT PRIMARY KEY, value TEXT NOT NULL);`;
+const SETUP_SQL = `CREATE TABLE IF NOT EXISTS pos_users (id BIGSERIAL PRIMARY KEY, username TEXT UNIQUE NOT NULL, fullname TEXT NOT NULL, password_hash TEXT NOT NULL, role TEXT NOT NULL DEFAULT 'cashier', created_at TIMESTAMPTZ DEFAULT NOW());CREATE TABLE IF NOT EXISTS pos_products (id TEXT PRIMARY KEY, name TEXT NOT NULL, barcode TEXT UNIQUE NOT NULL, price NUMERIC(10,2) NOT NULL DEFAULT 0, stock INTEGER NOT NULL DEFAULT 0, sold INTEGER NOT NULL DEFAULT 0);CREATE TABLE IF NOT EXISTS pos_sales (id BIGSERIAL PRIMARY KEY, timestamp TIMESTAMPTZ DEFAULT NOW(), items JSONB NOT NULL DEFAULT '[]', total NUMERIC(10,2) NOT NULL DEFAULT 0, payment_type TEXT NOT NULL, customer_name TEXT, gcash_ref TEXT, gcash_mobile TEXT, tendered NUMERIC(10,2), change_due NUMERIC(10,2), is_settlement BOOLEAN DEFAULT FALSE, settled_invoice_id BIGINT);CREATE TABLE IF NOT EXISTS pos_gcash (id BIGSERIAL PRIMARY KEY, date_created TIMESTAMPTZ DEFAULT NOW(), timestamp TEXT NOT NULL, type TEXT NOT NULL, amount NUMERIC(10,2) NOT NULL, mobile TEXT, name TEXT, ref_no TEXT, profit NUMERIC(10,2) DEFAULT 0);CREATE TABLE IF NOT EXISTS pos_expenses (id BIGSERIAL PRIMARY KEY, timestamp TIMESTAMPTZ DEFAULT NOW(), description TEXT NOT NULL, category TEXT NOT NULL, amount NUMERIC(10,2) NOT NULL);CREATE TABLE IF NOT EXISTS pos_activity_log (id BIGSERIAL PRIMARY KEY, timestamp TIMESTAMPTZ DEFAULT NOW(), type TEXT NOT NULL, username TEXT, message TEXT NOT NULL);CREATE TABLE IF NOT EXISTS pos_settings (key TEXT PRIMARY KEY, value TEXT NOT NULL);CREATE TABLE IF NOT EXISTS pos_loyalty (id BIGSERIAL PRIMARY KEY, card_no TEXT UNIQUE NOT NULL, fullname TEXT NOT NULL, mobile TEXT NOT NULL, address TEXT, points_balance INTEGER NOT NULL DEFAULT 0, total_earned INTEGER NOT NULL DEFAULT 0, total_redeemed INTEGER NOT NULL DEFAULT 0, registered_at TIMESTAMPTZ DEFAULT NOW());CREATE TABLE IF NOT EXISTS pos_loyalty_log (id BIGSERIAL PRIMARY KEY, member_id BIGINT NOT NULL REFERENCES pos_loyalty(id) ON DELETE CASCADE, points INTEGER NOT NULL, description TEXT, tx_type TEXT, created_at TIMESTAMPTZ DEFAULT NOW());`;
 
 function safeFetch(input,init={}){const plainHeaders={};if(init.headers){const h=init.headers instanceof Headers?init.headers:new Headers(init.headers);h.forEach((v,k)=>{plainHeaders[k]=v;});}return fetch(input,{...init,headers:plainHeaders});}
 async function connectToSupabase(){const url=document.getElementById('sb-url').value.trim();const key=document.getElementById('sb-key').value.trim();const errEl=document.getElementById('config-error');errEl.style.display='none';if(!url||!key){errEl.textContent='Both URL and Key are required.';errEl.style.display='block';return;}if(!url.startsWith('https://')){errEl.textContent='URL must start with https://';errEl.style.display='block';return;}try{db=window.supabase.createClient(url,key,{global:{fetch:safeFetch}});const{error}=await db.from('pos_settings').select('key').limit(1);if(error&&error.code!=='PGRST116'&&error.message.includes('does not exist')){localStorage.setItem(SB_URL_KEY,url);localStorage.setItem(SB_KEY_KEY,key);document.getElementById('supabase-config-screen').style.display='none';showDialog({title:'First-Time Setup Required',message:'Connected to Supabase! Go to <strong>Admin Panel → Settings → Run SQL Setup</strong> to initialize the database.',type:'warning',buttons:[{label:'OK — Go to Login',cls:'primary',action:showAuthScreen}]});return;}if(error&&!error.message.includes('does not exist'))throw error;localStorage.setItem(SB_URL_KEY,url);localStorage.setItem(SB_KEY_KEY,key);document.getElementById('supabase-config-screen').style.display='none';showAuthScreen();}catch(e){errEl.textContent='Connection failed: '+(e.message||String(e));errEl.style.display='block';}}
@@ -1049,7 +1187,7 @@ async function launchApp(user){document.getElementById('auth-screen').classList.
 function handleLogout(){showConfirm('Are you sure you want to logout?',()=>{logActivity('auth',`User "${currentLoggedInUser.username}" logged out`);currentLoggedInUser=null;document.getElementById('auth-screen').classList.add('visible');document.getElementById('app-main').classList.remove('visible');document.getElementById('login-username').value='';document.getElementById('login-password').value='';},'warning','Logout');}
 
 /* DATA LOADING */
-async function loadAllData(){await Promise.all([loadProducts(),loadSales()]);renderCashierCatalog();renderSalesDashboardTable();renderInventoryDashboardTable();renderLedgerDashboardTable();updateSalesSummaryCards();renderSalesChart();updateProfitCards();}
+async function loadAllData(){await Promise.all([loadProducts(),loadSales(),loadLoyaltyMembers()]);renderCashierCatalog();renderSalesDashboardTable();renderInventoryDashboardTable();renderLedgerDashboardTable();updateSalesSummaryCards();renderSalesChart();updateProfitCards();}
 async function loadProducts(){const{data,error}=await db.from('pos_products').select('*').order('id');if(error){console.error('Load products error:',error);return;}systemProducts=(data||[]).map(p=>({id:p.id,name:p.name,barcode:p.barcode,price:parseFloat(p.price),stock:p.stock,sold:p.sold||0}));}
 async function loadSales(){const{data,error}=await db.from('pos_sales').select('*').order('timestamp',{ascending:false});if(error){console.error('Load sales error:',error);return;}memorySalesJournal=(data||[]).map(tx=>({id:tx.id,timestamp:tx.timestamp,items:tx.items||[],total:parseFloat(tx.total),paymentType:tx.payment_type,customerName:tx.customer_name,gcashRef:tx.gcash_ref,gcashMobile:tx.gcash_mobile,tendered:tx.tendered,change:tx.change_due,isSettlement:tx.is_settlement,settledInvoiceId:tx.settled_invoice_id}));}
 
@@ -1062,8 +1200,8 @@ function changeAdminPassword(){const p1=document.getElementById('new-admin-pw-1'
 /* MODAL HELPERS */
 function openModal(id){document.getElementById(id).classList.add('active');}
 function closeModal(id){document.getElementById(id).classList.remove('active');}
-async function openAdminModal(){await loadSales();renderSalesDashboardTable();renderInventoryDashboardTable();renderLedgerDashboardTable();renderGcashTransactions();renderTopProducts();renderUsersTable();renderExpensesTable();updateSalesSummaryCards();renderSalesChart();updateProfitCards();openModal('admin-modal');}
-function switchAdminTab(index){document.querySelectorAll('.tab-btn').forEach((t,i)=>t.classList.toggle('active',i===index));document.querySelectorAll('.tab-panel').forEach((p,i)=>p.classList.toggle('active',i===index));if(index===0){updateSalesSummaryCards();renderSalesChart();}if(index===1){renderExpensesTable();updateProfitCards();}if(index===2)renderInventoryDashboardTable();if(index===8)renderSettingsTab();}
+async function openAdminModal(){await loadSales();await loadLoyaltyMembers();renderSalesDashboardTable();renderInventoryDashboardTable();renderLedgerDashboardTable();renderGcashTransactions();renderTopProducts();renderUsersTable();renderExpensesTable();updateSalesSummaryCards();renderSalesChart();updateProfitCards();openModal('admin-modal');}
+function switchAdminTab(index){document.querySelectorAll('.tab-btn').forEach((t,i)=>t.classList.toggle('active',i===index));document.querySelectorAll('.tab-panel').forEach((p,i)=>p.classList.toggle('active',i===index));if(index===0){updateSalesSummaryCards();renderSalesChart();}if(index===1){renderExpensesTable();updateProfitCards();}if(index===2)renderInventoryDashboardTable();if(index===6){renderLoyaltyTable();updateLoyaltyStats();}if(index===9)renderSettingsTab();}
 
 /* SALES SUMMARY */
 function getSalesByRange(range){const now=new Date();const filtered=memorySalesJournal.filter(tx=>{if(tx.paymentType==='CREDIT_UTANG'&&tx.total>0)return false;const d=new Date(tx.timestamp);switch(range){case 'day':return d.toDateString()===now.toDateString();case 'week':return d>=new Date(now-7*864e5);case 'month':return d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear();case 'year':return d.getFullYear()===now.getFullYear();default:return true;}});return{total:filtered.reduce((s,tx)=>s+tx.total,0),count:filtered.length};}
@@ -1198,53 +1336,79 @@ function openCheckoutModal(preferredMethod){
     document.getElementById('checkout-gcash-ref').value='';
     document.getElementById('checkout-gcash-mobile').value='';
     document.getElementById('checkout-customer-name').value='';
+    initCheckoutLoyaltyUI();
     selectCheckoutMethod(checkoutPaymentMethod);
     openModal('checkout-modal');
     setTimeout(()=>{if(checkoutPaymentMethod==='CASH')document.getElementById('checkout-tendered').focus();else if(checkoutPaymentMethod==='GCASH')document.getElementById('checkout-gcash-ref').focus();else document.getElementById('checkout-customer-name').focus();},250);
 }
 function selectCheckoutMethod(method){checkoutPaymentMethod=method;document.getElementById('pmb-cash').className='pay-method-btn'+(method==='CASH'?' active-cash':'');document.getElementById('pmb-gcash').className='pay-method-btn'+(method==='GCASH'?' active-gcash':'');document.getElementById('pmb-credit').className='pay-method-btn'+(method==='CREDIT'?' active-credit':'');document.getElementById('checkout-cash-section').style.display=method==='CASH'?'block':'none';document.getElementById('checkout-gcash-section').style.display=method==='GCASH'?'block':'none';document.getElementById('checkout-credit-section').style.display=method==='CREDIT'?'block':'none';const titles={CASH:'Cash Settlement',GCASH:'GCash Payment',CREDIT:'Bind to Credit (Utang)'};document.getElementById('checkout-modal-title').textContent=titles[method]||'Checkout';document.getElementById('process-checkout-btn').style.background=method==='CASH'?'var(--success-color)':method==='GCASH'?'var(--gcash-color)':'var(--warning-color)';document.getElementById('process-checkout-btn').style.color=method==='CREDIT'?'#000':'#fff';if(method==='CASH')setTimeout(()=>document.getElementById('checkout-tendered').focus(),50);if(method==='GCASH')setTimeout(()=>document.getElementById('checkout-gcash-ref').focus(),50);if(method==='CREDIT')setTimeout(()=>document.getElementById('checkout-customer-name').focus(),50);}
 function calcChange(){const total=calculateActiveBasketTotalSum();const tendered=parseFloat(document.getElementById('checkout-tendered').value)||0;const change=tendered-total;document.getElementById('checkout-change').value=change>=0?`₱${change.toFixed(2)}`:'Insufficient Cash';}
-function processCheckout(){const total=calculateActiveBasketTotalSum();if(checkoutPaymentMethod==='CASH'){const tendered=parseFloat(document.getElementById('checkout-tendered').value)||0;if(tendered<total)return showAlert('Insufficient cash amount.','danger');const change=tendered-total;executeCommitTransactionPipeline('CASH',{tendered,change,method:'CASH'});}else if(checkoutPaymentMethod==='GCASH'){const ref=document.getElementById('checkout-gcash-ref').value.trim();const mobile=document.getElementById('checkout-gcash-mobile').value.trim();executeCommitTransactionPipeline('GCASH_PAYMENT',{gcashRef:ref,gcashMobile:mobile,tendered:total,change:0,method:'GCASH'});}else if(checkoutPaymentMethod==='CREDIT'){const name=document.getElementById('checkout-customer-name').value.trim();if(!name)return showAlert('Customer name is required for credit.','warning');executeCommitTransactionPipeline('CREDIT_UTANG',{customerName:name,method:'CREDIT'});}}
+function processCheckout(){
+    // Wholesale mode requires a loyalty card member attached
+    if(pricingMode==='wholesale'&&!activeLoyaltyCustomer){
+        return showAlert('Wholesale mode requires a Loyalty Card member. Please search and select a member above.','warning','Loyalty Card Required');
+    }
+    const total=getFinalTotal();
+    if(checkoutPaymentMethod==='CASH'){
+        const tendered=parseFloat(document.getElementById('checkout-tendered').value)||0;
+        if(tendered<total)return showAlert('Insufficient cash amount.','danger');
+        const change=tendered-total;
+        executeCommitTransactionPipeline('CASH',{tendered,change,method:'CASH',finalTotal:total});
+    }else if(checkoutPaymentMethod==='GCASH'){
+        const ref=document.getElementById('checkout-gcash-ref').value.trim();
+        const mobile=document.getElementById('checkout-gcash-mobile').value.trim();
+        executeCommitTransactionPipeline('GCASH_PAYMENT',{gcashRef:ref,gcashMobile:mobile,tendered:total,change:0,method:'GCASH',finalTotal:total});
+    }else if(checkoutPaymentMethod==='CREDIT'){
+        const name=document.getElementById('checkout-customer-name').value.trim();
+        if(!name)return showAlert('Customer name is required for credit.','warning');
+        executeCommitTransactionPipeline('CREDIT_UTANG',{customerName:name,method:'CREDIT',finalTotal:total});
+    }
+}
 
 /* TRANSACTION PIPELINE */
 async function executeCommitTransactionPipeline(channel,meta={}){
-    const total=calculateActiveBasketTotalSum();
+    const baseTotal=calculateActiveBasketTotalSum();
+    const finalTotal=meta.finalTotal!==undefined?meta.finalTotal:baseTotal;
+    const redeemedPts=getRedeemPts();
+    const discount=redeemedPts*LOYALTY_PTS_TO_PESO;
     const cartSnapshot=JSON.parse(JSON.stringify(activeCart));
     const itemsSummary=cartSnapshot.map(i=>`${i.product.name} x${i.quantity}`).join(', ');
-    // Use effectivePrice in receipt items
     const receiptItems = cartSnapshot.map(i=>({
-        name: i.product.name,
-        qty:  i.quantity,
+        name: i.product.name, qty: i.quantity,
         price: i.effectivePrice !== undefined ? i.effectivePrice : i.product.price,
         pricingMode: i.pricingMode || 'retail'
     }));
+    const loyaltyName = activeLoyaltyCustomer ? activeLoyaltyCustomer.fullname : null;
+    const loyaltyCard = activeLoyaltyCustomer ? activeLoyaltyCustomer.card_no : null;
+    const rate=pricingMode==='wholesale'?LOYALTY_PTS_RATE_WHOLESALE:LOYALTY_PTS_RATE_RETAIL;
+    const earnedPts = activeLoyaltyCustomer ? Math.floor(baseTotal*rate) : 0;
     const receiptData={
         timestamp:new Date().toISOString(),
-        customerName:meta.customerName||(channel==='GCASH_PAYMENT'?'GCash Customer':null),
+        customerName:loyaltyName||meta.customerName||(channel==='GCASH_PAYMENT'?'GCash Customer':null),
         method:channel==='CASH'?'CASH':channel==='GCASH_PAYMENT'?'GCASH':channel==='CREDIT_UTANG'?'CREDIT (UTANG)':'OTHER',
-        items: receiptItems,
-        subtotal:total,discount:0,cash:meta.tendered||total,change:meta.change||0,total,
-        gcashRef:meta.gcashRef||null,gcashMobile:meta.gcashMobile||null,
-        pricingMode: pricingMode
+        items: receiptItems, subtotal:baseTotal, discount,
+        cash:meta.tendered||finalTotal, change:meta.change||0, total:finalTotal,
+        gcashRef:meta.gcashRef||null, gcashMobile:meta.gcashMobile||null,
+        pricingMode, loyaltyCard, loyaltyName, earnedPts, redeemedPts
     };
-    // Store effective prices in DB so reports reflect actual charged price
     const itemsForDB=cartSnapshot.map(i=>({
         product:{id:i.product.id,name:i.product.name,price:i.effectivePrice!==undefined?i.effectivePrice:i.product.price,barcode:i.product.barcode},
-        quantity:i.quantity,
-        name:i.product.name,
+        quantity:i.quantity, name:i.product.name,
         price:i.effectivePrice!==undefined?i.effectivePrice:i.product.price,
         pricingMode:i.pricingMode||'retail'
     }));
-    const saleRow={timestamp:new Date().toISOString(),items:itemsForDB,total,payment_type:channel,customer_name:meta.customerName||null,gcash_ref:meta.gcashRef||null,gcash_mobile:meta.gcashMobile||null,tendered:meta.tendered||total,change_due:meta.change||0,is_settlement:false};
+    const saleRow={timestamp:new Date().toISOString(),items:itemsForDB,total:finalTotal,payment_type:channel,customer_name:loyaltyName||meta.customerName||null,gcash_ref:meta.gcashRef||null,gcash_mobile:meta.gcashMobile||null,tendered:meta.tendered||finalTotal,change_due:meta.change||0,is_settlement:false};
     try{
         await db.from('pos_sales').insert(saleRow);
         for(const item of cartSnapshot){const p=systemProducts.find(x=>x.id===item.product.id);if(p){p.stock-=item.quantity;if(p.stock<0)p.stock=0;p.sold=(p.sold||0)+item.quantity;await db.from('pos_products').update({stock:p.stock,sold:p.sold}).eq('id',p.id);}}
+        // Award / redeem loyalty points
+        await processLoyaltyAfterSale(baseTotal);
         await loadSales();renderSalesDashboardTable();renderInventoryDashboardTable();updateSalesSummaryCards();renderSalesChart();updateProfitCards();
-        const modeTag = pricingMode === 'wholesale' ? ' [WHOLESALE −15%]' : '';
-        logActivity('sale',`${channel} sale${modeTag}: ₱${total.toFixed(2)} — ${itemsSummary}${meta.customerName?` | Customer: ${meta.customerName}`:''}`);
+        const modeTag=pricingMode==='wholesale'?' [WHOLESALE −15%]':'';
+        logActivity('sale',`${channel} sale${modeTag}: ₱${finalTotal.toFixed(2)} — ${itemsSummary}${loyaltyName?` | Loyalty: ${loyaltyName}`:''}${meta.customerName&&!loyaltyName?` | Customer: ${meta.customerName}`:''}`);
     }catch(e){showAlert('Transaction save failed: '+e.message,'danger');return;}
-    if(channel!=='CREDIT_UTANG'){printReceipt(receiptData);}else{showAlert(`Credit entry posted for <strong>${meta.customerName}</strong>.<br>Amount: ₱${total.toFixed(2)}`,'warning','Credit Posted');}
-    activeCart=[];renderRegisterBasketCart();renderCashierCatalog();closeModal('checkout-modal');
+    if(channel!=='CREDIT_UTANG'){printReceipt(receiptData);}else{showAlert(`Credit entry posted for <strong>${loyaltyName||meta.customerName}</strong>.<br>Amount: ₱${finalTotal.toFixed(2)}`,'warning','Credit Posted');}
+    activeCart=[];activeLoyaltyCustomer=null;renderRegisterBasketCart();renderCashierCatalog();closeModal('checkout-modal');
 }
 
 /* EXPENSES */
@@ -1288,17 +1452,35 @@ function printReceipt(s){
     const div=document.getElementById('receipt-print-area');
     const customer=s.customerName?s.customerName.toUpperCase():'WALK-IN';
     const modeLabel = s.pricingMode === 'wholesale' ? ' [WHOLESALE −15%]' : '';
+    const discountLine = (s.discount&&s.discount>0)?`<div style="width:100%;margin-bottom:1px;color:green;"><span style="float:left;font-size:9px;">🎁 Pts Redeemed (${s.redeemedPts||0} pts):</span><span style="float:right;font-size:9px;">−₱${(s.discount||0).toFixed(2)}</span><div style="clear:both;"></div></div>`:'';
+    const loyaltyLine = s.loyaltyCard?`<br>🪪 Loyalty Card: ${s.loyaltyCard}`:'';
+    const ptsLine = s.earnedPts>0?`<div style="text-align:center;font-size:9px;color:green;margin-top:5px;border:1px dashed green;padding:4px;border-radius:4px;">⭐ +${s.earnedPts} Loyalty Points Earned!</div>`:'';
     div.style.fontSize='2px';div.style.lineHeight='1.2';div.style.paddingRight='15px';div.style.fontFamily='Arial, sans-serif';div.style.width='100%';
-    div.innerHTML=`<div style="text-align:center;margin:2px;"><strong style="font-size:.8em;">${storeSettings.storeName||''}</strong>${storeSettings.address1?`<p style="font-size:10px;">${storeSettings.address1}</p>`:''}${storeSettings.address2?`<p style="font-size:10px;">${storeSettings.address2}</p>`:''}${storeSettings.phone?`<p style="font-size:10px;">Mobile Number: ${storeSettings.phone}</p>`:''}</div><hr style="border-top:2px dashed #000;margin:8px 0;"><div style="margin-bottom:8px;font-size:9px;">Date: ${new Date(s.timestamp).toLocaleString()}<br>Customer: ${customer}<br>Method: ${s.method}${modeLabel}${s.gcashRef?'<br>GCash Ref: '+s.gcashRef:''}${s.gcashMobile?'<br>Mobile: '+s.gcashMobile:''}</div><hr style="border-top:2px dashed #000;margin:8px 0;">${s.items.map(i=>`<div style="margin-bottom:5px;width:100%;"><div style="text-transform:uppercase;font-size:9px;">${i.name}${i.pricingMode==='wholesale'?' [WS]':''}</div><div style="width:100%;"><span style="float:left;font-size:9px;">${i.qty} x ${(i.price||0).toFixed(2)}</span><span style="float:right;font-size:9px;">₱${(i.qty*(i.price||0)).toFixed(2)}</span><div style="clear:both;"></div></div></div>`).join('')}<hr style="border-top:2px dashed #000;margin:8px 0;"><div style="width:100%;margin-bottom:1px;"><span style="float:left;font-size:9px;">Subtotal:</span><span style="float:right;font-size:9px;">₱${s.subtotal.toFixed(2)}</span><div style="clear:both;"></div></div><div style="width:100%;margin-bottom:1px;"><span style="float:left;font-size:9px;">Payment:</span><span style="float:right;font-size:9px;">₱${s.cash.toFixed(2)}</span><div style="clear:both;"></div></div><div style="width:100%;margin-bottom:1px;"><span style="float:left;font-size:9px;">Total:</span><span style="float:right;font-size:10px;">₱${s.total.toFixed(2)}</span><div style="clear:both;"></div></div><div style="font-size:1em;margin-top:10px;border-top:3px solid #000;padding-top:5px;width:100%;"><strong style="float:left;font-size:10px;">Change:</strong><strong style="float:right;font-size:10px;">₱${s.change.toFixed(2)}</strong><div style="clear:both;"></div></div><hr style="border-top:2px dashed #000;margin-top:15px;"><div style="text-align:center;font-size:9px;margin-top:10px;font-weight:bold;padding-bottom:20px;">Thanks for your purchase!<br>Please come again!!</div>`;
+    div.innerHTML=`<div style="text-align:center;margin:2px;"><strong style="font-size:.8em;">${storeSettings.storeName||''}</strong>${storeSettings.address1?`<p style="font-size:10px;">${storeSettings.address1}</p>`:''}${storeSettings.address2?`<p style="font-size:10px;">${storeSettings.address2}</p>`:''}${storeSettings.phone?`<p style="font-size:10px;">Mobile: ${storeSettings.phone}</p>`:''}</div><hr style="border-top:2px dashed #000;margin:8px 0;"><div style="margin-bottom:8px;font-size:9px;">Date: ${new Date(s.timestamp).toLocaleString()}<br>Customer: ${customer}${loyaltyLine}<br>Method: ${s.method}${modeLabel}${s.gcashRef?'<br>GCash Ref: '+s.gcashRef:''}${s.gcashMobile?'<br>Mobile: '+s.gcashMobile:''}</div><hr style="border-top:2px dashed #000;margin:8px 0;">${s.items.map(i=>`<div style="margin-bottom:5px;width:100%;"><div style="text-transform:uppercase;font-size:9px;">${i.name}${i.pricingMode==='wholesale'?' [WS]':''}</div><div style="width:100%;"><span style="float:left;font-size:9px;">${i.qty} x ${(i.price||0).toFixed(2)}</span><span style="float:right;font-size:9px;">₱${(i.qty*(i.price||0)).toFixed(2)}</span><div style="clear:both;"></div></div></div>`).join('')}<hr style="border-top:2px dashed #000;margin:8px 0;"><div style="width:100%;margin-bottom:1px;"><span style="float:left;font-size:9px;">Subtotal:</span><span style="float:right;font-size:9px;">₱${s.subtotal.toFixed(2)}</span><div style="clear:both;"></div></div>${discountLine}<div style="width:100%;margin-bottom:1px;"><span style="float:left;font-size:9px;">Payment:</span><span style="float:right;font-size:9px;">₱${s.cash.toFixed(2)}</span><div style="clear:both;"></div></div><div style="width:100%;margin-bottom:1px;"><span style="float:left;font-size:9px;">Total:</span><span style="float:right;font-size:10px;">₱${s.total.toFixed(2)}</span><div style="clear:both;"></div></div><div style="font-size:1em;margin-top:10px;border-top:3px solid #000;padding-top:5px;width:100%;"><strong style="float:left;font-size:10px;">Change:</strong><strong style="float:right;font-size:10px;">₱${s.change.toFixed(2)}</strong><div style="clear:both;"></div></div>${ptsLine}<hr style="border-top:2px dashed #000;margin-top:10px;"><div style="text-align:center;font-size:9px;margin-top:10px;font-weight:bold;padding-bottom:20px;">Thanks for your purchase!<br>Please come again!!</div>`;
     sendToTelegramText(buildTelegramReceiptText(s));
     setTimeout(()=>window.print(),250);
 }
-function buildTelegramReceiptText(s){const customer=s.customerName?s.customerName.toUpperCase():'WALK-IN CLIENT';const modeLabel=s.pricingMode==='wholesale'?' [WHOLESALE −15%]':'';let text=`🧾 *${storeSettings.storeName||'POS'} - Receipt*\n📅 ${new Date(s.timestamp).toLocaleString()}\n👤 Customer: ${customer}\n💳 Method: ${s.method}${modeLabel}\n`;if(s.gcashRef)text+=`📱 GCash Ref: ${s.gcashRef}\n`;text+=`${'─'.repeat(28)}\n`;s.items.forEach(i=>{text+=`${i.name.toUpperCase()}${i.pricingMode==='wholesale'?' [WS]':''}\n  ${i.qty} x ₱${(i.price||0).toFixed(2)} = ₱${(i.qty*(i.price||0)).toFixed(2)}\n`;});text+=`${'─'.repeat(28)}\nPayment: ₱${s.cash.toFixed(2)}\nChange: ₱${s.change.toFixed(2)}\n*TOTAL: ₱${s.total.toFixed(2)}*\n${'─'.repeat(28)}\nThanks for your purchase!`;return text;}
+function buildTelegramReceiptText(s){
+    const customer=s.customerName?s.customerName.toUpperCase():'WALK-IN CLIENT';
+    const modeLabel=s.pricingMode==='wholesale'?' [WHOLESALE −15%]':'';
+    let text=`🧾 *${storeSettings.storeName||'POS'} - Receipt*\n📅 ${new Date(s.timestamp).toLocaleString()}\n👤 Customer: ${customer}\n`;
+    if(s.loyaltyCard)text+=`🪪 Loyalty Card: ${s.loyaltyCard}\n`;
+    text+=`💳 Method: ${s.method}${modeLabel}\n`;
+    if(s.gcashRef)text+=`📱 GCash Ref: ${s.gcashRef}\n`;
+    text+=`${'─'.repeat(28)}\n`;
+    s.items.forEach(i=>{text+=`${i.name.toUpperCase()}${i.pricingMode==='wholesale'?' [WS]':''}\n  ${i.qty} x ₱${(i.price||0).toFixed(2)} = ₱${(i.qty*(i.price||0)).toFixed(2)}\n`;});
+    text+=`${'─'.repeat(28)}\n`;
+    if(s.discount&&s.discount>0)text+=`🎁 Pts Redeemed: −₱${s.discount.toFixed(2)}\n`;
+    text+=`Payment: ₱${s.cash.toFixed(2)}\nChange: ₱${s.change.toFixed(2)}\n*TOTAL: ₱${s.total.toFixed(2)}*\n${'─'.repeat(28)}\n`;
+    if(s.earnedPts>0)text+=`⭐ +${s.earnedPts} Loyalty Points Earned!\n`;
+    text+=`Thanks for your purchase!`;
+    return text;
+}
 
 /* SEARCH / KEYBOARD */
 document.getElementById('search-bar').oninput=e=>renderCashierCatalog(e.target.value);
 document.getElementById('search-bar').onkeydown=function(e){if(e.key==='Enter'){const val=e.target.value.trim();const match=systemProducts.find(p=>p.barcode===val);if(match){addItemToRegisterBasket(match.id);e.target.value='';renderCashierCatalog('');}}};
-window.onkeydown=function(e){if(!document.getElementById('app-main').classList.contains('visible'))return;if(e.key==='F1'){e.preventDefault();openCheckoutModal('CASH');}if(e.key==='F2'){e.preventDefault();openCheckoutModal('GCASH');}if(e.key==='F3'){e.preventDefault();openCheckoutModal('CREDIT');}if(e.key==='Escape'){document.getElementById('app-dialog-overlay').classList.remove('show');['admin-modal','checkout-modal','settlement-modal','product-crud-modal'].forEach(closeModal);closeGcashModal();closeAdminGate();closeActivityLogModal();closeThemeDropdown();}};
+window.onkeydown=function(e){if(!document.getElementById('app-main').classList.contains('visible'))return;if(e.key==='F1'){e.preventDefault();openCheckoutModal('CASH');}if(e.key==='F2'){e.preventDefault();openCheckoutModal('GCASH');}if(e.key==='F3'){e.preventDefault();openCheckoutModal('CREDIT');}if(e.key==='Escape'){document.getElementById('app-dialog-overlay').classList.remove('show');['admin-modal','checkout-modal','settlement-modal','product-crud-modal'].forEach(closeModal);closeGcashModal();closeAdminGate();closeActivityLogModal();closeThemeDropdown();closeLoyaltyHistory();}};
 document.getElementById('admin-gate-password').addEventListener('keydown',e=>{if(e.key==='Enter')verifyAdminPassword();});
 document.getElementById('checkout-cash-btn').onclick=()=>openCheckoutModal('CASH');
 document.getElementById('checkout-gcash-sale-btn').onclick=()=>openCheckoutModal('GCASH');
@@ -1318,6 +1500,319 @@ document.addEventListener('DOMContentLoaded',()=>{
     if(savedUrl&&savedKey){db=window.supabase.createClient(savedUrl,savedKey,{global:{fetch:safeFetch}});document.getElementById('supabase-config-screen').style.display='none';showAuthScreen();}
     else{document.getElementById('supabase-config-screen').style.display='flex';}
 });
+/* ════════════════════════════════════════════════════════════
+   LOYALTY SYSTEM
+════════════════════════════════════════════════════════════ */
+// Points rate: 1 point per ₱1 spent (retail), 1.0001 per ₱1 (wholesale bonus = +0.01%)
+const LOYALTY_PTS_RATE_RETAIL    = 0.01;   // 1 pt per ₱100
+const LOYALTY_PTS_RATE_WHOLESALE = 0.0101; // +0.01% more when wholesale
+const LOYALTY_PTS_TO_PESO        = 1;      // 1 pt = ₱1 discount when redeeming
+let loyaltyMembers = [];    // loaded from DB
+let activeLoyaltyCustomer = null; // { id, fullname, card_no, points_balance, ... }
+let loyaltyHistoryMemberId = null;
+
+/* ── Generate card number ─────────────────────────────── */
+function generateCardNo(){
+    const prefix='LC';
+    const num=String(Math.floor(Math.random()*900000)+100000);
+    return `${prefix}-${num}`;
+}
+
+/* ── Load all loyalty members ─────────────────────────── */
+async function loadLoyaltyMembers(){
+    try{
+        const{data,error}=await db.from('pos_loyalty').select('*').order('registered_at',{ascending:false});
+        if(error)throw error;
+        loyaltyMembers=(data||[]);
+    }catch(e){ loyaltyMembers=[]; console.warn('Loyalty load error:',e); }
+}
+
+/* ── Register new member ──────────────────────────────── */
+async function registerLoyaltyMember(){
+    const name   = document.getElementById('loy-reg-name').value.trim();
+    const mobile = document.getElementById('loy-reg-mobile').value.trim();
+    const addr   = document.getElementById('loy-reg-address').value.trim();
+    const msgEl  = document.getElementById('loy-reg-msg');
+    if(!name) return (msgEl.style.color='var(--danger-color)',msgEl.textContent='Full name is required.');
+    if(!mobile) return (msgEl.style.color='var(--danger-color)',msgEl.textContent='Mobile number is required.');
+    // Check duplicate mobile
+    if(loyaltyMembers.find(m=>m.mobile===mobile)){
+        msgEl.style.color='var(--danger-color)';msgEl.textContent='Mobile number already registered.';return;
+    }
+    const card_no = generateCardNo();
+    const row = {fullname:name, mobile, address:addr, card_no, points_balance:0, total_earned:0, total_redeemed:0, registered_at:new Date().toISOString()};
+    try{
+        const{error}=await db.from('pos_loyalty').insert(row);
+        if(error)throw error;
+        logActivity('admin',`Loyalty member registered: "${name}" (${card_no})`);
+        msgEl.style.color='var(--success-color)';
+        msgEl.textContent=`✔ Registered! Card No: ${card_no}`;
+        document.getElementById('loy-reg-name').value='';
+        document.getElementById('loy-reg-mobile').value='';
+        document.getElementById('loy-reg-address').value='';
+        await loadLoyaltyMembers();
+        renderLoyaltyTable();
+        updateLoyaltyStats();
+    }catch(e){ msgEl.style.color='var(--danger-color)'; msgEl.textContent='Error: '+e.message; }
+}
+
+/* ── Render admin loyalty table ───────────────────────── */
+function renderLoyaltyTable(){
+    const search=(document.getElementById('loy-search')?.value||'').toLowerCase().trim();
+    const tbody=document.getElementById('loyalty-table-body');
+    if(!tbody)return;
+    tbody.innerHTML='';
+    const filtered=loyaltyMembers.filter(m=>
+        m.fullname.toLowerCase().includes(search)||
+        m.card_no.toLowerCase().includes(search)||
+        (m.mobile||'').includes(search)
+    );
+    if(filtered.length===0){
+        tbody.innerHTML=`<tr><td colspan="9" style="text-align:center;color:var(--text-muted);padding:24px;">No loyalty members found.</td></tr>`;
+        return;
+    }
+    filtered.forEach(m=>{
+        const tr=document.createElement('tr');
+        const bal = m.points_balance||0;
+        const earned = m.total_earned||0;
+        const redeemed = m.total_redeemed||0;
+        tr.innerHTML=`
+            <td><span class="card-num-badge">${m.card_no}</span></td>
+            <td style="font-weight:600;">${m.fullname}</td>
+            <td style="font-family:monospace;">${m.mobile||'—'}</td>
+            <td style="font-size:0.82rem;color:var(--text-muted);">${m.address||'—'}</td>
+            <td>${new Date(m.registered_at).toLocaleDateString()}</td>
+            <td><span class="pts-badge">${bal.toLocaleString()} pts</span></td>
+            <td style="color:var(--success-color);font-weight:600;">${earned.toLocaleString()}</td>
+            <td style="color:var(--warning-color);font-weight:600;">${redeemed.toLocaleString()}</td>
+            <td>
+                <button class="btn-table-action" onclick="openLoyaltyHistory(${m.id})" style="margin-right:4px;">History</button>
+                <button class="btn-table-action btn-inline-delete" onclick="deleteLoyaltyMember(${m.id},'${m.fullname.replace(/'/g,"\\'")}')">Delete</button>
+            </td>`;
+        tbody.appendChild(tr);
+    });
+}
+
+/* ── Update loyalty stat cards ────────────────────────── */
+function updateLoyaltyStats(){
+    const total=loyaltyMembers.length;
+    const totalPts=loyaltyMembers.reduce((s,m)=>(m.total_earned||0)+s,0);
+    const totalRed=loyaltyMembers.reduce((s,m)=>(m.total_redeemed||0)+s,0);
+    const el1=document.getElementById('loy-stat-total');
+    const el2=document.getElementById('loy-stat-pts');
+    const el3=document.getElementById('loy-stat-redeemed');
+    if(el1)el1.textContent=total;
+    if(el2)el2.textContent=totalPts.toLocaleString();
+    if(el3)el3.textContent=totalRed.toLocaleString();
+}
+
+/* ── Delete loyalty member ────────────────────────────── */
+async function deleteLoyaltyMember(id,name){
+    showConfirm(`Delete loyalty member "<strong>${name}</strong>"? All their points history will be lost.`,async()=>{
+        const{error}=await db.from('pos_loyalty').delete().eq('id',id);
+        if(error)return showAlert('Delete failed: '+error.message,'danger');
+        logActivity('admin',`Loyalty member deleted: "${name}"`);
+        await loadLoyaltyMembers();
+        renderLoyaltyTable();
+        updateLoyaltyStats();
+    },'danger','Delete Loyalty Member');
+}
+
+/* ── Export loyalty CSV ───────────────────────────────── */
+function exportLoyaltyToCSV(){
+    let csv='Card No,Full Name,Mobile,Address,Registered,Points Balance,Total Earned,Total Redeemed\n';
+    loyaltyMembers.forEach(m=>{
+        csv+=`"${m.card_no}","${m.fullname}","${m.mobile||''}","${m.address||''}","${new Date(m.registered_at).toLocaleDateString()}",${m.points_balance||0},${m.total_earned||0},${m.total_redeemed||0}\n`;
+    });
+    downloadCSV(csv,'LoyaltyMembers.csv');
+    logActivity('admin','Loyalty members exported');
+}
+
+/* ── Points History Modal ─────────────────────────────── */
+async function openLoyaltyHistory(memberId){
+    loyaltyHistoryMemberId=memberId;
+    const m=loyaltyMembers.find(x=>x.id===memberId);
+    if(!m)return;
+    document.getElementById('lhist-member-name').textContent=m.fullname;
+    document.getElementById('lhist-card-no').textContent=m.card_no;
+    document.getElementById('lhist-balance').textContent=(m.points_balance||0).toLocaleString()+' pts';
+    document.getElementById('lhist-adjust-pts').value='';
+    document.getElementById('lhist-adjust-reason').value='';
+    document.getElementById('lhist-adjust-msg').textContent='';
+    await renderPointsHistory(memberId);
+    document.getElementById('loyalty-history-modal').classList.add('active');
+}
+function closeLoyaltyHistory(){
+    document.getElementById('loyalty-history-modal').classList.remove('active');
+    loyaltyHistoryMemberId=null;
+}
+async function renderPointsHistory(memberId){
+    const body=document.getElementById('lhist-body');
+    body.innerHTML='<div style="text-align:center;color:var(--text-muted);padding:20px;">Loading...</div>';
+    try{
+        const{data,error}=await db.from('pos_loyalty_log').select('*').eq('member_id',memberId).order('created_at',{ascending:false});
+        if(error)throw error;
+        if(!data||data.length===0){body.innerHTML='<div style="text-align:center;color:var(--text-muted);padding:30px;">No points history yet.</div>';return;}
+        body.innerHTML=data.map(log=>{
+            const isEarn=log.points>0;
+            const col=isEarn?'var(--success-color)':'var(--danger-color)';
+            const sign=isEarn?'+':'';
+            return`<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 4px;border-bottom:1px solid var(--border-color);">
+                <div>
+                    <div style="font-size:0.88rem;font-weight:600;color:var(--text-main);">${log.description}</div>
+                    <div style="font-size:0.75rem;color:var(--text-muted);">${new Date(log.created_at).toLocaleString()} &nbsp;·&nbsp; ${log.tx_type||'transaction'}</div>
+                </div>
+                <div style="font-size:1rem;font-weight:800;color:${col};white-space:nowrap;">${sign}${log.points.toLocaleString()} pts</div>
+            </div>`;
+        }).join('');
+    }catch(e){body.innerHTML=`<div style="color:var(--danger-color);padding:20px;">Error: ${e.message}</div>`;}
+}
+
+/* ── Manual point adjustment ─────────────────────────── */
+async function manualAdjustPoints(){
+    const pts=parseInt(document.getElementById('lhist-adjust-pts').value)||0;
+    const reason=document.getElementById('lhist-adjust-reason').value.trim()||'Manual adjustment';
+    const msgEl=document.getElementById('lhist-adjust-msg');
+    if(!pts)return(msgEl.style.color='var(--danger-color)',msgEl.textContent='Enter a non-zero value.');
+    const m=loyaltyMembers.find(x=>x.id===loyaltyHistoryMemberId);
+    if(!m)return;
+    const newBal=Math.max(0,(m.points_balance||0)+pts);
+    const newEarned=pts>0?(m.total_earned||0)+pts:(m.total_earned||0);
+    const newRed=pts<0?(m.total_redeemed||0)+Math.abs(pts):(m.total_redeemed||0);
+    try{
+        await db.from('pos_loyalty').update({points_balance:newBal,total_earned:newEarned,total_redeemed:newRed}).eq('id',m.id);
+        await db.from('pos_loyalty_log').insert({member_id:m.id,points:pts,description:reason,tx_type:'manual'});
+        logActivity('admin',`Points adjusted for "${m.fullname}": ${pts>0?'+':''}${pts} — ${reason}`);
+        m.points_balance=newBal;m.total_earned=newEarned;m.total_redeemed=newRed;
+        document.getElementById('lhist-balance').textContent=newBal.toLocaleString()+' pts';
+        document.getElementById('lhist-adjust-pts').value='';
+        document.getElementById('lhist-adjust-reason').value='';
+        msgEl.style.color='var(--success-color)';
+        msgEl.textContent=`✔ Adjusted. New balance: ${newBal.toLocaleString()} pts`;
+        await renderPointsHistory(m.id);
+        renderLoyaltyTable();updateLoyaltyStats();
+    }catch(e){msgEl.style.color='var(--danger-color)';msgEl.textContent='Error: '+e.message;}
+}
+
+/* ── CHECKOUT LOYALTY SECTION ─────────────────────────── */
+function initCheckoutLoyaltyUI(){
+    activeLoyaltyCustomer=null;
+    document.getElementById('checkout-loyalty-search').value='';
+    document.getElementById('loyalty-search-results').style.display='none';
+    document.getElementById('loyalty-search-results').innerHTML='';
+    document.getElementById('loyalty-no-customer').style.display='flex';
+    document.getElementById('loyalty-customer-attached').style.display='none';
+    document.getElementById('loyalty-redeem-section').style.display='none';
+    document.getElementById('checkout-redeem-pts').value='';
+    // Wholesale requires card
+    const reqBanner=document.getElementById('loyalty-card-required-msg');
+    reqBanner.style.display=pricingMode==='wholesale'?'flex':'none';
+}
+
+async function liveSearchLoyalty(){
+    const q=(document.getElementById('checkout-loyalty-search').value||'').trim().toLowerCase();
+    const resultsEl=document.getElementById('loyalty-search-results');
+    if(!q){resultsEl.style.display='none';resultsEl.innerHTML='';return;}
+    if(!loyaltyMembers.length) await loadLoyaltyMembers();
+    const matches=loyaltyMembers.filter(m=>
+        m.fullname.toLowerCase().includes(q)||
+        m.card_no.toLowerCase().includes(q)||
+        (m.mobile||'').includes(q)
+    ).slice(0,6);
+    if(!matches.length){
+        resultsEl.style.display='block';
+        resultsEl.innerHTML=`<div style="padding:12px;color:var(--text-muted);font-size:0.85rem;">No member found.</div>`;
+        return;
+    }
+    resultsEl.style.display='block';
+    resultsEl.innerHTML=matches.map(m=>`
+        <div onclick="attachLoyaltyCustomer(${m.id})" style="padding:10px 14px;cursor:pointer;border-bottom:1px solid var(--border-color);display:flex;justify-content:space-between;align-items:center;" onmouseover="this.style.background='var(--row-hover)'" onmouseout="this.style.background=''">
+            <div>
+                <div style="font-weight:700;font-size:0.9rem;">${m.fullname}</div>
+                <div style="font-size:0.75rem;color:var(--text-muted);">📱 ${m.mobile} &nbsp;·&nbsp; 🪪 ${m.card_no}</div>
+            </div>
+            <span class="pts-badge">${(m.points_balance||0).toLocaleString()} pts</span>
+        </div>`).join('');
+}
+
+function attachLoyaltyCustomer(memberId){
+    const m=loyaltyMembers.find(x=>x.id===memberId);
+    if(!m)return;
+    activeLoyaltyCustomer=m;
+    document.getElementById('loyalty-search-results').style.display='none';
+    document.getElementById('loyalty-no-customer').style.display='none';
+    document.getElementById('loyalty-customer-attached').style.display='flex';
+    document.getElementById('loyalty-card-required-msg').style.display='none';
+    const total=calculateActiveBasketTotalSum();
+    const rate=pricingMode==='wholesale'?LOYALTY_PTS_RATE_WHOLESALE:LOYALTY_PTS_RATE_RETAIL;
+    const willEarn=Math.floor(total*rate);
+    document.getElementById('loyalty-attached-name-display').textContent=`${m.fullname} (${m.card_no})`;
+    document.getElementById('loyalty-attached-card-display').textContent=m.card_no;
+    document.getElementById('loyalty-attached-balance-display').textContent=(m.points_balance||0).toLocaleString()+' pts';
+    document.getElementById('loyalty-will-earn-display').textContent=`+${willEarn} pts`;
+    // Show redeem section
+    const maxRedeem=Math.min(m.points_balance||0, Math.floor(total)); // max redeem can't exceed total
+    document.getElementById('loyalty-redeem-section').style.display='flex';
+    document.getElementById('checkout-redeem-max-label').textContent=`Max: ${maxRedeem.toLocaleString()} pts`;
+    document.getElementById('checkout-redeem-pts').value='';
+    document.getElementById('checkout-redeem-pts').max=maxRedeem;
+    document.getElementById('checkout-redeem-value-label').textContent='';
+}
+
+function detachLoyaltyCustomer(){
+    activeLoyaltyCustomer=null;
+    document.getElementById('loyalty-no-customer').style.display='flex';
+    document.getElementById('loyalty-customer-attached').style.display='none';
+    document.getElementById('loyalty-redeem-section').style.display='none';
+    document.getElementById('checkout-loyalty-search').value='';
+    document.getElementById('loyalty-search-results').style.display='none';
+    // Re-show required banner if wholesale
+    document.getElementById('loyalty-card-required-msg').style.display=pricingMode==='wholesale'?'flex':'none';
+    // Reset total
+    document.getElementById('checkout-total').value=`₱${calculateActiveBasketTotalSum().toFixed(2)}`;
+}
+
+function calcRedeemDiscount(){
+    if(!activeLoyaltyCustomer)return;
+    const total=calculateActiveBasketTotalSum();
+    let pts=parseInt(document.getElementById('checkout-redeem-pts').value)||0;
+    const maxRedeem=Math.min(activeLoyaltyCustomer.points_balance||0, Math.floor(total));
+    if(pts<0)pts=0;
+    if(pts>maxRedeem){pts=maxRedeem;document.getElementById('checkout-redeem-pts').value=pts;}
+    const discount=pts*LOYALTY_PTS_TO_PESO;
+    const finalTotal=Math.max(0,total-discount);
+    document.getElementById('checkout-redeem-value-label').textContent=pts>0?`= ₱${discount.toFixed(2)} off`:'';
+    document.getElementById('checkout-total').value=`₱${finalTotal.toFixed(2)}`;
+}
+
+function getRedeemPts(){return parseInt(document.getElementById('checkout-redeem-pts')?.value)||0;}
+function getFinalTotal(){
+    const base=calculateActiveBasketTotalSum();
+    const discount=getRedeemPts()*LOYALTY_PTS_TO_PESO;
+    return Math.max(0,base-discount);
+}
+
+/* ── Award/Redeem points after sale ───────────────────── */
+async function processLoyaltyAfterSale(total){
+    if(!activeLoyaltyCustomer)return;
+    const m=activeLoyaltyCustomer;
+    const rate=pricingMode==='wholesale'?LOYALTY_PTS_RATE_WHOLESALE:LOYALTY_PTS_RATE_RETAIL;
+    const earnedPts=Math.floor(total*rate);
+    const redeemedPts=getRedeemPts();
+    const netChange=earnedPts-redeemedPts;
+    const newBal=Math.max(0,(m.points_balance||0)+netChange);
+    const newEarned=(m.total_earned||0)+earnedPts;
+    const newRed=(m.total_redeemed||0)+redeemedPts;
+    try{
+        await db.from('pos_loyalty').update({points_balance:newBal,total_earned:newEarned,total_redeemed:newRed}).eq('id',m.id);
+        if(earnedPts>0) await db.from('pos_loyalty_log').insert({member_id:m.id,points:earnedPts,description:`Sale ₱${total.toFixed(2)} [${pricingMode}]`,tx_type:'earn'});
+        if(redeemedPts>0) await db.from('pos_loyalty_log').insert({member_id:m.id,points:-redeemedPts,description:`Redeemed ${redeemedPts} pts (₱${(redeemedPts*LOYALTY_PTS_TO_PESO).toFixed(2)} off)`,tx_type:'redeem'});
+        // Update local cache
+        m.points_balance=newBal;m.total_earned=newEarned;m.total_redeemed=newRed;
+        logActivity('sale',`Loyalty: ${m.fullname} earned +${earnedPts} pts${redeemedPts>0?`, redeemed ${redeemedPts} pts`:''} (balance: ${newBal})`);
+    }catch(e){console.warn('Loyalty update error:',e);}
+}
+
 document.addEventListener('contextmenu',e=>e.preventDefault());
 </script>
 </body>
