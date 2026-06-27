@@ -72,7 +72,7 @@
    THEME SWITCHER UI
 ════════════════════════════════════════════════════════════ */
 .theme-picker-wrap { position: relative; display: inline-flex; align-items: center; }
-.btn-theme-toggle { background: var(--input-bg); color: var(--text-main); border: 1px solid var(--border-color); padding: 8px 14px; border-radius: 4px; cursor: pointer; font-size: 0.82rem; font-weight: 700; display: inline-flex; align-items: center; gap: 7px; transition: all 0.2s; white-space: nowrap; }
+.btn-theme-toggle { background: var(--input-bg); color: var(--text-main); border: 2px solid var(--border-color); padding: 8px 14px; border-radius: 4px; cursor: pointer; font-size: 0.82rem; font-weight: 700; display: inline-flex; align-items: center; gap: 7px; transition: all 0.2s; white-space: nowrap; }
 .btn-theme-toggle:hover { border-color: var(--accent-color); color: var(--accent-color); }
 .theme-dropdown { position: absolute; top: calc(100% + 8px); right: 0; background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 12px; z-index: 9999; box-shadow: 0 16px 48px var(--shadow); width: 280px; display: none; }
 .theme-dropdown.open { display: block; }
@@ -1583,8 +1583,8 @@ function renderLoyaltyTable(){
             <td style="font-size:0.82rem;color:var(--text-muted);">${m.address||'—'}</td>
             <td>${new Date(m.registered_at).toLocaleDateString()}</td>
             <td><span class="pts-badge">${bal.toLocaleString()} pts</span></td>
-            <td style="color:var(--success-color);font-weight:600;">${earned.toLocaleString()}</td>
-            <td style="color:var(--warning-color);font-weight:600;">${redeemed.toLocaleString()}</td>
+            <td style="color:var(--success-color);font-weight:600;">${earned.toLocaleString()}pts</td>
+            <td style="color:var(--warning-color);font-weight:600;">${redeemed.toLocaleString()}pts</td>
             <td>
                 <button class="btn-table-action" onclick="openLoyaltyHistory(${m.id})" style="margin-right:4px;">History</button>
                 <button class="btn-table-action btn-inline-delete" onclick="deleteLoyaltyMember(${m.id},'${m.fullname.replace(/'/g,"\\'")}')">Delete</button>
@@ -1813,7 +1813,7 @@ async function processLoyaltyAfterSale(total){
     }catch(e){console.warn('Loyalty update error:',e);}
 }
 
-document.addEventListener('contextmenu',e=>e.preventDefault());
+document.addEventListener('contextmenuxx',e=>e.preventDefault());
 </script>
 </body>
 </html>
