@@ -242,13 +242,13 @@
         .btn-action.pay-cash { background: var(--success-color); color: #000; }
         .btn-action.pay-gcash { background: var(--gcash-color); color: #fff; }
         .btn-action.pay-credit { background: var(--warning-color); color: #000; }
-        .btn-action.clear-cart { background: var(--input-bg); color: var(--text-main); border: 1px solid var(--border-color); grid-column: span 3; padding: 10px; font-size: 0.9rem; }
+        .btn-action.clear-cart { background: var(--input-bg); color: var(--text-main); border: 1px solid var(--border-color); padding: 5px; font-size: 0.9rem; }
         .btn-action:hover { opacity: 0.9; }
 
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: flex; justify-content: center; align-items: center; z-index: 1000; visibility: hidden; opacity: 0; transition: opacity 0.2s; padding: 10px; }
-        .modal-overlay.active { visibility: visible; opacity: 1; }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,1); display: flex; justify-content: center; align-items: center; z-index: 1000; visibility: hidden; opacity: 0; transition: opacity 0.2s; padding: 10px; }
+        .modal-overlay.active { visibility: visible; opacity: 9; }
         .modal-box { background: var(--panel-bg); width: 100%; max-width: 420px; padding: 25px; border-radius: 8px; border: 1px solid var(--border-color); box-shadow: 0 10px 30px var(--shadow); overflow-y: auto; max-height: 95vh; }
-        .modal-box.fullscreen-backoffice { max-width: 1200px; width: 100%; height: 90vh; display: flex; flex-direction: column; padding: 0; overflow: hidden; }
+        .modal-box.fullscreen-backoffice { max-width: 1300px; width: 100%; height: 90vh; display: flex; flex-direction: column; padding: 0; overflow: hidden; }
         .admin-header { display: flex; background: var(--admin-header-bg); border-bottom: 1px solid var(--border-color); justify-content: space-between; align-items: center; flex-wrap: wrap; flex-shrink: 0; }
         .admin-tabs { display: flex; flex-wrap: wrap; overflow-x: auto; }
         .tab-btn { width: 20%; padding: 15px 16px; color: var(--text-muted); cursor: pointer; border-right: 1px solid var(--border-color); font-size: 0.85rem; font-weight: 500; user-select: none; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
@@ -299,7 +299,7 @@
         .report-controls { display: flex; gap: 12px; margin-bottom: 20px; align-items: center; background: var(--panel-bg); padding: 15px; border-radius: 8px; border: 1px solid var(--border-color); flex-wrap: wrap; }
         .report-controls label { font-size: 0.85rem; color: var(--text-muted); font-weight: 500; }
         .table-wrapper { overflow-x: auto; margin-top: 5px; background: var(--panel-bg); border-radius: 6px; border: 1px solid var(--border-color); }
-        table { width: 100%; border-collapse: collapse; font-size: 0.9rem; text-align: left; min-width: 600px; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.9rem; text-align: center; min-width: 600px; }
         th, td { padding: 12px 15px; border-bottom: 1px solid var(--border-color); vertical-align: middle; }
         th { background: var(--th-bg); color: var(--accent-color); font-weight: 600; }
         tr:hover { background: var(--row-hover); }
@@ -356,7 +356,7 @@
         .gcash-submit-btn { width: 100%; background: #10b981; color: white; border: none; padding: 12px; font-size: 1rem; font-weight: 600; border-radius: 8px; cursor: pointer; margin-top: 8px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
         .gcash-submit-btn:hover { background: #059669; }
 
-        #admin-gate-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: none; justify-content: center; align-items: center; z-index: 5000; padding: 10px; }
+        #admin-gate-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,1); display: none; justify-content: center; align-items: center; z-index: 5000; padding: 10px; }
         #admin-gate-modal.active { display: flex; }
         .admin-gate-box { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 32px; width: 100%; max-width: 360px; box-shadow: 0 20px 50px var(--shadow); }
         .admin-gate-box h2 { color: var(--accent-color); margin-bottom: 6px; font-size: 1.3rem; display: flex; align-items: center; gap: 8px; }
@@ -455,8 +455,8 @@
 .loyalty-search-bar input { flex:1; background:transparent; border:none; outline:none; color:var(--text-main); font-size:0.88rem; }
 .loyalty-search-bar button { background:var(--accent-color); color:var(--accent-text); border:none; border-radius:5px; padding:5px 10px; cursor:pointer; font-size:0.8rem; font-weight:700; white-space:nowrap; }
 .loyalty-attached-card { background:color-mix(in srgb,var(--success-color) 10%,var(--panel-bg-2)); border:1px solid color-mix(in srgb,var(--success-color) 30%,transparent); border-radius:8px; padding:10px 14px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px; }
-.loyalty-attached-name { font-weight:700; color:var(--success-color); font-size:0.9rem; }
-.loyalty-attached-pts { font-size:0.8rem; color:var(--text-muted); }
+.loyalty-attached-name { font-weight:700; color:var(--success-color); font-size:1rem; }
+.loyalty-attached-pts { font-size:1rem; color:var(--text-muted); }
 .loyalty-attached-card button { background:transparent; border:none; color:var(--danger-color); cursor:pointer; font-size:1rem; padding:2px 6px; }
 .loyalty-redeem-row { display:flex; gap:8px; align-items:center; margin-bottom:10px; background:color-mix(in srgb,var(--warning-color) 8%,var(--panel-bg-2)); border:1px solid color-mix(in srgb,var(--warning-color) 25%,transparent); border-radius:8px; padding:8px 12px; flex-wrap:wrap; }
 .loyalty-redeem-row label { font-size:0.78rem; color:var(--warning-color); font-weight:700; white-space:nowrap; }
@@ -488,6 +488,34 @@
 .loyalty-history-body { flex:1; overflow-y:auto; padding:16px; }
 .pts-badge { display:inline-block; background:color-mix(in srgb,var(--accent-color) 15%,transparent); color:var(--accent-color); border:1px solid color-mix(in srgb,var(--accent-color) 30%,transparent); padding:3px 9px; border-radius:99px; font-size:0.78rem; font-weight:700; }
 .card-num-badge { font-family:monospace; font-size:0.8rem; color:var(--text-muted); letter-spacing:1px; }
+
+.btn-action.hold-cart { background: #6c5ce7; color: #fff; }
+.btn-action.resume-cart { background: #fd79a8; color: #000; position: relative; }
+.held-badge { position: absolute; top: -6px; right: -6px; background: var(--danger-color); color: #fff; border-radius: 50%; width: 20px; height: 20px; font-size: 0.72rem; font-weight: 900; display: flex; align-items: center; justify-content: center; pointer-events: none; }
+.hold-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.88); display: flex; justify-content: center; align-items: center; z-index: 4000; padding: 10px; visibility: hidden; opacity: 0; transition: opacity 0.2s, visibility 0.2s; }
+.hold-modal-overlay.active { visibility: visible; opacity: 1; }
+.hold-modal-box { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 12px; width: 100%; max-width: 580px; max-height: 90vh; display: flex; flex-direction: column; box-shadow: 0 24px 60px var(--shadow); overflow: hidden; }
+.hold-modal-header { background: var(--admin-header-bg); padding: 16px 20px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+.hold-modal-header h3 { color: #6c5ce7; font-size: 1rem; display: flex; align-items: center; gap: 8px; margin: 0; }
+.hold-modal-body { flex: 1; overflow-y: auto; padding: 14px; }
+.held-tx-card { background: var(--panel-bg-2); border: 1px solid var(--border-color); border-radius: 8px; padding: 14px 16px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; transition: border-color 0.15s; }
+.held-tx-card:hover { border-color: #6c5ce7; }
+.held-tx-info { flex: 1; min-width: 0; }
+.held-tx-label { font-size: 0.72rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.held-tx-items { font-size: 0.85rem; color: var(--text-main); font-weight: 600; margin-bottom: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.held-tx-meta { font-size: 0.78rem; color: var(--text-muted); display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.held-tx-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+.held-tx-total { font-size: 1.1rem; font-weight: 800; color: #6c5ce7; white-space: nowrap; }
+.held-tx-actions { display: flex; flex-direction: column; gap: 6px; }
+.btn-resume { background: #6c5ce7; color: #fff; border: none; padding: 8px 16px; border-radius: 6px; font-weight: 700; font-size: 0.82rem; cursor: pointer; white-space: nowrap; }
+.btn-resume:hover { opacity: 0.88; }
+.btn-discard { background: transparent; color: var(--danger-color); border: 1px solid var(--danger-color); padding: 6px 12px; border-radius: 6px; font-weight: 700; font-size: 0.78rem; cursor: pointer; white-space: nowrap; }
+.btn-discard:hover { background: var(--danger-color); color: #fff; }
+.hold-empty { text-align: center; padding: 48px 20px; color: var(--text-muted); }
+.hold-empty .hold-empty-icon { font-size: 2.8rem; margin-bottom: 12px; opacity: 0.35; display: block; }
+.hold-note-line { background: color-mix(in srgb, #6c5ce7 12%, transparent); border: 1px solid color-mix(in srgb, #6c5ce7 30%, transparent); border-radius: 5px; padding: 3px 8px; font-size: 0.75rem; color: #a29bfe; display: inline-flex; align-items: center; gap: 4px; }
+
+
 @media (max-width:600px){.loyalty-reg-grid{grid-template-columns:1fr 1fr;}.loyalty-stats-cards{grid-template-columns:1fr;}}
 
         @media print {
@@ -638,7 +666,11 @@
             <button class="btn-action pay-cash" id="checkout-cash-btn">💵<br>CASH (F1)</button>
             <button class="btn-action pay-gcash" id="checkout-gcash-sale-btn">📱<br>GCASH (F2)</button>
             <button class="btn-action pay-credit" id="checkout-credit-btn">💳<br>CREDIT(F3)</button>
-            <button class="btn-action clear-cart" id="clear-cart-btn">🗑 CLEAR CART ITEMS</button>
+			  </div>
+			<div class="action-pad">
+            <button class="btn-action hold-cart" onclick="holdTransaction()" title="Hold cart (H)">⏸<br>HOLD (H)</button>
+			<button class="btn-action resume-cart" id="btn-resume-held" onclick="openHoldModal()" style="opacity:0.55;">▶<br>RESUME</button>
+			<button class="btn-action clear-cart" id="clear-cart-btn">🗑<br>CLEAR</button>
         </div>
     </div>
 </div>
@@ -976,20 +1008,27 @@
                 <button onclick="liveSearchLoyalty()">🔍 Find</button>
             </div>
             <div id="loyalty-search-results" style="display:none;background:var(--panel-bg-2);border:1px solid var(--border-color);border-radius:6px;max-height:130px;overflow-y:auto;margin-bottom:10px;"></div>
-            <div id="loyalty-customer-attached" class="loyalty-attached-card" style="display:none;">
+            
+			<div id="loyalty-customer-attached" class="loyalty-attached-card" style="display:none;">
                 <div>
-                    <div class="loyalty-attached-name" id="loyalty-attached-name-display">—</div>
-                    <div class="loyalty-attached-pts">Card: <span id="loyalty-attached-card-display" class="card-num-badge">—</span> &nbsp;|&nbsp; Balance: <span id="loyalty-attached-balance-display" class="pts-badge">0 pts</span> &nbsp;|&nbsp; Will earn: <span id="loyalty-will-earn-display" style="color:var(--accent-color);font-weight:700;">+0 pts</span></div>
-                </div>
-                <button onclick="detachLoyaltyCustomer()" title="Remove">✕</button>
-            </div>
+
+				<div class="loyalty-attached-info"><span id="loyalty-attached-name-display" style="color:#33FF00;">—</span> <span class="loyalty-attached-pts"style="color:#33FF00;"> &nbsp;|&nbsp;  Card: <span id="loyalty-attached-card-display"style="color:#33FF00;">—</span></span></div>
+				Balance: <span id="loyalty-attached-balance-display" style="color:var(--accent-color);font-weight:700;">0 pts</span> &nbsp;|&nbsp; Will earn: <span id="loyalty-will-earn-display" style="color:var(--accent-color);font-weight:700;">+0 pts</span></div>
+			<div style="text-align:center; border:2px solid white; border-radius:5px;">
+			
+				<small>If you don't want to apply points to this account...</small>
+				<button onclick="detachLoyaltyCustomer()" title="Do Not Apply Points in this Account" style="margin-left: 10px; padding: 2px 8px;">Click Here</button>
+			</div>
+			</div>
             <!-- REDEEM POINTS -->
             <div id="loyalty-redeem-section" class="loyalty-redeem-row" style="display:none;">
                 <label>🎁 Redeem Points:</label>
                 <input type="number" id="checkout-redeem-pts" min="0" step="1" placeholder="0" oninput="calcRedeemDiscount()">
                 <span id="checkout-redeem-max-label">Max: 0 pts</span>
                 <span id="checkout-redeem-value-label" style="color:var(--warning-color);font-weight:700;"></span>
+				
             </div>
+				
         </div>
         <div class="form-group"><label>Total Due</label><input type="text" class="form-control" id="checkout-total" readonly style="color:var(--success-color);font-weight:bold;"></div>
         <div id="checkout-cash-section">
@@ -1004,6 +1043,7 @@
             <div class="form-group"><label>Customer Name</label><input type="text" class="form-control" id="checkout-customer-name" placeholder="Juan Dela Cruz" autocomplete="off"></div>
         </div>
         <div class="modal-buttons">
+			
             <button class="btn-modal cancel" onclick="closeModal('checkout-modal')">Cancel</button>
             <button class="btn-modal confirm" id="process-checkout-btn" onclick="processCheckout()">Finalize &amp; Print</button>
         </div>
@@ -1021,6 +1061,7 @@
         <div class="form-group"><label>Price (PHP)</label><input type="number" class="form-control" id="crud-product-price" step="0.01"></div>
         <div class="form-group"><label>Stock Quantity</label><input type="number" class="form-control" id="crud-product-stock"></div>
         <div class="modal-buttons">
+			
             <button class="btn-modal cancel" onclick="closeModal('product-crud-modal')">Cancel</button>
             <button class="btn-modal confirm" onclick="saveProductCrudData()">Save</button>
         </div>
@@ -1063,6 +1104,32 @@
         <div class="loyalty-history-body" id="lhist-body"></div>
     </div>
 </div>
+<div class="hold-modal-overlay" id="hold-modal">
+  <div class="hold-modal-box">
+    <div class="hold-modal-header">
+      <h3>⏸️ Held Transactions</h3>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span id="hold-count-badge" style="font-size:0.78rem;color:var(--text-muted);font-weight:600;"></span>
+        <button onclick="closeHoldModal()" style="background:var(--input-bg);color:var(--text-muted);border:1px solid var(--border-color);padding:7px 14px;border-radius:6px;cursor:pointer;font-size:0.85rem;font-weight:700;">✕ Close</button>
+      </div>
+    </div>
+    <div class="hold-modal-body" id="hold-modal-body"></div>
+  </div>
+</div>
+
+<div id="noteModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 9999; justify-content: center; align-items: center; font-family: sans-serif;">
+  <div style="background: #ffffff; padding: 24px; border-radius: 8px; width: 340px; box-shadow: 0 4px 16px rgba(0,0,0,0.2); border: 1px solid #ddd;">
+    <p style="margin-top: 0; margin-bottom: 12px; font-weight: 500; color: #333; font-size: 0.95rem;">
+      Optional note for this held transaction (or Cancel to skip):
+    </p>
+    <input type="text" id="modalNoteInput" placeholder="Add a custom note..." style="width: 100%; padding: 10px; margin-bottom: 20px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; font-size: 0.9rem;" autocomplete="off">
+    <div style="display: flex; justify-content: flex-end; gap: 10px;">
+      <button id="modalCancelBtn" style="padding: 8px 16px; background: #f0f0f0; border: 1px solid #ccc; border-radius: 4px; cursor: pointer; font-size: 0.9rem; color: #333;">Cancel</button>
+      <button id="modalConfirmBtn" style="padding: 8px 16px; background: #007bff; border: none; border-radius: 4px; cursor: pointer; font-size: 0.9rem; color: white; font-weight: 500;">OK</button>
+    </div>
+  </div>
+</div>
+
 <div id="receipt-print-area" style="display:none;"></div>
 
 <script>
@@ -1373,8 +1440,8 @@ function processCheckout(){
 async function executeCommitTransactionPipeline(channel,meta={}){
     const baseTotal=calculateActiveBasketTotalSum();
     const finalTotal=meta.finalTotal!==undefined?meta.finalTotal:baseTotal;
-    const redeemedPts=getRedeemPts();
-    const discount=redeemedPts*LOYALTY_PTS_TO_PESO;
+	const redeemedPts = getRedeemPts();
+	const discount = redeemedPts * LOYALTY_PTS_TO_PESO;
     const cartSnapshot=JSON.parse(JSON.stringify(activeCart));
     const itemsSummary=cartSnapshot.map(i=>`${i.product.name} x${i.quantity}`).join(', ');
     const receiptItems = cartSnapshot.map(i=>({
@@ -1581,14 +1648,14 @@ function renderLoyaltyTable(){
         const earned = m.total_earned||0;
         const redeemed = m.total_redeemed||0;
         tr.innerHTML=`
-            <td><span class="card-num-badge">${m.card_no}</span></td>
-            <td style="font-weight:600;">${m.fullname}</td>
+            <td style="font-family:monospace;"><span class="card-num-badge">${m.card_no}</span></td>
+            <td style="font-family:monospace;">${m.fullname}</td>
             <td style="font-family:monospace;">${m.mobile||'—'}</td>
-            <td style="font-size:0.82rem;color:var(--text-muted);">${m.address||'—'}</td>
-            <td>${new Date(m.registered_at).toLocaleDateString()}</td>
+            <td style="font-family:monospace;">${m.address||'—'}</td>
+            <td style="font-family:monospace;">${new Date(m.registered_at).toLocaleDateString()}</td>
             <td><span class="pts-badge">${bal.toLocaleString()} pts</span></td>
-            <td style="color:var(--success-color);font-weight:600;">${earned.toLocaleString()}pts</td>
-            <td style="color:var(--warning-color);font-weight:600;">${redeemed.toLocaleString()}pts</td>
+            <td style="color:var(--success-color);font-family:monospace;">${earned.toLocaleString()}pts</td>
+            <td style="color:var(--warning-color);font-family:monospace;">${redeemed.toLocaleString()}pts</td>
             <td>
                 <button class="btn-table-action" onclick="openLoyaltyHistory(${m.id})" style="margin-right:4px;">History</button>
                 <button class="btn-table-action btn-inline-delete" onclick="deleteLoyaltyMember(${m.id},'${m.fullname.replace(/'/g,"\\'")}')">Delete</button>
@@ -1749,15 +1816,15 @@ function attachLoyaltyCustomer(memberId){
     document.getElementById('loyalty-card-required-msg').style.display='none';
     const total=calculateActiveBasketTotalSum();
     const rate=pricingMode==='wholesale'?LOYALTY_PTS_RATE_WHOLESALE:LOYALTY_PTS_RATE_RETAIL;
-    const willEarn=Math.floor(total*rate);
-    document.getElementById('loyalty-attached-name-display').textContent=`${m.fullname} (${m.card_no})`;
+    const willEarn=parseFloat((total*rate).toFixed(2));
+    const currentBal=parseFloat(m.points_balance||0).toFixed(2);
+    const maxRedeem=parseFloat(Math.min(m.points_balance||0, total).toFixed(2));
+    document.getElementById('loyalty-attached-name-display').textContent=`${m.fullname}`;
     document.getElementById('loyalty-attached-card-display').textContent=m.card_no;
-    document.getElementById('loyalty-attached-balance-display').textContent=(m.points_balance||0).toLocaleString()+' pts';
+    document.getElementById('loyalty-attached-balance-display').textContent=currentBal+' pts';
     document.getElementById('loyalty-will-earn-display').textContent=`+${willEarn} pts`;
-    // Show redeem section
-    const maxRedeem=Math.min(m.points_balance||0, Math.floor(total)); // max redeem can't exceed total
     document.getElementById('loyalty-redeem-section').style.display='flex';
-    document.getElementById('checkout-redeem-max-label').textContent=`Max: ${maxRedeem.toLocaleString()} pts`;
+    document.getElementById('checkout-redeem-max-label').textContent=`Max: ${maxRedeem} pts`;
     document.getElementById('checkout-redeem-pts').value='';
     document.getElementById('checkout-redeem-pts').max=maxRedeem;
     document.getElementById('checkout-redeem-value-label').textContent='';
@@ -1801,22 +1868,244 @@ async function processLoyaltyAfterSale(total){
     if(!activeLoyaltyCustomer)return;
     const m=activeLoyaltyCustomer;
     const rate=pricingMode==='wholesale'?LOYALTY_PTS_RATE_WHOLESALE:LOYALTY_PTS_RATE_RETAIL;
-    const earnedPts=Math.floor(total*rate);
+    const earnedPts=parseFloat((total*rate).toFixed(2));
     const redeemedPts=getRedeemPts();
-    const netChange=earnedPts-redeemedPts;
-    const newBal=Math.max(0,(m.points_balance||0)+netChange);
-    const newEarned=(m.total_earned||0)+earnedPts;
-    const newRed=(m.total_redeemed||0)+redeemedPts;
+    const netChange=parseFloat((earnedPts-redeemedPts).toFixed(2));
+    const currentBal=parseFloat(m.points_balance||0);
+    const newBal=parseFloat(Math.max(0,currentBal+netChange).toFixed(2));
+    const newEarned=parseFloat(((m.total_earned||0)+earnedPts).toFixed(2));
+    const newRed=parseFloat(((m.total_redeemed||0)+redeemedPts).toFixed(2));
     try{
-        await db.from('pos_loyalty').update({points_balance:newBal,total_earned:newEarned,total_redeemed:newRed}).eq('id',m.id);
-        if(earnedPts>0) await db.from('pos_loyalty_log').insert({member_id:m.id,points:earnedPts,description:`Sale ₱${total.toFixed(2)} [${pricingMode}]`,tx_type:'earn'});
-        if(redeemedPts>0) await db.from('pos_loyalty_log').insert({member_id:m.id,points:-redeemedPts,description:`Redeemed ${redeemedPts} pts (₱${(redeemedPts*LOYALTY_PTS_TO_PESO).toFixed(2)} off)`,tx_type:'redeem'});
-        // Update local cache
-        m.points_balance=newBal;m.total_earned=newEarned;m.total_redeemed=newRed;
-        logActivity('sale',`Loyalty: ${m.fullname} earned +${earnedPts} pts${redeemedPts>0?`, redeemed ${redeemedPts} pts`:''} (balance: ${newBal})`);
-    }catch(e){console.warn('Loyalty update error:',e);}
+        const{error}=await db.from('pos_loyalty').update({
+            points_balance:newBal,
+            total_earned:newEarned,
+            total_redeemed:newRed
+        }).eq('id',m.id);
+        if(error)throw error;
+        if(earnedPts>0) await db.from('pos_loyalty_log').insert({
+            member_id:m.id,
+            points:earnedPts,
+            description:`Sale ₱${total.toFixed(2)} [${pricingMode}] → +${earnedPts} pts`,
+            tx_type:'earn'
+        });
+        if(redeemedPts>0) await db.from('pos_loyalty_log').insert({
+            member_id:m.id,
+            points:-redeemedPts,
+            description:`Redeemed ${redeemedPts} pts (₱${(redeemedPts*LOYALTY_PTS_TO_PESO).toFixed(2)} off)`,
+            tx_type:'redeem'
+        });
+        m.points_balance=newBal;
+        m.total_earned=newEarned;
+        m.total_redeemed=newRed;
+        logActivity('sale',`Loyalty: ${m.fullname} earned +${earnedPts} pts${redeemedPts>0?`, redeemed ${redeemedPts} pts`:''} (new balance: ${newBal})`);
+    }catch(e){
+        console.error('Loyalty update error:',e);
+        showAlert('Loyalty points failed to save: '+e.message,'warning');
+    }
 }
 
+let heldTransactions = [];
+
+async function holdTransaction() {
+    if (activeCart.length === 0) {
+        return showAlert('Cart is empty \u2014 nothing to hold.', 'warning', 'Empty Cart');
+    }
+
+    // 1. Helper function to handle the async Modal Promise
+    function getTransactionNote() {
+        return new Promise((resolve) => {
+            const modal = document.getElementById('noteModal');
+            const input = document.getElementById('modalNoteInput');
+            const confirmBtn = document.getElementById('modalConfirmBtn');
+            const cancelBtn = document.getElementById('modalCancelBtn');
+
+            // Reset, display, and focus
+            input.value = '';
+            modal.style.display = 'flex';
+            input.focus();
+
+            function cleanUp() {
+                modal.style.display = 'none';
+                confirmBtn.removeEventListener('click', onConfirm);
+                cancelBtn.removeEventListener('click', onCancel);
+                input.removeEventListener('keydown', onKeyDown);
+            }
+
+            function onConfirm() {
+                const value = input.value;
+                cleanUp();
+                resolve(value);
+            }
+
+            function onCancel() {
+                cleanUp();
+                resolve(null); // Return null instead of an empty string
+            }
+
+            function onKeyDown(e) {
+                if (e.key === 'Enter') onConfirm();
+                if (e.key === 'Escape') onCancel();
+            }
+
+            confirmBtn.addEventListener('click', onConfirm);
+            cancelBtn.addEventListener('click', onCancel);
+            input.addEventListener('keydown', onKeyDown);
+        });
+    }
+
+    // 2. Await the custom modal note
+    const note = await getTransactionNote();
+
+    // === FIX HERE: If the user cancelled, note is null. Exit early. ===
+    if (note === null) {
+        return; 
+    }
+
+    // 3. Create snapshot and park the transaction
+    const snapshot = {
+        id: Date.now(),
+        timestamp: new Date().toISOString(),
+        cart: JSON.parse(JSON.stringify(activeCart)),
+        pricingMode: pricingMode,
+        loyaltyCustomer: activeLoyaltyCustomer ? JSON.parse(JSON.stringify(activeLoyaltyCustomer)) : null,
+        total: calculateActiveBasketTotalSum(),
+        note: note.trim(), // This won't crash now because note is guaranteed to be a string here
+        itemCount: activeCart.length
+    };
+
+    heldTransactions.push(snapshot);
+    activeCart = [];
+    activeLoyaltyCustomer = null;
+    
+    // 4. UI Updates
+    renderRegisterBasketCart();
+    renderCashierCatalog(document.getElementById('search-bar').value || '');
+    updateHeldBadge();
+    
+    logActivity('sale', `Transaction held (${snapshot.itemCount} items, \u20b1${snapshot.total.toFixed(2)})${snapshot.note ? ' \u2014 ' + snapshot.note : ''}`);
+    showAlert(`Transaction parked!<br><strong>${snapshot.itemCount} item${snapshot.itemCount !== 1 ? 's' : ''} \u2014 \u20b1${snapshot.total.toFixed(2)}</strong><br><span style="font-size:0.8rem;color:var(--text-muted);">Tap \u25b6 Resume to recall it.</span>`, 'success', 'Transaction Held');
+}
+function updateHeldBadge() {
+    const btn = document.getElementById('btn-resume-held');
+    if (!btn) return;
+    const count = heldTransactions.length;
+    const existing = btn.querySelector('.held-badge');
+    if (existing) existing.remove();
+    if (count > 0) {
+        const badge = document.createElement('span');
+        badge.className = 'held-badge';
+        badge.textContent = count;
+        btn.appendChild(badge);
+        btn.style.opacity = '1';
+        btn.style.borderColor = '#fd79a8';
+    } else {
+        btn.style.opacity = '0.55';
+        btn.style.borderColor = '';
+    }
+}
+
+function openHoldModal() {
+    renderHeldTransactionsList();
+    document.getElementById('hold-modal').classList.add('active');
+}
+
+function closeHoldModal() {
+    document.getElementById('hold-modal').classList.remove('active');
+}
+
+function renderHeldTransactionsList() {
+    const body = document.getElementById('hold-modal-body');
+    const badge = document.getElementById('hold-count-badge');
+    if (badge) badge.textContent = heldTransactions.length > 0 ? `${heldTransactions.length} held` : '';
+    if (heldTransactions.length === 0) {
+        body.innerHTML = '<div class="hold-empty"><span class="hold-empty-icon">\u23f8\ufe0f</span>No held transactions.<br><span style="font-size:0.82rem;margin-top:6px;display:block;">Use the <strong>Hold</strong> button to park a cart and serve another customer.</span></div>';
+        return;
+    }
+    body.innerHTML = heldTransactions.map((tx, idx) => {
+        const itemNames = tx.cart.map(i => `${i.product.name} \u00d7${i.quantity}`).join(', ');
+        const timeStr = new Date(tx.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        const dateStr = new Date(tx.timestamp).toLocaleDateString();
+        const modeLabel = tx.pricingMode === 'wholesale'
+            ? '<span style="background:#6c5ce7;color:#fff;font-size:0.65rem;padding:2px 6px;border-radius:3px;font-weight:800;letter-spacing:.3px;">WS</span>'
+            : '<span style="background:var(--success-color);color:#000;font-size:0.65rem;padding:2px 6px;border-radius:3px;font-weight:800;letter-spacing:.3px;">RETAIL</span>';
+        const loyaltyLine = tx.loyaltyCustomer
+            ? `<span>\U0001faaa ${tx.loyaltyCustomer.fullname}</span>` : '';
+        const noteLine = tx.note ? `<span class="hold-note-line">\ ${tx.note}</span>` : '';
+        return `<div class="held-tx-card">
+            <div class="held-tx-info">
+                <div class="held-tx-label">Hold #${idx + 1} &nbsp;\u00b7&nbsp; ${dateStr} ${timeStr} &nbsp;\u00b7&nbsp; ${modeLabel}</div>
+                <div class="held-tx-items" title="${itemNames}">${itemNames}</div>
+                <div class="held-tx-meta">
+                    ${loyaltyLine}
+                    <span>${tx.cart.length} item${tx.cart.length !== 1 ? 's' : ''}</span>
+                    ${noteLine}
+                </div>
+            </div>
+            <div class="held-tx-right">
+                <div class="held-tx-total">\u20b1${tx.total.toFixed(2)}</div>
+                <div class="held-tx-actions">
+                    <button class="btn-resume" onclick="resumeHeldTransaction(${idx})">\u25b6 Resume</button>
+                    <button class="btn-discard" onclick="discardHeldTransaction(${idx})">\u2715 Discard</button>
+                </div>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+function resumeHeldTransaction(idx) {
+    const tx = heldTransactions[idx];
+    if (!tx) return;
+    if (activeCart.length > 0) {
+        showConfirm(
+            `Your current cart has <strong>${activeCart.length} item${activeCart.length !== 1 ? 's' : ''}</strong>.<br>It will be auto-held so you can resume it later.`,
+            () => {
+                const autoSnap = {
+                    id: Date.now(),
+                    timestamp: new Date().toISOString(),
+                    cart: JSON.parse(JSON.stringify(activeCart)),
+                    pricingMode: pricingMode,
+                    loyaltyCustomer: activeLoyaltyCustomer ? JSON.parse(JSON.stringify(activeLoyaltyCustomer)) : null,
+                    total: calculateActiveBasketTotalSum(),
+                    note: 'Auto-held',
+                    itemCount: activeCart.length
+                };
+                heldTransactions.splice(idx, 1);
+                heldTransactions.push(autoSnap);
+                _doResume(tx);
+            },
+            'warning', 'Cart Has Items'
+        );
+        return;
+    }
+    heldTransactions.splice(idx, 1);
+    _doResume(tx);
+}
+
+function _doResume(tx) {
+    activeCart = JSON.parse(JSON.stringify(tx.cart));
+    activeLoyaltyCustomer = tx.loyaltyCustomer ? JSON.parse(JSON.stringify(tx.loyaltyCustomer)) : null;
+    if (tx.pricingMode !== pricingMode) setPricingMode(tx.pricingMode);
+    renderRegisterBasketCart();
+    renderCashierCatalog(document.getElementById('search-bar').value || '');
+    updateHeldBadge();
+    closeHoldModal();
+    logActivity('sale', `Held transaction resumed (${tx.cart.length} items, \u20b1${tx.total.toFixed(2)})${tx.note ? ' \u2014 ' + tx.note : ''}`);
+}
+
+function discardHeldTransaction(idx) {
+    const tx = heldTransactions[idx];
+    if (!tx) return;
+    showConfirm(
+        `Discard this held transaction?<br><strong>${tx.cart.length} item${tx.cart.length !== 1 ? 's' : ''} \u2014 \u20b1${tx.total.toFixed(2)}</strong>${tx.note ? '<br><em>' + tx.note + '</em>' : ''}`,
+        () => {
+            heldTransactions.splice(idx, 1);
+            updateHeldBadge();
+            renderHeldTransactionsList();
+            logActivity('sale', `Held transaction discarded (\u20b1${tx.total.toFixed(2)})`);
+        },
+        'danger', 'Discard Held Transaction'
+    );
+}
 document.addEventListener('contextmenuxx',e=>e.preventDefault());
 </script>
 </body>
