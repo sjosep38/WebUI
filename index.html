@@ -506,21 +506,25 @@
 <!-- SUPABASE CONFIG SCREEN -->
 <div id="supabase-config-screen">
     <div class="config-card">
-        <h2 style="text-align:CENTER"> DEMO POS SYSTEM</h2>
-        <p style="display:none">Enter your Supabase project credentials to connect the POS database.</p>
+        <h2>🔌 Connect to Supabase</h2>
+        <p>Enter your Supabase project credentials to connect the POS database. You only need to do this once — credentials are saved in your browser.</p>
         <div class="config-field">
-            <label style="display:none">Supabase Project URL</label>
-            <input type="text" id="sb-url" placeholder="https://xxxxxxxxxxxx.supabase.co" value="https://imtgoytkyuzvlezwugbc.supabase.co" style="display:none" autocomplete="off">
+            <label>Supabase Project URL</label>
+            <input type="text" id="sb-url" placeholder="https://xxxxxxxxxxxx.supabase.co" autocomplete="off">
         </div>
         <div class="config-field">
-            <label style="display:none">Supabase Anon/Public Key</label>
-            <input type="text" id="sb-key" placeholder="eyJ..." value="sb_publishable_DZl4K6x6x-qyG1luymMgBw_aS9aqbiT" style="display:none" autocomplete="off">
+            <label>Supabase Anon/Public Key</label>
+            <input type="text" id="sb-key" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." autocomplete="off">
         </div>
-        <div class="config-help">
-            <strong>⚠️ Need Help?:</strong> Call or Text # 0950-682-5698. <em>This System is Fully Free, for demo Purposes only</em> simplest system for sari-sari store.
-        </div>
-        <button class="config-btn" onclick="connectToSupabase()">Quick Start</button>
+        <button class="config-btn" onclick="connectToSupabase()">Connect & Initialize</button>
         <div class="config-error" id="config-error"></div>
+        <div class="config-help">
+            <strong>Where to find these:</strong><br>
+            1. Go to <a href="https://supabase.com/dashboard" target="_blank">supabase.com/dashboard</a><br>
+            2. Select your project → <strong>Settings → API</strong><br>
+            3. Copy <em>Project URL</em> and <em>anon public</em> key<br><br>
+            <strong>⚠️ First-time setup:</strong> After connecting, click the <em>"Run SQL Setup"</em> button that appears to create all required tables automatically.
+        </div>
     </div>
 </div>
 
