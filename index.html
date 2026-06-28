@@ -181,16 +181,16 @@
         .auth-logo h1 { font-size: 1.5rem; color: var(--accent-color); letter-spacing: 2px; font-weight: 800; }
         .auth-logo p { color: var(--text-muted); font-size: 0.85rem; margin-top: 4px; }
         .auth-card { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; box-shadow: 0 20px 60px var(--shadow); }
-        .auth-tabs { display: flex; margin-bottom: 14px; background: var(--panel-bg-2); border-radius: 8px; padding: 4px; }
-        .auth-tab { flex: 1; padding: 5px; text-align: center; cursor: pointer; border-radius: 6px; font-size: 0.9rem; font-weight: 600; color: var(--text-muted); transition: all 0.2s; }
+        .auth-tabs { display: flex; margin-bottom: 14px; background: var(--panel-bg-2); border-radius: 8px; padding: 10px; }
+        .auth-tab { flex: 1; padding: 10px; text-align: center; cursor: pointer; border-radius: 6px; font-size: 0.9rem; font-weight: 600; color: var(--text-muted); transition: all 0.2s; }
         .auth-tab.active { background: var(--accent-color); color: var(--accent-text); }
         .auth-form { display: none; }
         .auth-form.active { display: block; }
         .auth-field { margin-bottom: 16px; }
         .auth-field label { display: block; font-size: 0.82rem; color: var(--text-muted); margin-bottom: 6px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; }
-        .auth-field input { width: 100%; padding: 6px 7px; background: var(--input-bg-2); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-main); font-size: 0.95rem; outline: none; transition: border 0.2s; text-align: center; }
+        .auth-field input { width: 100%; padding: 10px 10px; background: var(--input-bg-2); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-main); font-size: 0.95rem; outline: none; transition: border 0.2s; text-align: center; }
         .auth-field input:focus { border-color: var(--accent-color); }
-        .auth-btn { width: 100%; padding: 7px; background: var(--accent-color); color: var(--accent-text); border: none; border-radius: 8px; font-size: 1rem; font-weight: 700; cursor: pointer; margin-top: 8px; letter-spacing: 0.5px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+        .auth-btn { width: 100%; padding: 10px; background: var(--accent-color); color: var(--accent-text); border: none; border-radius: 8px; font-size: 1rem; font-weight: 700; cursor: pointer; margin-top: 8px; letter-spacing: 0.5px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
         .auth-btn:hover { opacity: 0.88; }
         .auth-error { background: color-mix(in srgb, var(--danger-color) 15%, transparent); border: 1px solid var(--danger-color); color: var(--danger-color); padding: 10px 14px; border-radius: 6px; font-size: 0.85rem; margin-bottom: 14px; display: none; }
         .auth-success { background: color-mix(in srgb, var(--success-color) 15%, transparent); border: 1px solid var(--success-color); color: var(--success-color); padding: 5px 7px; border-radius: 6px; font-size: 0.85rem; margin-bottom: 14px; display: none; }
@@ -628,7 +628,7 @@
 <div id="auth-screen">
     <div class="auth-wrapper">
         <div class="auth-logo">
-            <h1 id="auth-logo-name">POS SYSTEM</h1>
+            <h1 id="auth-logo-name">SEANSO POS SYSTEM</h1>
             <p>Enterprise Point of Sale System</p>
         </div>
         <div class="auth-card">
@@ -916,7 +916,8 @@
                         <div><label>Mobile Number *</label><input type="tel" id="loy-reg-mobile" placeholder="09XXXXXXXXX" maxlength="13"></div>
                         <div><label>Address</label><input type="text" id="loy-reg-address" placeholder="Street, City"></div>
                         <div><label>&nbsp;</label><button class="btn-csv" onclick="registerLoyaltyMember()" style="width:100%;justify-content:center;padding:10px;">Register</button></div>
-                    </div>
+				   </div>
+
                     <div id="loy-reg-msg" style="margin-top:8px;font-size:0.82rem;"></div>
                 </div>
                 <div class="report-controls">
@@ -924,9 +925,82 @@
                     <button class="btn-open-id-card" onclick="openIdCardModal()" style="font-size:0.82rem;">🪪 Generate ID Card</button>
 					<button class="btn-csv" style="margin-left:auto;" onclick="exportLoyaltyToCSV()">Export CSV</button>
                 </div>
-                <div class="table-wrapper1">
+                <div class="table-wrapper"style="margin-bottom:25px; max-height:300px;overflow-x;">
                     <table><thead><tr><th>Card No.</th><th>Full Name</th><th>Mobile</th><th>Address</th><th>Registered</th><th>Remaining</th><th>Earned</th><th>Redeemed</th><th>Actions</th></tr></thead><tbody id="loyalty-table-body"></tbody></table>
                 </div>
+<iframe srcdoc="
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        line-height: 1.6;
+        color: #33FF00;
+        padding: 10px;
+        background-color: Black;
+      }
+      .container {
+        max-width: 1200px;
+        background: black;
+        padding: 15px;
+        border-radius: 8px;
+        
+      }
+      h2 {
+        color: #FF8800;
+        border-bottom: 2px solid #eee;
+        padding-bottom: 10px;
+        margin-top: 0;
+      }
+      ol {
+        padding-left: 5px;
+      }
+      li {
+        margin-bottom: 15px;
+        padding-left: 5px;
+		
+      }
+      strong {
+        color:#33FF00;
+      }
+      .footer {
+        margin-top: 30px;
+        padding-top: 15px;
+        border-top: 1px solid #eee;
+        font-weight: bold;
+        color: white;
+		font-size:15px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class='container'>
+      <h2>Loyalty Card Program Terms & Conditions</h2>
+      <ol>
+        <li><strong>Eligibility</strong><br>Membership in the Loyalty Card Program is open to all customers aged 18 years and above. The store reserves the right to decline any application without providing a reason.</li>
+        <li><strong>Card Registration</strong><br>A valid mobile number and full legal name are required to register. Each customer is allowed only one (1) loyalty card account per mobile number. Duplicate registrations will be automatically rejected by the system.</li>
+        <li><strong>Card Issuance & Ownership</strong><br>The Loyalty Card is issued exclusively to the registered member. It is non-transferable and may not be lent, sold, or assigned to another person. The store is not responsible for unauthorized use of a card by a third party.</li>
+        <li><strong>Points Earning — Retail Mode</strong><br>Members earn 1 point for every ₱100 spent on retail-priced transactions. Points are calculated on the net transaction total after any applicable discounts, and are credited automatically upon successful checkout.</li>
+        <li><strong>Points Earning — Wholesale Mode</strong><br>For transactions processed under Wholesale Mode (−15% discount), members earn a slightly enhanced rate of 1.01 points per ₱100 spent. However, Wholesale Mode transactions require a Loyalty Card to be attached before checkout can proceed.</li>
+        <li><strong>Points Redemption</strong><br>Accumulated points may be redeemed at the point of sale. 1 point is equivalent to ₱1.00 in purchase discount. Redemption is applied before the final total is computed. Points may not be redeemed for cash, change, or any non-purchase purpose.</li>
+        <li><strong>Minimum Redemption</strong><br>Points can only be redeemed in whole-number increments. Partial points cannot be redeemed. The maximum redeemable points per transaction is capped at the net transaction total (i.e., you cannot redeem more points than the amount due).</li>
+        <li><strong>Points Expiry</strong><br>Points do not expire as long as the account remains active (i.e., at least one transaction per 12-month period). Accounts with no activity for 12 consecutive months may have their accumulated points forfeited without prior notice.</li>
+        <li><strong>Points are Non-Monetary</strong><br>Points hold no monetary value outside of the store's redemption system. They cannot be exchanged for cash, transferred to another member's account, or combined with other promotional offers unless explicitly stated by the store.</li>
+        <li><strong>Card Number & Barcode</strong><br>Each card is assigned a unique card number (e.g., LC-XXXXXX) and a scannable barcode. Members must present their card or card number at checkout to earn or redeem points. The store is not obligated to apply points retroactively if a card was not presented at the time of purchase.</li>
+        <li><strong>Manual Point Adjustments</strong><br>The store reserves the right to manually add or deduct points from a member's account for corrections, bonuses, or abuse-related reasons. All adjustments are logged in the system and the member may request a points history review.</li>
+        <li><strong>Lost or Damaged Cards</strong><br>In the event of a lost or damaged card, the member must report it immediately to the store. The store may issue a replacement card linked to the same account. Points balances are maintained in the system and are not affected by card replacement.</li>
+        <li><strong>Account Suspension & Termination</strong><br>The store reserves the right to suspend or permanently terminate a membership account if there is evidence of fraud, misuse, abuse of the points system, or violation of these terms. Forfeited points due to termination are non-recoverable.</li>
+        <li><strong>Privacy & Data Use</strong><br>By registering, the member consents to the store collecting and storing their personal information (name, mobile number, address) for the purpose of managing their loyalty account, transaction records, and ID card generation. Data will not be shared with third parties without consent.</li>
+        <li><strong>Amendments to Terms</strong><br>The store reserves the right to modify, suspend, or discontinue the Loyalty Card Program or any of its terms at any time without prior notice. Continued use of the loyalty card after any changes constitutes acceptance of the revised terms. Members are encouraged to inquire about current terms at the point of sale.</li>
+      </ol>
+      <div class='footer'>
+        By registering as a Loyalty Card Member, you acknowledge that you have read, understood, and agreed to all of the above Terms and Conditions.
+      </div>
+    </div>
+  </body>
+  </html>
+" width="100%" height="600px" style="border: 1px solid #ccc; border-radius: 4px;"></iframe>
             </div>
             <div class="tab-panel" id="admin-tab-users">
                 <div class="report-controls">
@@ -956,48 +1030,82 @@
                     <div class="backup-card"><h4>💳 Credit Ledger</h4><p>Outstanding credit accounts.</p><button class="btn-csv" onclick="exportCreditLedgerToCSV()" style="width:100%">Download CSV</button></div>
                     <div class="backup-card"><h4>📱 GCash Logs</h4><p>All GCash transactions.</p><button class="btn-csv" onclick="exportGcashToCSV('all')" style="width:100%">Download CSV</button></div>
                     <div class="backup-card"><h4>💰 Expenses</h4><p>All expense records.</p><button class="btn-csv" onclick="exportExpensesToCSV('all')" style="width:100%">Download CSV</button></div>
-                    <div class="backup-card"><h4>👥 User Accounts</h4><p>Registered users list.</p><button class="btn-csv" onclick="exportUsersToCSV()" style="width:100%">Download CSV</button></div>
+					<div class="backup-card"><h4>👥 User Accounts</h4><p>Registered users list.</p><button class="btn-csv" onclick="exportUsersToCSV()" style="width:100%">Download CSV</button></div>
+					<div class="backup-card"><h4>🎁 Loyalty Members</h4><p>All loyalty card members &amp; points.</p><button class="btn-csv" onclick="exportLoyaltyToCSV()" style="width:100%">Download CSV</button></div>
                 </div>
                 <div class="backup-section-title">Restore from CSV Backup</div>
                 <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:16px;">
                     <div><p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:6px;">Restore Inventory</p><label class="restore-zone" onclick="this.querySelector('input').click()"><div>📦 Drop or click to upload<br><span style="font-size:0.75rem;">InventoryMatrix.csv</span></div><input type="file" accept=".csv" onchange="restoreFromCSV(event,'inventory')"></label></div>
                     <div><p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:6px;">Restore Sales</p><label class="restore-zone" onclick="this.querySelector('input').click()"><div>📊 Drop or click to upload<br><span style="font-size:0.75rem;">SalesJournal.csv</span></div><input type="file" accept=".csv" onchange="restoreFromCSV(event,'sales')"></label></div>
                     <div><p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:6px;">Restore GCash</p><label class="restore-zone" onclick="this.querySelector('input').click()"><div>📱 Drop or click to upload<br><span style="font-size:0.75rem;">GCash_Transactions.csv</span></div><input type="file" accept=".csv" onchange="restoreFromCSV(event,'gcash')"></label></div>
-                </div>
+					<div><p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:6px;">Restore Loyalty Members</p><label class="restore-zone" onclick="this.querySelector('input').click()"><div>🎁 Drop or click to upload<br><span style="font-size:0.75rem;">LoyaltyMembers.csv</span></div><input type="file" accept=".csv" onchange="restoreFromCSV(event,'loyalty')"></label></div>
+			  </div>
                 <div class="restore-log" id="restore-log">Restore log will appear here...</div>
             </div>
-            <div class="tab-panel" id="admin-tab-settings">
-                <div style="max-width:700px;">
-                    <h2 style="color:var(--accent-color);margin-bottom:6px;font-size:1.15rem;">⚙️ Store Settings</h2>
-                    <p style="color:var(--text-muted);font-size:0.83rem;margin-bottom:24px;">Changes apply instantly to the header and all printed receipts.</p>
-                    <div class="settings-section">
-                        <div class="settings-section-title">🎨 Appearance & Theme</div>
-                        <p style="color:var(--text-muted);font-size:0.82rem;margin-bottom:14px;">Select a color theme for the POS interface.</p>
-                        <div class="theme-settings-grid" id="settings-theme-grid"></div>
-                    </div>
-                    <div class="settings-section">
-                        <div class="settings-section-title">🏪 Store Identity</div>
-                        <div class="form-group"><label style="display:block;font-size:0.82rem;color:var(--text-muted);margin-bottom:6px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;">Store / POS Name</label><input type="text" class="form-control" id="settings-store-name" placeholder="e.g. My Store POS" autocomplete="off" oninput="updateReceiptPreview()"></div>
-                        <div class="form-group"><label style="display:block;font-size:0.82rem;color:var(--text-muted);margin-bottom:6px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;">Address Line 1</label><input type="text" class="form-control" id="settings-address1" placeholder="e.g. #36 Donnan Bldg Josefina St" autocomplete="off" oninput="updateReceiptPreview()"></div>
-                        <div class="form-group"><label style="display:block;font-size:0.82rem;color:var(--text-muted);margin-bottom:6px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;">Address Line 2</label><input type="text" class="form-control" id="settings-address2" placeholder="e.g. 4th Avenue Caloocan City Phil." autocomplete="off" oninput="updateReceiptPreview()"></div>
-                        <div class="form-group" style="margin-bottom:0;"><label style="display:block;font-size:0.82rem;color:var(--text-muted);margin-bottom:6px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;">Mobile / Phone Number</label><input type="text" class="form-control" id="settings-phone" placeholder="e.g. 0950 682 5698" autocomplete="off" oninput="updateReceiptPreview()"></div>
-                    </div>
-                    <div style="margin-bottom:20px;"><button class="btn-backup-all" onclick="saveSettingsTab()" style="margin-bottom:0;max-width:240px;">💾 Save Settings</button></div>
-                    <div style="background:var(--panel-bg-2);border:1px solid var(--border-color);border-radius:8px;padding:16px 20px;">
-                        <div style="font-size:0.78rem;color:var(--text-muted);font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:12px;">📄 Receipt Header Preview</div>
-                        <div id="settings-receipt-preview" style="font-family:'Courier New',monospace;font-size:0.85rem;color:var(--text-main);line-height:1.7;text-align:center;padding:10px 0;border-top:1px dashed var(--border-color);"></div>
-                    </div>
-                    <div class="settings-section" style="margin-top:20px;">
-                        <div class="settings-section-title">🔌 Supabase Connection</div>
-                        <div class="form-group"><label style="display:block;font-size:0.82rem;color:var(--text-muted);margin-bottom:6px;">Project URL</label><input type="text" class="form-control" id="settings-sb-url" placeholder="https://xxxx.supabase.co" autocomplete="off"></div>
-                        <div class="form-group"><label style="display:block;font-size:0.82rem;color:var(--text-muted);margin-bottom:6px;">Anon Key</label><input type="text" class="form-control" id="settings-sb-key" placeholder="eyJ..." autocomplete="off"></div>
-                        <button class="btn-csv" onclick="updateSupabaseCredentials()" style="margin-right:8px;">Update Connection</button>
-                        <button class="btn-csv" style="background:#a29bfe;color:#000;" onclick="runSqlSetup()">Run SQL Setup (First Time)</button>
-                        <div id="settings-sb-msg" style="margin-top:8px;font-size:0.82rem;"></div>
-                    </div>
+<div class="tab-panel" id="admin-tab-settings">
+    <div style="max-width: 100%; display: flex; flex-direction: row; gap: 33px; flex-wrap: wrap;">
+        
+        <div style="flex: 1; min-width: 550px;">
+            <h2 style="color:var(--accent-color); margin-bottom:6px; font-size:1.15rem;">⚙️ Store Settings</h2>
+            <p style="color:var(--text-muted); font-size:0.83rem; margin-bottom:24px;">Changes apply instantly to the header and all printed receipts.</p>
+
+            <div class="settings-section">
+                <div class="settings-section-title">🏪 Store Identity</div>
+                <div class="form-group">
+                    <label style="display:block; font-size:0.82rem; color:var(--text-muted); margin-bottom:6px; font-weight:600; text-transform:uppercase; letter-spacing:.5px;">Store / POS Name</label>
+                    <input type="text" class="form-control" id="settings-store-name" placeholder="e.g. My Store POS" autocomplete="off" oninput="updateReceiptPreview()">
+                </div>
+                <div class="form-group">
+                    <label style="display:block; font-size:0.82rem; color:var(--text-muted); margin-bottom:6px; font-weight:600; text-transform:uppercase; letter-spacing:.5px;">Address Line 1</label>
+                    <input type="text" class="form-control" id="settings-address1" placeholder="e.g. #36 Donnan Bldg Josefina St" autocomplete="off" oninput="updateReceiptPreview()">
+                </div>
+                <div class="form-group">
+                    <label style="display:block; font-size:0.82rem; color:var(--text-muted); margin-bottom:6px; font-weight:600; text-transform:uppercase; letter-spacing:.5px;">Address Line 2</label>
+                    <input type="text" class="form-control" id="settings-address2" placeholder="e.g. 4th Avenue Caloocan City Phil." autocomplete="off" oninput="updateReceiptPreview()">
+                </div>
+                <div class="form-group" style="margin-bottom:20px;">
+                    <label style="display:block; font-size:0.82rem; color:var(--text-muted); margin-bottom:6px; font-weight:600; text-transform:uppercase; letter-spacing:.5px;">Mobile / Phone Number</label>
+                    <input type="text" class="form-control" id="settings-phone" placeholder="e.g. 0950 682 5698" autocomplete="off" oninput="updateReceiptPreview()">
                 </div>
             </div>
+            
+            <div style="margin-bottom:20px;">
+                <button class="btn-backup-all" onclick="saveSettingsTab()" style="margin-bottom:0; max-width:240px;">💾 Save Settings</button>
+            </div>
+
+            <div class="settings-section" style="margin-top: 165px;">
+                <div class="settings-section-title">🔌 Supabase Connection</div>
+                <div class="form-group">
+                    <label style="display:block; font-size:0.82rem; color:var(--text-muted); margin-bottom:14px;">Project URL</label>
+                    <input type="text" class="form-control" id="settings-sb-url" placeholder="https://xxxx.supabase.co" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label style="display:block; font-size:0.82rem; color:var(--text-muted); margin-bottom:6px;">Anon Key</label>
+                    <input type="text" class="form-control" id="settings-sb-key"  placeholder="eyJ..." autocomplete="off">
+                </div>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                    <button class="btn-csv" onclick="updateSupabaseCredentials()">Update Connection</button>
+                    <button class="btn-csv" style="background:#a29bfe; color:#000;" onclick="runSqlSetup()">Run SQL Setup (First Time)</button>
+                </div>
+                <div id="settings-sb-msg" style="margin-top:8px; font-size:0.82rem;"></div>
+            </div>
         </div>
+
+        <div style="flex: 1; min-width: 400px; display: flex; flex-direction: column; justify-content: flex-start; margin-top: 70px;">
+            <div style="background:var(--panel-bg-2); border:1px solid var(--border-color); border-radius:8px; padding:16px 20px; margin-bottom:32px;">
+                <div style="font-size:0.78rem; color:var(--text-muted); font-weight:700; text-transform:uppercase; letter-spacing:.8px; margin-bottom:12px;">📄 Receipt Header Preview</div>
+                <div id="settings-receipt-preview" style="font-family:'Courier New',monospace; font-size:0.85rem; color:var(--text-main); line-height:1.7; text-align:center; padding:10px 0; border-top:1px dashed var(--border-color);"></div>
+            </div>
+
+            <div class="settings-section" style="margin-top:1px;">
+                <div class="settings-section-title">🎨 Appearance & Theme</div>
+                <p style="color:var(--text-muted); font-size:0.82rem; margin-bottom:14px;">Select a color theme for the POS interface.</p>
+                <div class="theme-settings-grid" id="settings-theme-grid"></div>
+            </div>
+		   </div>
+		 </div>
+		</div>
+      </div>
     </div>
 </div>
 
@@ -1674,10 +1782,9 @@ async function exportUsersToCSV(){const{data:users}=await db.from('pos_users').s
 
 /* CSV RESTORE */
 function parseCSVRow(row){const result=[];let cur='';let inQ=false;for(let i=0;i<row.length;i++){if(row[i]==='"'){inQ=!inQ;}else if(row[i]===','&&!inQ){result.push(cur.trim());cur='';}else{cur+=row[i];}}result.push(cur.trim());return result;}
-async function restoreFromCSV(event,type){const input=event.target;if(!input.files||!input.files[0])return;const reader=new FileReader();reader.onload=async function(e){try{const text=e.target.result;const rows=text.split(/\r?\n/).map(r=>r.trim()).filter(r=>r.length>0);logRestore(`\nRestoring ${type}...`);if(type==='inventory'){if(rows.length<=1){logRestore('⚠ No data rows.');return;}let delim=rows[0].includes(';')?';':rows[0].includes('\t')?'\t':',';let imported=0;for(let i=1;i<rows.length;i++){const cols=rows[i].split(delim).map(c=>c.replace(/^"|"$/g,'').trim());if(cols.length<5)continue;const[id,name,barcode]=cols;const price=parseFloat(cols[3])||0,stock=parseInt(cols[4])||0,sold=parseInt(cols[5])||0;if(!id||!name||!barcode)continue;await db.from('pos_products').upsert({id,name,barcode,price,stock,sold},{onConflict:'id'});imported++;}await loadProducts();renderInventoryDashboardTable();renderCashierCatalog();logRestore(`✔ Inventory restored — ${imported} records`);}else if(type==='sales'){if(rows.length<=1){logRestore('⚠ No data rows.');return;}let imported=0;for(let i=1;i<rows.length;i++){const cols=parseCSVRow(rows[i]);if(cols.length<5)continue;await db.from('pos_sales').insert({timestamp:cols[0]||new Date().toISOString(),items:[],total:parseFloat(cols[4])||0,payment_type:cols[3]||'CASH'});imported++;}await loadSales();renderSalesDashboardTable();logRestore(`✔ Sales restored — ${imported} records`);}else if(type==='gcash'){if(rows.length<=1){logRestore('⚠ No data rows.');return;}let imported=0;for(let i=1;i<rows.length;i++){const cols=parseCSVRow(rows[i]);if(cols.length<5)continue;await db.from('pos_gcash').insert({timestamp:cols[0]||new Date().toLocaleString(),type:cols[1]||'GCASH IN',amount:parseFloat(cols[2])||0,mobile:cols[3]||'',name:cols[4]||'',ref_no:cols[5]||'',profit:parseFloat(cols[6])||0});imported++;}renderGcashTransactions();logRestore(`✔ GCash restored — ${imported} records`);}}catch(err){logRestore(`✗ Error: ${err.message||err}`);}input.value='';};reader.readAsText(input.files[0]);}
+async function restoreFromCSV(event,type){const input=event.target;if(!input.files||!input.files[0])return;const reader=new FileReader();reader.onload=async function(e){try{const text=e.target.result;const rows=text.split(/\r?\n/).map(r=>r.trim()).filter(r=>r.length>0);logRestore(`\nRestoring ${type}...`);if(type==='inventory'){if(rows.length<=1){logRestore('⚠ No data rows.');return;}let delim=rows[0].includes(';')?';':rows[0].includes('\t')?'\t':',';let imported=0;for(let i=1;i<rows.length;i++){const cols=rows[i].split(delim).map(c=>c.replace(/^"|"$/g,'').trim());if(cols.length<5)continue;const[id,name,barcode]=cols;const price=parseFloat(cols[3])||0,stock=parseInt(cols[4])||0,sold=parseInt(cols[5])||0;if(!id||!name||!barcode)continue;await db.from('pos_products').upsert({id,name,barcode,price,stock,sold},{onConflict:'id'});imported++;}await loadProducts();renderInventoryDashboardTable();renderCashierCatalog();logRestore(`✔ Inventory restored — ${imported} records`);}else if(type==='sales'){if(rows.length<=1){logRestore('⚠ No data rows.');return;}let imported=0;for(let i=1;i<rows.length;i++){const cols=parseCSVRow(rows[i]);if(cols.length<5)continue;await db.from('pos_sales').insert({timestamp:cols[0]||new Date().toISOString(),items:[],total:parseFloat(cols[4])||0,payment_type:cols[3]||'CASH'});imported++;}await loadSales();renderSalesDashboardTable();logRestore(`✔ Sales restored — ${imported} records`);}else if(type==='gcash'){if(rows.length<=1){logRestore('⚠ No data rows.');return;}let imported=0;for(let i=1;i<rows.length;i++){const cols=parseCSVRow(rows[i]);if(cols.length<5)continue;await db.from('pos_gcash').insert({timestamp:cols[0]||new Date().toLocaleString(),type:cols[1]||'GCASH IN',amount:parseFloat(cols[2])||0,mobile:cols[3]||'',name:cols[4]||'',ref_no:cols[5]||'',profit:parseFloat(cols[6])||0});imported++;}renderGcashTransactions();logRestore(`✔ GCash restored — ${imported} records`);}else if(type==='loyalty'){if(rows.length<=1){logRestore('⚠ No data rows.');return;}let imported=0,skipped=0;for(let i=1;i<rows.length;i++){const cols=parseCSVRow(rows[i]);if(cols.length<3)continue;const card_no=cols[0]?.trim();const fullname=cols[1]?.trim();const mobile=cols[2]?.trim();if(!card_no||!fullname||!mobile){skipped++;continue;}const address=cols[3]?.trim()||'';const registered_at=cols[4]?new Date(cols[4]).toISOString():new Date().toISOString();const points_balance=parseInt(cols[5])||0;const total_earned=parseInt(cols[6])||0;const total_redeemed=parseInt(cols[7])||0;const existing=loyaltyMembers.find(m=>m.card_no===card_no||m.mobile===mobile);if(existing){skipped++;continue;}const{error}=await db.from('pos_loyalty').insert({card_no,fullname,mobile,address,registered_at,points_balance,total_earned,total_redeemed});if(error){skipped++;continue;}imported++;}await loadLoyaltyMembers();renderLoyaltyTable();updateLoyaltyStats();logRestore(`✔ Loyalty restored — ${imported} imported, ${skipped} skipped (duplicates/invalid)`);}}catch(err){logRestore(`✗ Error: ${err.message||err}`);}input.value='';};reader.readAsText(input.files[0]);}
 function logRestore(msg){const el=document.getElementById('restore-log');if(!el)return;el.innerHTML+=msg+'\n';el.scrollTop=el.scrollHeight;}
-async function backupAllDataToCSV(){logRestore(`Starting full backup at ${new Date().toLocaleString()}...`);exportSalesJournalToCSV('all');logRestore(`✔ Sales exported`);exportInventoryCatalogToCSV();logRestore(`✔ Inventory exported`);exportCreditLedgerToCSV();logRestore(`✔ Credit Ledger exported`);await exportGcashToCSV('all');logRestore(`✔ GCash exported`);await exportExpensesToCSV('all');logRestore(`✔ Expenses exported`);await exportUsersToCSV();logRestore(`✔ Users exported`);logRestore(`✅ Full backup complete.`);logActivity('admin','Full system backup downloaded');}
-
+async function backupAllDataToCSV(){logRestore(`Starting full backup at ${new Date().toLocaleString()}...`);exportSalesJournalToCSV('all');logRestore(`✔ Sales exported`);exportInventoryCatalogToCSV();logRestore(`✔ Inventory exported`);exportCreditLedgerToCSV();logRestore(`✔ Credit Ledger exported`);await exportGcashToCSV('all');logRestore(`✔ GCash exported`);await exportExpensesToCSV('all');logRestore(`✔ Expenses exported`);await exportUsersToCSV();logRestore(`✔ Users exported`);exportLoyaltyToCSV();logRestore(`✔ Loyalty members exported`);logRestore(`✅ Full backup complete.`);logActivity('admin','Full system backup downloaded');}
 /* CSV DOWNLOAD */
 function downloadCSV(content,filename){const blob=new Blob([content],{type:'text/csv;charset=utf-8;'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.setAttribute('download',filename);document.body.appendChild(a);a.click();document.body.removeChild(a);}
 
