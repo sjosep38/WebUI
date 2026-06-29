@@ -706,15 +706,28 @@
           <div class="auth-field">
                     <label>Role / Position</label>
                     <select id="signup-role" class="form-control" style="background:var(--input-bg-2);border:1px solid var(--border-color);color:var(--text-main);border-radius:8px;padding:10px 12px;font-size:0.95rem;width:100%;cursor:pointer;">
-                        <option value="owner">👑 Owner</option>
-                        <option value="store_manager">🏪 Store Manager</option>
-                        <option value="assistant_store_manager">🏪 Assistant Store Manager</option>
-                        <option value="selling_supervisor_food">🥦 Selling Area Supervisor – Food Dept.</option>
-                        <option value="selling_supervisor_nonfood">🛒 Selling Area Supervisor – Non-Food Dept.</option>
-                        <option value="wholesale_supervisor">📦 Wholesale Supervisor</option>
-                        <option value="selling_team_leader">🎯 Selling Area Team Leader</option>
-                        <option value="cashier" selected>💳 Cashier</option>
-                        <option value="warehouse_supervisor">🏭 Warehouse Supervisor</option>
+					<!-- Management / Ownership -->
+					<option value="owner">👑 Owner</option>
+					<option value="HR">💼 Human Resource</option>
+					<option value="store_manager">🏪 Store Manager</option>
+					<option value="assistant_store_manager">🥈 Assistant Store Manager</option>
+
+					<!-- Supervisors -->
+					<option value="selling_supervisor_food">🥦 Selling Area Supervisor – Food Dept.</option>
+					<option value="selling_supervisor_nonfood">🛒 Selling Area Supervisor – Non-Food Dept.</option>
+					<option value="wholesale_supervisor">📦 Wholesale Supervisor</option>
+					<option value="warehouse_supervisor">🏭 Warehouse Supervisor</option>
+
+					<!-- Team Leads & Specialized Staff -->
+					<option value="selling_team_leader">👥 Selling Area Team Leader</option>
+					<option value="Merchandiser">🏷️ Merchandiser</option>
+					<option value="Staff">📝 Staff</option>
+
+					<!-- Frontline & Operations -->
+					<option value="cashier" selected>💳 Cashier</option>
+					<option value="warehouseman">📦 Warehouseman</option>
+					<option value="Utility">🧹 Utility</option>
+						
                     </select>
                 </div>
                 <div class="auth-field">
@@ -1743,6 +1756,7 @@ function getRoleLabel(role){return ROLE_LABELS[role]||role.toUpperCase();}
 function getRoleColor(role){return ROLE_COLORS[role]||'var(--text-muted)';}
 
 async function handleSignUp(){
+	const { error } = await db.from('pos_users').insert({ username, fullname, password_hash: simpleHash(password), role: finalRole, emp_id });
     const adminPw=document.getElementById('signup-admin-pw').value;
     const fullname=document.getElementById('signup-fullname').value.trim();
     const username=document.getElementById('signup-username').value.trim();
@@ -3098,7 +3112,7 @@ async function deleteAllProductItems() {
 ════════════════════════════════════════════════════════════ */
 let empIdCardPhotoDataUrl = null;
 
-function openEmpIdCardModal(prefillUsername) {
+async function openEmpIdCardModal(prefillUsername) { 
     populateEmpIdCardUserSelect();
     // Reset all fields
     document.getElementById('empidc-name').value = '';
@@ -3165,7 +3179,7 @@ async function empIdCardLoadUser() {
     } catch(e) { console.warn('empIdCardLoadUser error:', e); }
 }
 
-function empIdCardHandlePhoto(event) {
+async function empIdCardHandlePhoto(event) {
     const file = event.target.files[0];
     if (!file) return;
     const img = new Image();
