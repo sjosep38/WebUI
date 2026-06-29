@@ -567,9 +567,61 @@
 .id-card-member-select:focus { outline:1px solid var(--accent-color); }
 .id-card-section-label { font-size:0.72rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.8px; padding-bottom:6px; border-bottom:1px solid var(--border-color); }
 @media(max-width:640px){ .id-card-modal-body{grid-template-columns:1fr;} .id-card-form-panel{border-right:none;border-bottom:1px solid var(--border-color);} .id-card{width:300px;} }
-
-
 @media (max-width:600px){.loyalty-reg-grid{grid-template-columns:1fr 1fr;}.loyalty-stats-cards{grid-template-columns:1fr;}}
+
+/* ════ EMPLOYEE ID CARD MODAL ════ */
+#emp-id-card-modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,1);display:none;justify-content:center;align-items:center;z-index:8500;padding:10px;}
+#emp-id-card-modal.active{display:flex;}
+.emp-id-card-modal-box{background:var(--panel-bg);border:1px solid var(--border-color);border-radius:14px;width:100%;max-width:840px;max-height:95vh;display:flex;flex-direction:column;box-shadow:0 24px 60px var(--shadow);overflow:hidden;}
+.emp-id-card-modal-header{background:var(--admin-header-bg);padding:16px 22px;border-bottom:1px solid var(--border-color);display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;}
+.emp-id-card-modal-header h3{color:var(--accent-color);font-size:1.05rem;display:flex;align-items:center;gap:8px;margin:0;}
+.emp-id-card-modal-body{display:grid;grid-template-columns:1fr 1fr;flex:1;overflow:hidden;}
+.emp-idc-form-panel{padding:20px;overflow-y:auto;border-right:1px solid var(--border-color);display:flex;flex-direction:column;gap:13px;}
+.emp-idc-preview-panel{padding:20px;background:var(--panel-bg-2);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:14px;overflow-y:auto;}
+.emp-idc-field label{display:block;font-size:0.74rem;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:var(--text-muted);margin-bottom:5px;}
+.emp-idc-field input,.emp-idc-field select,.emp-idc-field textarea{width:100%;padding:9px 12px;background:var(--input-bg-2);border:1px solid var(--border-color);color:var(--text-main);border-radius:6px;font-size:0.9rem;}
+.emp-idc-field input:focus,.emp-idc-field select:focus,.emp-idc-field textarea:focus{outline:1px solid var(--accent-color);}
+.emp-idc-field textarea{resize:vertical;min-height:56px;font-family:inherit;}
+.emp-idc-section-label{font-size:0.72rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.8px;padding-bottom:6px;border-bottom:1px solid var(--border-color);}
+.emp-idc-preview-title{font-size:0.72rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;width:100%;text-align:center;border-bottom:1px solid var(--border-color);padding-bottom:8px;}
+.emp-idc-actions-row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;width:100%;}
+/* Employee ID Card visual */
+.emp-id-card{width:336px;min-height:200px;border-radius:14px;position:relative;overflow:hidden;font-family:'Segoe UI',Tahoma,sans-serif;box-shadow:0 8px 32px rgba(0,0,0,0.5);background:linear-gradient(135deg,#0d1b2a 0%,#1b263b 50%,#0d1b2a 100%);color:#fff;padding:18px 18px 14px;display:flex;flex-direction:column;user-select:none;}
+.emp-id-card-bg-hex{position:absolute;top:-20px;right:-30px;width:170px;height:170px;opacity:0.05;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='52'%3E%3Cpolygon points='30,2 58,17 58,47 30,62 2,47 2,17' fill='none' stroke='white' stroke-width='1.5'/%3E%3C/svg%3E") repeat;pointer-events:none;}
+.emp-id-card-stripe{position:absolute;top:0;left:0;width:6px;height:100%;background:linear-gradient(to bottom,#00adb5,#0088cc);border-radius:14px 0 0 14px;}
+.emp-id-card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;position:relative;z-index:1;padding-left:8px;}
+.emp-id-card-store-name{font-size:0.62rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#7dd3fc;line-height:1.4;}
+.emp-id-card-dept-badge{background:var(--accent-color);color:var(--accent-text);font-size:0.54rem;font-weight:800;padding:3px 7px;border-radius:3px;letter-spacing:1px;text-transform:uppercase;white-space:nowrap;max-width:130px;overflow:hidden;text-overflow:ellipsis;}
+.emp-id-card-main{display:flex;align-items:flex-start;gap:12px;margin-bottom:10px;position:relative;z-index:1;padding-left:8px;}
+.emp-id-card-photo-box{width:70px;height:70px;border-radius:9px;border:2px solid rgba(255,255,255,0.22);background:rgba(255,255,255,0.07);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1.9rem;color:rgba(255,255,255,0.22);overflow:hidden;}
+.emp-id-card-photo-box img{width:100%;height:100%;object-fit:cover;border-radius:7px;}
+.emp-id-card-info{flex:1;min-width:0;}
+.emp-id-card-fullname{font-size:1rem;font-weight:800;letter-spacing:0.2px;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.emp-id-card-role-pill{display:inline-block;border-radius:99px;padding:2px 9px;font-size:0.6rem;font-weight:800;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:5px;}
+.emp-id-card-row{font-size:0.67rem;color:rgba(255,255,255,0.70);margin-bottom:3px;display:flex;gap:5px;align-items:baseline;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.emp-id-card-row-label{font-weight:700;color:rgba(255,255,255,0.36);text-transform:uppercase;letter-spacing:0.4px;font-size:0.59rem;flex-shrink:0;}
+.emp-id-card-bottom{display:flex;align-items:flex-end;justify-content:space-between;position:relative;z-index:1;border-top:1px solid rgba(255,255,255,0.10);padding-top:9px;padding-left:8px;gap:8px;}
+.emp-id-card-bottom-left{display:flex;flex-direction:column;gap:3px;}
+.emp-id-card-emp-no{font-size:0.62rem;color:rgba(255,255,255,0.42);font-family:monospace;letter-spacing:0.8px;}
+.emp-id-card-status-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#4ade80;box-shadow:0 0 5px #4ade80;margin-right:4px;vertical-align:middle;}
+.emp-id-card-status-label{font-size:0.62rem;color:rgba(255,255,255,0.45);font-weight:700;text-transform:uppercase;letter-spacing:0.5px;}
+.emp-id-card-barcode-wrap{display:flex;flex-direction:column;align-items:flex-end;gap:2px;}
+.emp-id-card-barcode-text{font-size:0.55rem;color:rgba(255,255,255,0.32);font-family:monospace;letter-spacing:0.5px;text-align:right;}
+.emp-photo-upload-zone{border:2px dashed var(--border-color);border-radius:10px;padding:14px 10px;text-align:center;cursor:pointer;background:var(--panel-bg-2);transition:border-color 0.2s,background 0.2s;position:relative;overflow:hidden;}
+.emp-photo-upload-zone:hover{border-color:var(--accent-color);background:color-mix(in srgb,var(--accent-color) 5%,var(--panel-bg-2));}
+.emp-photo-upload-zone input[type=file]{position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;cursor:pointer;}
+.emp-photo-upload-zone .epuz-preview{width:72px;height:72px;border-radius:50%;object-fit:cover;border:2px solid var(--accent-color);display:none;margin:0 auto 6px;}
+.emp-photo-upload-zone .epuz-icon{font-size:2rem;display:block;margin-bottom:5px;opacity:0.5;}
+.emp-photo-upload-zone .epuz-label{font-size:0.8rem;color:var(--text-muted);}
+.emp-id-member-select{width:100%;padding:9px 12px;background:var(--input-bg-2);border:1px solid var(--border-color);color:var(--text-main);border-radius:6px;font-size:0.88rem;cursor:pointer;}
+.emp-id-member-select:focus{outline:1px solid var(--accent-color);}
+.btn-open-emp-id-card{background:linear-gradient(135deg,#0088cc,#00adb5);color:#fff;border:none;padding:6px 12px;border-radius:5px;font-weight:700;font-size:0.78rem;cursor:pointer;display:inline-flex;align-items:center;gap:4px;white-space:nowrap;}
+.btn-open-emp-id-card:hover{opacity:0.88;}
+.btn-print-emp-card{background:linear-gradient(135deg,#0d9488,#34d399);color:#fff;border:none;padding:10px 20px;border-radius:7px;font-weight:700;font-size:0.88rem;cursor:pointer;display:inline-flex;align-items:center;gap:6px;}
+.btn-print-emp-card:hover{opacity:0.88;}
+.btn-dl-emp-card{background:linear-gradient(135deg,#0088cc,#00adb5);color:#fff;border:none;padding:10px 20px;border-radius:7px;font-weight:700;font-size:0.88rem;cursor:pointer;display:inline-flex;align-items:center;gap:6px;}
+.btn-dl-emp-card:hover{opacity:0.88;}
+@media(max-width:640px){.emp-id-card-modal-body{grid-template-columns:1fr;}.emp-idc-form-panel{border-right:none;border-bottom:1px solid var(--border-color);}.emp-id-card{width:300px;}}
 
 @media print {
     body * { display: none !important; }
@@ -651,7 +703,28 @@
                 <div class="auth-field"><label>Full Name</label><input type="text" id="signup-fullname" placeholder="Juan Dela Cruz"></div>
                 <div class="auth-field"><label>Username</label><input type="email" id="signup-username" placeholder="Choose a username" autocomplete="username"></div>
                 <div class="auth-field"><label>Password</label><input type="password" id="signup-password" placeholder="Min. 6 characters" autocomplete="new-password"></div>
-                <div class="auth-field"><label>Confirm Password</label><input type="password" id="signup-confirm" placeholder="Repeat password" autocomplete="new-password"></div>
+          <div class="auth-field">
+                    <label>Role / Position</label>
+                    <select id="signup-role" class="form-control" style="background:var(--input-bg-2);border:1px solid var(--border-color);color:var(--text-main);border-radius:8px;padding:10px 12px;font-size:0.95rem;width:100%;cursor:pointer;">
+                        <option value="owner">👑 Owner</option>
+                        <option value="store_manager">🏪 Store Manager</option>
+                        <option value="assistant_store_manager">🏪 Assistant Store Manager</option>
+                        <option value="selling_supervisor_food">🥦 Selling Area Supervisor – Food Dept.</option>
+                        <option value="selling_supervisor_nonfood">🛒 Selling Area Supervisor – Non-Food Dept.</option>
+                        <option value="wholesale_supervisor">📦 Wholesale Supervisor</option>
+                        <option value="selling_team_leader">🎯 Selling Area Team Leader</option>
+                        <option value="cashier" selected>💳 Cashier</option>
+                        <option value="warehouse_supervisor">🏭 Warehouse Supervisor</option>
+                    </select>
+                </div>
+                <div class="auth-field">
+                    <label>Confirm Password</label>
+                    <input type="password" id="signup-confirm" placeholder="Repeat password" autocomplete="new-password">
+                </div>
+                <div id="signup-emp-id-preview" style="display:none;background:color-mix(in srgb,var(--success-color) 10%,var(--panel-bg-2));border:1px solid color-mix(in srgb,var(--success-color) 30%,transparent);border-radius:8px;padding:10px 14px;margin-bottom:8px;font-size:0.85rem;">
+                    <span style="color:var(--text-muted);font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;">Employee ID (auto-generated)</span>
+                    <div style="color:var(--success-color);font-weight:800;font-family:monospace;font-size:1rem;margin-top:3px;" id="signup-emp-id-value">—</div>
+                </div>
                 <button class="auth-btn" onclick="handleSignUp()">Create Account</button>
             </div>
         </div>
@@ -1005,6 +1078,7 @@
             <div class="tab-panel" id="admin-tab-users">
                 <div class="report-controls">
                     <span style="color:var(--accent-color);font-weight:bold;">Registered Users</span>
+                    <button class="btn-open-emp-id-card" onclick="openEmpIdCardModal()" style="font-size:.9em;padding:12px;">🪪 Generate Employee ID Card</button>
                     <button class="btn-csv btn-danger" style="margin-left:auto;" onclick="exportUsersToCSV()">Export Users (CSV)</button>
                 </div>
                 <div style="background:color-mix(in srgb, var(--gcash-color) 10%, var(--panel-bg));border:1px solid color-mix(in srgb, var(--gcash-color) 30%, transparent);border-radius:8px;padding:14px;margin-bottom:16px;font-size:0.85rem;color:#60a5fa;">
@@ -1018,7 +1092,7 @@
                     <div id="admin-pw-change-msg" style="margin-top:8px;font-size:0.82rem;"></div>
                 </div>
                 <div class="users-table-wrapper">
-                    <table><thead><tr><th>Username</th><th>Full Name</th><th>Role</th><th>Created</th><th>Actions</th></tr></thead><tbody id="users-table-body"></tbody></table>
+                    <table><thead><tr><th>Username</th><th>Full Name</th><th>Role</th><th>Employee ID</th><th>Created</th><th>Actions</th></tr></thead><tbody id="users-table-body"></tbody></table>
                 </div>
             </div>
             <div class="tab-panel" id="admin-tab-backup">
@@ -1401,6 +1475,114 @@
   </div>
 </div>
 
+<!-- EMPLOYEE ID CARD GENERATOR MODAL -->
+<div id="emp-id-card-modal">
+  <div class="emp-id-card-modal-box">
+    <div class="emp-id-card-modal-header">
+      <h3>🪪 Employee ID Card Generator</h3>
+      <button onclick="closeEmpIdCardModal()" style="background:var(--input-bg);color:var(--text-muted);border:1px solid var(--border-color);padding:7px 14px;border-radius:6px;cursor:pointer;font-size:0.85rem;font-weight:700;">✕ Close</button>
+    </div>
+    <div class="emp-id-card-modal-body">
+      <!-- LEFT: Form -->
+      <div class="emp-idc-form-panel">
+        <div class="emp-idc-section-label">🔗 Load from Registered User</div>
+        <div class="emp-idc-field">
+          <label>Select Employee (auto-fill)</label>
+          <select class="emp-id-member-select" id="empidc-user-select" onchange="empIdCardLoadUser()">
+            <option value="">— Choose an employee —</option>
+          </select>
+        </div>
+        <div class="emp-idc-section-label" style="margin-top:4px;">✏️ Card Details</div>
+        <div class="emp-idc-field">
+          <label>Full Name *</label>
+          <input type="text" id="empidc-name" placeholder="Juan Dela Cruz" oninput="renderEmpIdCardPreview()">
+        </div>
+        <div class="emp-idc-field">
+          <label>Role / Position</label>
+          <select id="empidc-role" onchange="renderEmpIdCardPreview()">
+            <option value="owner">👑 Owner</option>
+            <option value="store_manager">🏪 Store Manager</option>
+            <option value="assistant_store_manager">🏪 Assistant Store Manager</option>
+            <option value="selling_supervisor_food">🥦 SA Supervisor – Food Dept.</option>
+            <option value="selling_supervisor_nonfood">🛒 SA Supervisor – Non-Food Dept.</option>
+            <option value="wholesale_supervisor">📦 Wholesale Supervisor</option>
+            <option value="selling_team_leader">🎯 Selling Area Team Leader</option>
+            <option value="cashier">💳 Cashier</option>
+            <option value="warehouse_supervisor">🏭 Warehouse Supervisor</option>
+            <option value="admin">⚙️ Admin</option>
+          </select>
+        </div>
+        <div class="emp-idc-field">
+          <label>Department / Store Branch</label>
+          <input type="text" id="empidc-dept" placeholder="e.g. Main Branch – Grocery" oninput="renderEmpIdCardPreview()">
+        </div>
+        <div class="emp-idc-field">
+          <label>Mobile / Contact</label>
+          <input type="tel" id="empidc-contact" placeholder="09XXXXXXXXX" oninput="renderEmpIdCardPreview()">
+        </div>
+        <div class="emp-idc-field">
+          <label>Employee ID</label>
+          <input type="text" id="empidc-empid" placeholder="EMP-XXXXXX" oninput="renderEmpIdCardPreview()">
+        </div>
+        <div class="emp-idc-field">
+          <label>📸 Employee Photo</label>
+          <div class="emp-photo-upload-zone" id="empidc-photo-zone">
+            <input type="file" id="empidc-photo-input" accept="image/*" onchange="empIdCardHandlePhoto(event)">
+            <img class="epuz-preview" id="empidc-photo-preview" src="" alt="">
+            <div id="empidc-photo-placeholder">
+              <span class="epuz-icon">📷</span>
+              <span class="epuz-label">Click or drop photo here<br><span style="font-size:0.72rem;opacity:0.6;">JPG, PNG, WEBP supported</span></span>
+            </div>
+          </div>
+        </div>
+        <button onclick="renderEmpIdCardPreview()" style="background:var(--input-bg);color:var(--text-muted);border:1px solid var(--border-color);padding:9px 16px;border-radius:6px;cursor:pointer;font-size:0.85rem;font-weight:700;width:100%;">🔄 Refresh Preview</button>
+      </div>
+      <!-- RIGHT: Preview -->
+      <div class="emp-idc-preview-panel">
+        <div class="emp-idc-preview-title">Live Card Preview</div>
+        <div id="emp-id-card-wrapper">
+          <div class="emp-id-card" id="emp-id-card-element">
+            <div class="emp-id-card-bg-hex"></div>
+            <div class="emp-id-card-stripe"></div>
+            <div class="emp-id-card-top">
+              <div class="emp-id-card-store-name" id="empidc-card-storename">STORE NAME<br>EMPLOYEE ID</div>
+              <div class="emp-id-card-dept-badge" id="empidc-card-dept">Department</div>
+            </div>
+            <div class="emp-id-card-main">
+              <div class="emp-id-card-photo-box" id="empidc-card-photobox">👤</div>
+              <div class="emp-id-card-info">
+                <div class="emp-id-card-fullname" id="empidc-card-name">Full Name</div>
+                <div class="emp-id-card-role-pill" id="empidc-card-role-pill">Role</div>
+                <div class="emp-id-card-row"><span class="emp-id-card-row-label">📱</span><span id="empidc-card-contact">Contact</span></div>
+              </div>
+            </div>
+            <div class="emp-id-card-bottom">
+              <div class="emp-id-card-bottom-left">
+                <div class="emp-id-card-emp-no" id="empidc-card-empno">ID: EMP-000000</div>
+                <div style="display:flex;align-items:center;">
+                  <span class="emp-id-card-status-dot"></span>
+                  <span class="emp-id-card-status-label">Active Employee</span>
+                </div>
+              </div>
+              <div class="emp-id-card-barcode-wrap">
+                <canvas id="empidc-barcode-canvas" width="120" height="36"></canvas>
+                <div class="emp-id-card-barcode-text" id="empidc-barcode-label">EMP-000000</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="font-size:0.75rem;color:var(--text-muted);text-align:center;max-width:280px;line-height:1.5;">
+          The barcode encodes the Employee ID for quick scanning at store checkpoints.
+        </div>
+        <div class="emp-idc-actions-row">
+          <button class="btn-print-emp-card" onclick="printEmpIdCard()">🖨️ Print Card</button>
+          <button class="btn-dl-emp-card" onclick="downloadEmpIdCardImage()">⬇️ Save Image</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div id="receipt-print-area" style="display:none;"></div>
 
 <script>
@@ -1524,7 +1706,67 @@ async function sendToTelegramText(text){const token=localStorage.getItem(TG_TOKE
 function switchAuthTab(tab){document.querySelectorAll('.auth-tab').forEach((t,i)=>t.classList.toggle('active',(i===0&&tab==='login')||(i===1&&tab==='signup')));document.getElementById('login-form').classList.toggle('active',tab==='login');document.getElementById('signup-form').classList.toggle('active',tab==='signup');}
 function showAuthMsg(id,msg,isError=true){const el=document.getElementById(id);el.textContent=msg;el.style.display='block';setTimeout(()=>el.style.display='none',4500);}
 async function handleLogin(){const username=document.getElementById('login-username').value.trim();const password=document.getElementById('login-password').value;if(!username||!password)return showAuthMsg('login-error','Please fill in all fields.');try{const{data,error}=await db.from('pos_users').select('*').eq('username',username).single();if(error||!data)return showAuthMsg('login-error','Username not found.');if(data.password_hash!==simpleHash(password))return showAuthMsg('login-error','Incorrect password.');currentLoggedInUser={username:data.username,fullname:data.fullname,role:data.role};logActivity('auth',`User "${username}" logged in (role: ${data.role})`);launchApp(currentLoggedInUser);}catch(e){showAuthMsg('login-error','Login error: '+e.message);}}
-async function handleSignUp(){const adminPw=document.getElementById('signup-admin-pw').value;const fullname=document.getElementById('signup-fullname').value.trim();const username=document.getElementById('signup-username').value.trim();const password=document.getElementById('signup-password').value;const confirm=document.getElementById('signup-confirm').value;if(adminPw!==getAdminPassword())return showAuthMsg('signup-error','Invalid admin password.');if(!fullname||!username||!password)return showAuthMsg('signup-error','All fields are required.');if(password.length<6)return showAuthMsg('signup-error','Password must be at least 6 characters.');if(password!==confirm)return showAuthMsg('signup-error','Passwords do not match.');try{const{count}=await db.from('pos_users').select('*',{count:'exact',head:true});const role=(count===0)?'admin':'cashier';const{error}=await db.from('pos_users').insert({username,fullname,password_hash:simpleHash(password),role});if(error){if(error.code==='23505')return showAuthMsg('signup-error','Username already exists.');throw error;}logActivity('auth',`New account: "${username}" (role: ${role})`);showAuthMsg('signup-success',`Account created! Role: ${role}. Please sign in.`,false);document.getElementById('signup-success').style.display='block';setTimeout(()=>switchAuthTab('login'),1800);}catch(e){showAuthMsg('signup-error',e.message||String(e));}}
+/* ── Employee ID Generator (like LC-XXXXXX for loyalty) ── */
+function generateEmployeeId(){
+    const prefix='EMP';
+    const num=String(Math.floor(Math.random()*900000)+100000);
+    return `${prefix}-${num}`;
+}
+
+/* ── Role labels & colors ─────────────────────────────── */
+const ROLE_LABELS={
+    'owner':                      '👑 Owner',
+    'store_manager':              '🏪 Store Manager',
+    'assistant_store_manager':    '🏪 Asst. Store Manager',
+    'selling_supervisor_food':    '🥦 SA Supervisor (Food)',
+    'selling_supervisor_nonfood': '🛒 SA Supervisor (Non-Food)',
+    'wholesale_supervisor':       '📦 Wholesale Supervisor',
+    'selling_team_leader':        '🎯 SA Team Leader',
+    'cashier':                    '💳 Cashier',
+    'warehouse_supervisor':       '🏭 Warehouse Supervisor',
+    'admin':                      '⚙️ Admin',
+};
+const ROLE_COLORS={
+    'owner':                      '#ffd700',
+    'store_manager':              '#a29bfe',
+    'assistant_store_manager':    '#74b9ff',
+    'selling_supervisor_food':    '#55efc4',
+    'selling_supervisor_nonfood': '#81ecec',
+    'wholesale_supervisor':       '#fdcb6e',
+    'selling_team_leader':        '#fd79a8',
+    'cashier':                    'var(--success-color)',
+    'warehouse_supervisor':       '#e17055',
+    'admin':                      'var(--accent-color)',
+};
+function getRoleLabel(role){return ROLE_LABELS[role]||role.toUpperCase();}
+function getRoleColor(role){return ROLE_COLORS[role]||'var(--text-muted)';}
+
+async function handleSignUp(){
+    const adminPw=document.getElementById('signup-admin-pw').value;
+    const fullname=document.getElementById('signup-fullname').value.trim();
+    const username=document.getElementById('signup-username').value.trim();
+    const password=document.getElementById('signup-password').value;
+    const confirm=document.getElementById('signup-confirm').value;
+    const role=document.getElementById('signup-role')?.value||'cashier';
+    if(adminPw!==getAdminPassword())return showAuthMsg('signup-error','Invalid admin password.');
+    if(!fullname||!username||!password)return showAuthMsg('signup-error','All fields are required.');
+    if(password.length<6)return showAuthMsg('signup-error','Password must be at least 6 characters.');
+    if(password!==confirm)return showAuthMsg('signup-error','Passwords do not match.');
+    try{
+        const{count}=await db.from('pos_users').select('*',{count:'exact',head:true});
+        const finalRole=(count===0)?'owner':role;
+        const emp_id=generateEmployeeId();
+        const previewEl=document.getElementById('signup-emp-id-preview');
+        const previewVal=document.getElementById('signup-emp-id-value');
+        if(previewEl&&previewVal){previewVal.textContent=emp_id;previewEl.style.display='block';}
+        const{error}=await db.from('pos_users').insert({username,fullname,password_hash:simpleHash(password),role:finalRole,emp_id});
+        if(error){if(error.code==='23505')return showAuthMsg('signup-error','Username already exists.');throw error;}
+        logActivity('auth',`New account: "${username}" | Role: ${finalRole} | EMP ID: ${emp_id}`);
+        showAuthMsg('signup-success',`Account created! Role: ${finalRole} | Employee ID: ${emp_id}. Please sign in.`,false);
+        document.getElementById('signup-success').style.display='block';
+        setTimeout(()=>{switchAuthTab('login');if(previewEl)previewEl.style.display='none';},2500);
+    }catch(e){showAuthMsg('signup-error',e.message||String(e));}
+}
 async function launchApp(user){document.getElementById('auth-screen').classList.remove('visible');document.getElementById('app-main').classList.add('visible');document.getElementById('logged-in-badge').textContent=`👤 ${user.fullname} (${user.role})`;await loadStoreSettings();applyStoreSettings();await loadAllData();}
 function handleLogout(){showConfirm('Are you sure you want to logout?',()=>{logActivity('auth',`User "${currentLoggedInUser.username}" logged out`);currentLoggedInUser=null;document.getElementById('auth-screen').classList.add('visible');document.getElementById('app-main').classList.remove('visible');document.getElementById('login-username').value='';document.getElementById('login-password').value='';},'warning','Logout');}
 
@@ -1776,9 +2018,144 @@ async function exportGcashToCSV(forceAll){let query=db.from('pos_gcash').select(
 function renderTopProducts(){const filter=document.getElementById('analytics-filter').value,now=new Date();const filteredSales=memorySalesJournal.filter(tx=>{if(tx.isSettlement||!tx.items||tx.items.length===0)return false;const d=new Date(tx.timestamp);switch(filter){case 'daily':return d.toDateString()===now.toDateString();case 'weekly':return d>=new Date(now-7*864e5);case 'monthly':return d>=new Date(now-30*864e5);case 'yearly':return d>=new Date(now-365*864e5);default:return true;}});const tally={};filteredSales.forEach(tx=>{(tx.items||[]).forEach(item=>{const key=item.product?.id||item.name;const name=item.product?.name||item.name||'?';const price=item.product?.price||item.price||0;if(!tally[key])tally[key]={name,qty:0,revenue:0};tally[key].qty+=item.quantity;tally[key].revenue+=price*item.quantity;});});const sorted=Object.values(tally).sort((a,b)=>b.qty-a.qty);const tbody=document.getElementById('top-products-body');tbody.innerHTML='';if(sorted.length===0){tbody.innerHTML=`<tr><td colspan="4" style="text-align:center;color:var(--text-muted);padding:30px;">No sales data for this period.</td></tr>`;return;}sorted.forEach((item,idx)=>{const tr=document.createElement('tr');tr.innerHTML=`<td style="font-weight:bold;color:var(--accent-color);">${idx+1}</td><td>${item.name}</td><td style="font-weight:bold;color:var(--success-color);">${item.qty}</td><td style="font-weight:bold;">₱${item.revenue.toFixed(2)}</td>`;tbody.appendChild(tr);});}
 
 /* USERS */
-async function renderUsersTable(){const tbody=document.getElementById('users-table-body');tbody.innerHTML='';try{const{data:users,error}=await db.from('pos_users').select('*').order('created_at');if(error)throw error;(users||[]).forEach(u=>{const isCurrent=currentLoggedInUser&&u.username===currentLoggedInUser.username;const tr=document.createElement('tr');tr.innerHTML=`<td style="font-family:monospace;font-weight:600;">${u.username}</td><td>${u.fullname}</td><td><span style="color:${u.role==='admin'?'var(--accent-color)':'var(--success-color)'};font-weight:bold;">${u.role.toUpperCase()}</span></td><td>${new Date(u.created_at).toLocaleDateString()}</td><td>${isCurrent?'<span style="color:var(--text-muted);font-size:0.8rem;">(current user)</span>':`<button class="btn-table-action btn-inline-delete" onclick="deleteUserAccount('${u.username.replace(/'/g,"\\'")}')">Delete</button>`}</td>`;tbody.appendChild(tr);});}catch(e){tbody.innerHTML=`<tr><td colspan="5" style="color:var(--danger-color);">Error loading users: ${e.message}</td></tr>`;}}
+async function renderUsersTable(){
+    const tbody=document.getElementById('users-table-body');
+    tbody.innerHTML='';
+    try{
+        const{data:users,error}=await db.from('pos_users').select('*').order('created_at');
+        if(error)throw error;
+        (users||[]).forEach(u=>{
+            const isCurrent=currentLoggedInUser&&u.username===currentLoggedInUser.username;
+            const roleColor=getRoleColor(u.role);
+            const roleLabel=getRoleLabel(u.role);
+            const empId=u.emp_id||'—';
+            const roleOptions=Object.entries(ROLE_LABELS).map(([val,label])=>
+                `<option value="${val}" ${u.role===val?'selected':''}>${label}</option>`
+            ).join('');
+            const tr=document.createElement('tr');
+            tr.innerHTML=`
+                <td style="font-family:monospace;font-weight:600;">${u.username}</td>
+                <td>${u.fullname}</td>
+                <td><span style="display:inline-block;background:color-mix(in srgb,${roleColor} 15%,transparent);color:${roleColor};border:1px solid color-mix(in srgb,${roleColor} 35%,transparent);border-radius:99px;padding:3px 10px;font-size:0.78rem;font-weight:700;white-space:nowrap;">${roleLabel}</span></td>
+                <td style="font-family:monospace;color:var(--accent-color);font-weight:700;letter-spacing:0.5px;">${empId}</td>
+                <td>${new Date(u.created_at).toLocaleDateString()}</td>
+                <td>${isCurrent
+                    ?'<span style="color:var(--text-muted);font-size:0.8rem;">(current user)</span>'
+                    :`<div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:center;">
+                        <select onchange="changeUserRole('${u.username.replace(/'/g,"\\'")}',this.value)"
+                            style="padding:4px 8px;background:var(--input-bg-2);border:1px solid var(--border-color);color:var(--text-main);border-radius:4px;font-size:0.78rem;cursor:pointer;">
+                            ${roleOptions}
+                        </select>
+                       <button class="btn-open-emp-id-card" onclick="openEmpIdCardModal('${u.username.replace(/'/g,"\\'")}')" title=" ID Card" style="padding:10px 14px;"><i class="fas fa-id-badge"></i></button>
+                        <button class="btn-table-action btn-inline-delete" onclick="deleteUserAccount('${u.username.replace(/'/g,"\\'")}')" title="Delete Account" aria-label="Delete Account"><i class="fas fa-trash-alt"></i></button>
+                      </div>`
+                }</td>`;
+            tbody.appendChild(tr);
+        });
+    }catch(e){tbody.innerHTML=`<tr><td colspan="6" style="color:var(--danger-color);">Error loading users: ${e.message}</td></tr>`;}
+}
+
+async function openEmpIdCardModal(prefillUsername) {
+    const modal = document.getElementById('emp-id-card-modal');
+    if (!modal) { console.error('emp-id-card-modal not found in DOM'); return; }
+
+    // Show modal first so user sees it open immediately
+    modal.classList.add('active');
+
+    // Reset all fields
+    document.getElementById('empidc-name').value    = '';
+    document.getElementById('empidc-role').value    = 'cashier';
+    document.getElementById('empidc-dept').value    = '';
+    document.getElementById('empidc-contact').value = '';
+    document.getElementById('empidc-empid').value   = '';
+    empIdCardPhotoDataUrl = null;
+    document.getElementById('empidc-photo-preview').style.display     = 'none';
+    document.getElementById('empidc-photo-placeholder').style.display = 'block';
+    document.getElementById('empidc-photo-input').value = '';
+
+    // AWAIT the user list so dropdown is ready before we try to set a value
+    await populateEmpIdCardUserSelect();
+
+    if (prefillUsername) {
+        document.getElementById('empidc-user-select').value = prefillUsername;
+        await empIdCardLoadUser();
+    } else {
+        renderEmpIdCardPreview();
+    }
+}
+
+async function populateEmpIdCardUserSelect() {
+    const sel = document.getElementById('empidc-user-select');
+    if (!sel) return;
+    sel.innerHTML = '<option value="">⏳ Loading...</option>';
+    try {
+        if (!db) throw new Error('DB not ready');
+        const { data: users, error } = await db.from('pos_users').select('*').order('fullname');
+        if (error) throw error;
+        sel.innerHTML = '<option value="">— Choose an employee —</option>';
+        (users || []).forEach(u => {
+            const opt = document.createElement('option');
+            opt.value = u.username;
+            opt.textContent = `${u.fullname} — ${u.emp_id || u.username}`;
+            sel.appendChild(opt);
+        });
+    } catch(e) {
+        sel.innerHTML = '<option value="">— Could not load users —</option>';
+        console.warn('populateEmpIdCardUserSelect error:', e);
+    }
+}
+
+async function empIdCardLoadUser() {
+    const username = document.getElementById('empidc-user-select').value;
+    if (!username) { renderEmpIdCardPreview(); return; }
+    try {
+        const { data: u, error } = await db.from('pos_users').select('*').eq('username', username).single();
+        if (error || !u) { console.warn('User not found:', username); return; }
+
+        document.getElementById('empidc-name').value    = u.fullname || '';
+        document.getElementById('empidc-empid').value   = u.emp_id   || '';
+        document.getElementById('empidc-contact').value = u.username  || '';
+        document.getElementById('empidc-dept').value    = '';          // fill manually
+
+        // Set role dropdown — fallback to cashier if value not in list
+        const roleSelect = document.getElementById('empidc-role');
+        const roleExists = Array.from(roleSelect.options).some(o => o.value === u.role);
+        roleSelect.value = roleExists ? u.role : 'cashier';
+
+        // Photo
+        if (u.emp_photo_base64) {
+            empIdCardPhotoDataUrl = u.emp_photo_base64;
+            const preview = document.getElementById('empidc-photo-preview');
+            preview.src   = u.emp_photo_base64;
+            preview.style.display = 'block';
+            document.getElementById('empidc-photo-placeholder').style.display = 'none';
+        } else {
+            empIdCardPhotoDataUrl = null;
+            document.getElementById('empidc-photo-preview').style.display      = 'none';
+            document.getElementById('empidc-photo-placeholder').style.display  = 'block';
+        }
+        renderEmpIdCardPreview();
+    } catch(e) { console.warn('empIdCardLoadUser error:', e); }
+}
+
+async function changeUserRole(username,newRole){
+    const{error}=await db.from('pos_users').update({role:newRole}).eq('username',username);
+    if(error)return showAlert('Role update failed: '+error.message,'danger');
+    logActivity('admin',`Role changed for "${username}" → ${newRole}`);
+    renderUsersTable();
+    showAlert(`Role updated to <strong>${getRoleLabel(newRole)}</strong>`,'success','Role Updated');
+}
+
 async function deleteUserAccount(username){showConfirm(`Delete user "<strong>${username}</strong>"?`,async()=>{const{error}=await db.from('pos_users').delete().eq('username',username);if(error)return showAlert('Error deleting user: '+error.message,'danger');logActivity('admin',`User deleted: "${username}"`);renderUsersTable();},'danger','Delete User Account');}
-async function exportUsersToCSV(){const{data:users}=await db.from('pos_users').select('*');let csv='Username,Full Name,Role,Created At\n';(users||[]).forEach(u=>{csv+=`"${u.username}","${u.fullname}","${u.role}","${new Date(u.created_at).toLocaleString()}"\n`;});downloadCSV(csv,'Users.csv');}
+async function exportUsersToCSV(){
+    const{data:users}=await db.from('pos_users').select('*');
+    let csv='Employee ID,Username,Full Name,Role,Created At\n';
+    (users||[]).forEach(u=>{
+        csv+=`"${u.emp_id||''}","${u.username}","${u.fullname}","${getRoleLabel(u.role)}","${new Date(u.created_at).toLocaleString()}"\n`;
+    });
+    downloadCSV(csv,'Users.csv');
+    logActivity('admin','Users list exported');
+}
 
 /* CSV RESTORE */
 function parseCSVRow(row){const result=[];let cur='';let inQ=false;for(let i=0;i<row.length;i++){if(row[i]==='"'){inQ=!inQ;}else if(row[i]===','&&!inQ){result.push(cur.trim());cur='';}else{cur+=row[i];}}result.push(cur.trim());return result;}
@@ -1821,7 +2198,7 @@ function buildTelegramReceiptText(s){
 /* SEARCH / KEYBOARD */
 document.getElementById('search-bar').oninput=e=>renderCashierCatalog(e.target.value);
 document.getElementById('search-bar').onkeydown=function(e){if(e.key==='Enter'){const val=e.target.value.trim();const match=systemProducts.find(p=>p.barcode===val);if(match){addItemToRegisterBasket(match.id);e.target.value='';renderCashierCatalog('');}}};
-window.onkeydown=function(e){if(!document.getElementById('app-main').classList.contains('visible'))return;if(e.key==='F1'){e.preventDefault();openCheckoutModal('CASH');}if(e.key==='F2'){e.preventDefault();openCheckoutModal('GCASH');}if(e.key==='F3'){e.preventDefault();openCheckoutModal('CREDIT');}if(e.key==='Escape'){document.getElementById('app-dialog-overlay').classList.remove('show');['admin-modal','checkout-modal','settlement-modal','product-crud-modal'].forEach(closeModal);closeGcashModal();closeAdminGate();closeActivityLogModal();closeThemeDropdown();closeLoyaltyHistory();}};
+window.onkeydown=function(e){if(!document.getElementById('app-main').classList.contains('visible'))return;if(e.key==='F1'){e.preventDefault();openCheckoutModal('CASH');}if(e.key==='F2'){e.preventDefault();openCheckoutModal('GCASH');}if(e.key==='F3'){e.preventDefault();openCheckoutModal('CREDIT');}if(e.key==='Escape'){document.getElementById('app-dialog-overlay').classList.remove('show');['admin-modal','checkout-modal','settlement-modal','product-crud-modal'].forEach(closeModal);closeGcashModal();closeAdminGate();closeActivityLogModal();closeThemeDropdown();closeLoyaltyHistory();closeEmpIdCardModal();}};
 document.getElementById('admin-gate-password').addEventListener('keydown',e=>{if(e.key==='Enter')verifyAdminPassword();});
 document.getElementById('checkout-cash-btn').onclick=()=>openCheckoutModal('CASH');
 document.getElementById('checkout-gcash-sale-btn').onclick=()=>openCheckoutModal('GCASH');
@@ -2714,6 +3091,253 @@ async function deleteAllProductItems() {
         'DELETE ALL PRODUCTS'
     );
 }
+
+/* ════════════════════════════════════════════════════════════
+   EMPLOYEE ID CARD GENERATOR
+════════════════════════════════════════════════════════════ */
+let empIdCardPhotoDataUrl = null;
+
+function openEmpIdCardModal(prefillUsername) {
+    populateEmpIdCardUserSelect();
+    // Reset all fields
+    document.getElementById('empidc-name').value = '';
+    document.getElementById('empidc-role').value = 'cashier';
+    document.getElementById('empidc-dept').value = '';
+    document.getElementById('empidc-contact').value = '';
+    document.getElementById('empidc-empid').value = '';
+    document.getElementById('empidc-user-select').value = '';
+    empIdCardPhotoDataUrl = null;
+    document.getElementById('empidc-photo-preview').style.display = 'none';
+    document.getElementById('empidc-photo-placeholder').style.display = 'block';
+    document.getElementById('empidc-photo-input').value = '';
+    if (prefillUsername) {
+        document.getElementById('empidc-user-select').value = prefillUsername;
+        empIdCardLoadUser();
+    } else {
+        renderEmpIdCardPreview();
+    }
+    document.getElementById('emp-id-card-modal').classList.add('active');
+}
+
+function closeEmpIdCardModal() {
+    document.getElementById('emp-id-card-modal').classList.remove('active');
+}
+
+async function populateEmpIdCardUserSelect() {
+    const sel = document.getElementById('empidc-user-select');
+    sel.innerHTML = '<option value="">— Choose an employee —</option>';
+    try {
+        const { data: users } = await db.from('pos_users').select('*').order('fullname');
+        (users || []).forEach(u => {
+            const opt = document.createElement('option');
+            opt.value = u.username;
+            opt.textContent = `${u.fullname} — ${u.emp_id || u.username}`;
+            sel.appendChild(opt);
+        });
+    } catch(e) { console.warn('Could not load users for EMP card select:', e); }
+}
+
+async function empIdCardLoadUser() {
+    const username = document.getElementById('empidc-user-select').value;
+    if (!username) return;
+    try {
+        const { data: u } = await db.from('pos_users').select('*').eq('username', username).single();
+        if (!u) return;
+        document.getElementById('empidc-name').value    = u.fullname || '';
+        document.getElementById('empidc-role').value   = u.role || 'cashier';
+        document.getElementById('empidc-contact').value = u.username || '';   // email as contact fallback
+        document.getElementById('empidc-empid').value  = u.emp_id || '';
+        document.getElementById('empidc-dept').value   = '';                  // dept not stored, user fills in
+        // Load saved photo if exists
+        if (u.emp_photo_base64) {
+            empIdCardPhotoDataUrl = u.emp_photo_base64;
+            const preview = document.getElementById('empidc-photo-preview');
+            preview.src = u.emp_photo_base64;
+            preview.style.display = 'block';
+            document.getElementById('empidc-photo-placeholder').style.display = 'none';
+        } else {
+            empIdCardPhotoDataUrl = null;
+            document.getElementById('empidc-photo-preview').style.display = 'none';
+            document.getElementById('empidc-photo-placeholder').style.display = 'block';
+        }
+        renderEmpIdCardPreview();
+    } catch(e) { console.warn('empIdCardLoadUser error:', e); }
+}
+
+function empIdCardHandlePhoto(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const img = new Image();
+    const objectUrl = URL.createObjectURL(file);
+    img.onload = () => {
+        const MAX = 200;
+        const canvas = document.createElement('canvas');
+        const ratio = Math.min(MAX / img.width, MAX / img.height, 1);
+        canvas.width  = Math.round(img.width  * ratio);
+        canvas.height = Math.round(img.height * ratio);
+        canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+        empIdCardPhotoDataUrl = canvas.toDataURL('image/jpeg', 0.75);
+        URL.revokeObjectURL(objectUrl);
+        const preview = document.getElementById('empidc-photo-preview');
+        preview.src = empIdCardPhotoDataUrl;
+        preview.style.display = 'block';
+        document.getElementById('empidc-photo-placeholder').style.display = 'none';
+        renderEmpIdCardPreview();
+        // Auto-save photo to DB if a user is selected
+        const username = document.getElementById('empidc-user-select').value;
+        if (username && db) {
+            db.from('pos_users').update({ emp_photo_base64: empIdCardPhotoDataUrl }).eq('username', username)
+              .then(({ error }) => {
+                if (!error) logActivity('admin', `Employee ID card photo saved for "${username}"`);
+              });
+        }
+    };
+    img.src = objectUrl;
+}
+
+function drawEmpBarcode(canvas, text) {
+    const ctx = canvas.getContext('2d');
+    canvas.width = 120; canvas.height = 36;
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    if (!text) return;
+    ctx.fillStyle = '#000';
+    const seed = text.split('').reduce((acc, c) => acc + c.charCodeAt(0), 0);
+    const rng  = (i) => ((seed * 9301 + i * 49297 + 233995) % 233280) / 233280;
+    const barW = 1.5;
+    let x = 4;
+    for (let i = 0; i < 62; i++) {
+        const isBar = rng(i) > 0.44;
+        const w = isBar ? barW * (rng(i + 31) > 0.68 ? 2 : 1) : barW;
+        if (isBar) ctx.fillRect(x, 2, w, 26);
+        x += w + 0.5;
+        if (x > canvas.width - 4) break;
+    }
+}
+
+function renderEmpIdCardPreview() {
+    const name    = document.getElementById('empidc-name').value.trim()    || 'Full Name';
+    const roleKey = document.getElementById('empidc-role').value           || 'cashier';
+    const dept    = document.getElementById('empidc-dept').value.trim()    || 'Department';
+    const contact = document.getElementById('empidc-contact').value.trim() || '—';
+    const empId   = document.getElementById('empidc-empid').value.trim()   || 'EMP-000000';
+    const store   = (storeSettings.storeName || 'STORE').toUpperCase();
+    const roleLabel = typeof getRoleLabel === 'function' ? getRoleLabel(roleKey) : roleKey;
+    const roleColor = typeof getRoleColor === 'function' ? getRoleColor(roleKey) : '#00adb5';
+
+    document.getElementById('empidc-card-storename').innerHTML =
+        `${store}<br><span style="font-size:0.54rem;letter-spacing:3px;opacity:0.65;">EMPLOYEE ID CARD</span>`;
+    document.getElementById('empidc-card-dept').textContent =
+        dept.length > 22 ? dept.substring(0, 22) + '…' : dept;
+    document.getElementById('empidc-card-name').textContent = name;
+
+    const pill = document.getElementById('empidc-card-role-pill');
+    pill.textContent = roleLabel;
+    pill.style.background = `color-mix(in srgb, ${roleColor} 22%, transparent)`;
+    pill.style.color       = roleColor;
+    pill.style.border      = `1px solid color-mix(in srgb, ${roleColor} 40%, transparent)`;
+
+    document.getElementById('empidc-card-contact').textContent = contact;
+    document.getElementById('empidc-card-empno').textContent   = 'ID: ' + empId;
+    document.getElementById('empidc-barcode-label').textContent = empId;
+
+    // Photo
+    const photoBox = document.getElementById('empidc-card-photobox');
+    photoBox.innerHTML = empIdCardPhotoDataUrl
+        ? `<img src="${empIdCardPhotoDataUrl}" alt="Photo">`
+        : '👤';
+
+    // Barcode
+    drawEmpBarcode(document.getElementById('empidc-barcode-canvas'), empId);
+}
+
+function printEmpIdCard() {
+    renderEmpIdCardPreview();
+    const storeName = storeSettings.storeName || 'POS';
+    const barcodeCanvas = document.getElementById('empidc-barcode-canvas');
+    const barcodeImg = barcodeCanvas.toDataURL('image/png');
+    const cardEl     = document.getElementById('emp-id-card-element');
+    const cardClone  = cardEl.cloneNode(true);
+
+    // Replace canvas with img in clone
+    const cloneCanvas = cardClone.querySelector('#empidc-barcode-canvas');
+    if (cloneCanvas) {
+        const img = document.createElement('img');
+        img.src = barcodeImg;
+        img.style.cssText = 'border-radius:3px;background:#fff;padding:2px 4px;width:120px;height:36px;display:block;';
+        cloneCanvas.replaceWith(img);
+    }
+    if (empIdCardPhotoDataUrl) {
+        const pb = cardClone.querySelector('#empidc-card-photobox');
+        if (pb) pb.innerHTML = `<img src="${empIdCardPhotoDataUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:7px;">`;
+    }
+
+    const css = `
+        body{margin:0;padding:0;background:#d8d8d8;display:flex;align-items:center;justify-content:center;min-height:100vh;font-family:'Segoe UI',Tahoma,sans-serif;}
+        .print-wrap{display:flex;flex-direction:column;align-items:center;gap:14px;padding:20px;}
+        .print-label{font-family:Arial,sans-serif;font-size:11px;color:#555;letter-spacing:1px;text-align:center;text-transform:uppercase;}
+        .emp-id-card{width:336px;min-height:200px;border-radius:14px;position:relative;overflow:hidden;
+            background:linear-gradient(135deg,#0d1b2a 0%,#1b263b 50%,#0d1b2a 100%) !important;
+            -webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;
+            color:#fff;padding:18px 18px 14px;display:flex;flex-direction:column;box-shadow:0 8px 32px rgba(0,0,0,0.5);}
+        .emp-id-card-bg-hex{position:absolute;top:-20px;right:-30px;width:170px;height:170px;opacity:0.05;
+            background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='52'%3E%3Cpolygon points='30,2 58,17 58,47 30,62 2,47 2,17' fill='none' stroke='white' stroke-width='1.5'/%3E%3C/svg%3E") repeat;pointer-events:none;}
+        .emp-id-card-stripe{position:absolute;top:0;left:0;width:6px;height:100%;background:linear-gradient(to bottom,#00adb5,#0088cc) !important;border-radius:14px 0 0 14px;}
+        .emp-id-card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;position:relative;z-index:1;padding-left:8px;}
+        .emp-id-card-store-name{font-size:0.62rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#7dd3fc;line-height:1.4;}
+        .emp-id-card-dept-badge{background:#00adb5 !important;color:#000;font-size:0.54rem;font-weight:800;padding:3px 7px;border-radius:3px;letter-spacing:1px;text-transform:uppercase;white-space:nowrap;max-width:130px;overflow:hidden;text-overflow:ellipsis;}
+        .emp-id-card-main{display:flex;align-items:flex-start;gap:12px;margin-bottom:10px;position:relative;z-index:1;padding-left:8px;}
+        .emp-id-card-photo-box{width:70px;height:70px;border-radius:9px;border:2px solid rgba(255,255,255,0.22);background:rgba(255,255,255,0.07);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1.9rem;overflow:hidden;}
+        .emp-id-card-photo-box img{width:100%;height:100%;object-fit:cover;border-radius:7px;}
+        .emp-id-card-info{flex:1;min-width:0;}
+        .emp-id-card-fullname{font-size:1rem;font-weight:800;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+        .emp-id-card-role-pill{display:inline-block;border-radius:99px;padding:2px 9px;font-size:0.6rem;font-weight:800;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:5px;}
+        .emp-id-card-row{font-size:0.67rem;color:rgba(255,255,255,0.70);margin-bottom:3px;display:flex;gap:5px;}
+        .emp-id-card-row-label{font-weight:700;color:rgba(255,255,255,0.36);font-size:0.59rem;flex-shrink:0;}
+        .emp-id-card-bottom{display:flex;align-items:flex-end;justify-content:space-between;position:relative;z-index:1;border-top:1px solid rgba(255,255,255,0.10);padding-top:9px;padding-left:8px;gap:8px;}
+        .emp-id-card-bottom-left{display:flex;flex-direction:column;gap:3px;}
+        .emp-id-card-emp-no{font-size:0.62rem;color:rgba(255,255,255,0.42);font-family:monospace;letter-spacing:0.8px;}
+        .emp-id-card-status-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#4ade80 !important;margin-right:4px;vertical-align:middle;}
+        .emp-id-card-status-label{font-size:0.62rem;color:rgba(255,255,255,0.45);font-weight:700;text-transform:uppercase;letter-spacing:0.5px;}
+        .emp-id-card-barcode-wrap{display:flex;flex-direction:column;align-items:flex-end;gap:2px;}
+        .emp-id-card-barcode-text{font-size:0.55rem;color:rgba(255,255,255,0.32);font-family:monospace;letter-spacing:0.5px;text-align:right;}
+        @media print{*{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;}
+            .emp-id-card{background:linear-gradient(135deg,#0d1b2a 0%,#1b263b 50%,#0d1b2a 100%) !important;}
+            .emp-id-card-stripe{background:linear-gradient(to bottom,#00adb5,#0088cc) !important;}
+            .emp-id-card-dept-badge{background:#00adb5 !important;}
+            .emp-id-card-status-dot{background:#4ade80 !important;}}
+    `;
+
+    const popup = window.open('', '_blank', 'width=520,height=420');
+    if (!popup) { showAlert('Pop-up blocked! Allow pop-ups and try again.','warning','Pop-up Blocked'); return; }
+    popup.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${storeName} — Employee ID Card</title>
+    <style>${css}</style></head><body>
+    <div class="print-wrap">
+        <div class="print-label">${storeName} — Employee ID Card</div>
+        ${cardClone.outerHTML}
+        <div class="print-label">Authorized Personnel Only — ${storeName}</div>
+    </div>
+    <script>window.onload=function(){setTimeout(function(){window.print();window.close();},400);};<\/script>
+    </body></html>`);
+    popup.document.close();
+}
+
+function downloadEmpIdCardImage() {
+    renderEmpIdCardPreview();
+    const card = document.getElementById('emp-id-card-element');
+    const name = document.getElementById('empidc-name').value.trim() || 'employee';
+    if (typeof html2canvas !== 'undefined') {
+        html2canvas(card, { scale: 3, useCORS: true, backgroundColor: null }).then(canvas => {
+            const a = document.createElement('a');
+            a.download = `EmpID_${name.replace(/\s+/g,'_')}.png`;
+            a.href = canvas.toDataURL('image/png');
+            a.click();
+        });
+    } else {
+        showAlert('Use <strong>Print Card</strong> and save as PDF, or right-click the preview and "Save image as".', 'info', 'Download Tip');
+    }
+}
+
 document.addEventListener('contextmenuxx',e=>e.preventDefault());
 </script>
 </body>
