@@ -736,7 +736,7 @@
 <header>
     <div class="logo-area"><h1 id="store-header-name">POS SYSTEM</h1></div>
     <div class="header-actions">
-        <span class="db-status connected" id="db-status-badge">● Connected Online</span>
+       
         <span class="logged-in-badge" id="logged-in-badge">👤 User</span>
         <div class="theme-picker-wrap" id="header-theme-picker">
             <button class="btn-theme-toggle" onclick="toggleThemeDropdown()" id="theme-toggle-btn">
@@ -1189,6 +1189,7 @@
         <div class="activity-log-header">
             <h2>📋 Activity Log</h2>
             <div class="activity-log-actions">
+				<span class="db-status connected" id="db-status-badge">● Connected Online</span>
                 <button class="btn-tg-send" onclick="sendLogToTelegram()">Send to Telegram</button>
                 <button class="btn-csv" onclick="exportActivityLogToCSV()">Export CSV</button>
                 <button onclick="clearActivityLog()" style="background:color-mix(in srgb,var(--danger-color) 10%,var(--panel-bg));color:var(--danger-color);border:1px solid var(--danger-color);padding:8px 12px;border-radius:6px;cursor:pointer;font-size:0.82rem;font-weight:700;">Clear Log</button>
@@ -2185,11 +2186,11 @@ function buildTelegramReceiptText(s){
     if(s.loyaltyCard)text+=`🪪 Loyalty Card: ${s.loyaltyCard}\n`;
     text+=`💳 Method: ${s.method}${modeLabel}\n`;
     if(s.gcashRef)text+=`📱 GCash Ref: ${s.gcashRef}\n`;
-    text+=`${'─'.repeat(28)}\n`;
+    text+=`${'─'.repeat(24)}\n`;
     s.items.forEach(i=>{text+=`${i.name.toUpperCase()}${i.pricingMode==='wholesale'?' [WS]':''}\n  ${i.qty} x ₱${(i.price||0).toFixed(2)} = ₱${(i.qty*(i.price||0)).toFixed(2)}\n`;});
-    text+=`${'─'.repeat(28)}\n`;
+    text+=`${'─'.repeat(24)}\n`;
     if(s.discount&&s.discount>0)text+=`🎁 Pts Redeemed: −₱${s.discount.toFixed(2)}\n`;
-    text+=`Payment: ₱${s.cash.toFixed(2)}\nChange: ₱${s.change.toFixed(2)}\n*TOTAL: ₱${s.total.toFixed(2)}*\n${'─'.repeat(28)}\n`;
+    text+=`Payment: ₱${s.cash.toFixed(2)}\nChange: ₱${s.change.toFixed(2)}\n*TOTAL: ₱${s.total.toFixed(2)}*\n${'─'.repeat(24)}\n`;
     if(s.earnedPts>0)text+=`⭐ +${s.earnedPts} Loyalty Points Earned!\n`;
     text+=`Thanks for your purchase!`;
     return text;
