@@ -3255,6 +3255,30 @@ function downloadEmpIdCardImage() {
     }
 }
 
+async function applyStoreSettings(){
+    await loadStoreSettings();  // ← load fresh from Supabase first
+    const name = storeSettings.storeName || '';
+    const h = document.getElementById('store-header-name');
+    if(h) h.textContent = name;
+    document.title = name || 'POS System';
+    const al = document.getElementById('auth-logo-name');
+    if(al) al.textContent = name || 'POS SYSTEM';
+}
+// In showAuthScreen()
+async function showAuthScreen(){
+    document.getElementById('auth-screen').classList.add('visible');
+    await applyStoreSettings();  // ← add await
+}
+// In launchApp()
+async function launchApp(user){
+    document.getElementById('auth-screen').classList.remove('visible');
+    document.getElementById('app-main').classList.add('visible');
+    document.getElementById('logged-in-badge').textContent=`👤 ${user.fullname} (${user.role})`;
+    await loadStoreSettings();
+    await applyStoreSettings();  // ← now this re-loads + applies in sequence
+    await loadAllData();
+}
+
 document.addEventListener('contextmenuxx',e=>e.preventDefault());
 </script>
 </body>
