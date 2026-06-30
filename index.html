@@ -567,7 +567,6 @@
 .id-card-member-select:focus { outline:1px solid var(--accent-color); }
 .id-card-section-label { font-size:0.72rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.8px; padding-bottom:6px; border-bottom:1px solid var(--border-color); }
 @media(max-width:640px){ .id-card-modal-body{grid-template-columns:1fr;} .id-card-form-panel{border-right:none;border-bottom:1px solid var(--border-color);} .id-card{width:300px;} }
-@media (max-width:600px){.loyalty-reg-grid{grid-template-columns:1fr 1fr;}.loyalty-stats-cards{grid-template-columns:1fr;}}
 
 /* ════ EMPLOYEE ID CARD MODAL ════ */
 #emp-id-card-modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,1);display:none;justify-content:center;align-items:center;z-index:8500;padding:10px;}
@@ -622,6 +621,8 @@
 .btn-dl-emp-card{background:linear-gradient(135deg,#0088cc,#00adb5);color:#fff;border:none;padding:10px 20px;border-radius:7px;font-weight:700;font-size:0.88rem;cursor:pointer;display:inline-flex;align-items:center;gap:6px;}
 .btn-dl-emp-card:hover{opacity:0.88;}
 @media(max-width:640px){.emp-id-card-modal-body{grid-template-columns:1fr;}.emp-idc-form-panel{border-right:none;border-bottom:1px solid var(--border-color);}.emp-id-card{width:300px;}}
+
+@media (max-width:600px){.loyalty-reg-grid{grid-template-columns:1fr 1fr;}.loyalty-stats-cards{grid-template-columns:1fr;}}
 
 @media print {
     body * { display: none !important; }
@@ -680,7 +681,7 @@
 <div id="auth-screen">
     <div class="auth-wrapper">
         <div class="auth-logo">
-            <h1 id="auth-logo-name">SEANSO POS SYSTEM</h1>
+            <h1 id="auth-logo-name">POS SYSTEM</h1>
             <p>Enterprise Point of Sale System</p>
         </div>
         <div class="auth-card">
@@ -706,28 +707,15 @@
           <div class="auth-field">
                     <label>Role / Position</label>
                     <select id="signup-role" class="form-control" style="background:var(--input-bg-2);border:1px solid var(--border-color);color:var(--text-main);border-radius:8px;padding:10px 12px;font-size:0.95rem;width:100%;cursor:pointer;">
-					<!-- Management / Ownership -->
-					<option value="owner">👑 Owner</option>
-					<option value="HR">💼 Human Resource</option>
-					<option value="store_manager">🏪 Store Manager</option>
-					<option value="assistant_store_manager">🥈 Assistant Store Manager</option>
-
-					<!-- Supervisors -->
-					<option value="selling_supervisor_food">🥦 Selling Area Supervisor – Food Dept.</option>
-					<option value="selling_supervisor_nonfood">🛒 Selling Area Supervisor – Non-Food Dept.</option>
-					<option value="wholesale_supervisor">📦 Wholesale Supervisor</option>
-					<option value="warehouse_supervisor">🏭 Warehouse Supervisor</option>
-
-					<!-- Team Leads & Specialized Staff -->
-					<option value="selling_team_leader">👥 Selling Area Team Leader</option>
-					<option value="Merchandiser">🏷️ Merchandiser</option>
-					<option value="Staff">📝 Staff</option>
-
-					<!-- Frontline & Operations -->
-					<option value="cashier" selected>💳 Cashier</option>
-					<option value="warehouseman">📦 Warehouseman</option>
-					<option value="Utility">🧹 Utility</option>
-						
+                        <option value="owner">👑 Owner</option>
+                        <option value="store_manager">🏪 Store Manager</option>
+                        <option value="assistant_store_manager">🏪 Assistant Store Manager</option>
+                        <option value="selling_supervisor_food">🥦 Selling Area Supervisor – Food Dept.</option>
+                        <option value="selling_supervisor_nonfood">🛒 Selling Area Supervisor – Non-Food Dept.</option>
+                        <option value="wholesale_supervisor">📦 Wholesale Supervisor</option>
+                        <option value="selling_team_leader">🎯 Selling Area Team Leader</option>
+                        <option value="cashier" selected>💳 Cashier</option>
+                        <option value="warehouse_supervisor">🏭 Warehouse Supervisor</option>
                     </select>
                 </div>
                 <div class="auth-field">
@@ -749,7 +737,7 @@
 <header>
     <div class="logo-area"><h1 id="store-header-name">POS SYSTEM</h1></div>
     <div class="header-actions">
-       
+      
         <span class="logged-in-badge" id="logged-in-badge">👤 User</span>
         <div class="theme-picker-wrap" id="header-theme-picker">
             <button class="btn-theme-toggle" onclick="toggleThemeDropdown()" id="theme-toggle-btn">
@@ -1091,7 +1079,7 @@
             <div class="tab-panel" id="admin-tab-users">
                 <div class="report-controls">
                     <span style="color:var(--accent-color);font-weight:bold;">Registered Users</span>
-                    <button class="btn-open-emp-id-card" onclick="openEmpIdCardModal()" style="font-size:.9em;padding:12px;">🪪 Generate Employee ID Card</button>
+                    <button class="btn-open-emp-id-card" onclick="openEmpIdCardModal()" style="font-size:0.82rem;">🪪 Generate Employee ID Card</button>
                     <button class="btn-csv btn-danger" style="margin-left:auto;" onclick="exportUsersToCSV()">Export Users (CSV)</button>
                 </div>
                 <div style="background:color-mix(in srgb, var(--gcash-color) 10%, var(--panel-bg));border:1px solid color-mix(in srgb, var(--gcash-color) 30%, transparent);border-radius:8px;padding:14px;margin-bottom:16px;font-size:0.85rem;color:#60a5fa;">
@@ -1101,7 +1089,8 @@
                         <input type="password" id="new-admin-pw-2" class="form-control" style="max-width:200px;font-size:0.9rem;" placeholder="Confirm new password">
                         <button class="btn-csv" onclick="changeAdminPassword()">Update Password</button>
                         <button style="background:color-mix(in srgb, var(--gcash-color) 10%, var(--panel-bg));color:#60a5fa;border:1px solid color-mix(in srgb, var(--gcash-color) 30%, transparent);padding:8px 16px;border-radius:4px;cursor:pointer;font-size:0.85rem;font-weight:bold;" onclick="openActivityLogModal()">Activity Log</button>
-                    </div>
+						<span class="db-status connected" id="db-status-badge">● Connected Online</span>
+					</div>
                     <div id="admin-pw-change-msg" style="margin-top:8px;font-size:0.82rem;"></div>
                 </div>
                 <div class="users-table-wrapper">
@@ -1202,7 +1191,6 @@
         <div class="activity-log-header">
             <h2>📋 Activity Log</h2>
             <div class="activity-log-actions">
-				<span class="db-status connected" id="db-status-badge">● Connected Online</span>
                 <button class="btn-tg-send" onclick="sendLogToTelegram()">Send to Telegram</button>
                 <button class="btn-csv" onclick="exportActivityLogToCSV()">Export CSV</button>
                 <button onclick="clearActivityLog()" style="background:color-mix(in srgb,var(--danger-color) 10%,var(--panel-bg));color:var(--danger-color);border:1px solid var(--danger-color);padding:8px 12px;border-radius:6px;cursor:pointer;font-size:0.82rem;font-weight:700;">Clear Log</button>
@@ -1488,7 +1476,6 @@
     </div>
   </div>
 </div>
-
 <!-- EMPLOYEE ID CARD GENERATOR MODAL -->
 <div id="emp-id-card-modal">
   <div class="emp-id-card-modal-box">
@@ -1694,7 +1681,31 @@ let storeSettings={};
 async function loadStoreSettings(){try{const{data,error}=await db.from('pos_settings').select('*');if(error)throw error;storeSettings={};(data||[]).forEach(row=>storeSettings[row.key]=row.value);}catch(e){try{storeSettings=JSON.parse(localStorage.getItem('pos_store_settings')||'{}');}catch{storeSettings={};}}}
 async function saveStoreSettingsToDB(obj){const rows=Object.entries(obj).map(([key,value])=>({key,value:String(value)}));try{for(const row of rows){await db.from('pos_settings').upsert(row,{onConflict:'key'});}storeSettings={...storeSettings,...obj};}catch(e){localStorage.setItem('pos_store_settings',JSON.stringify(obj));}}
 function getStoreName(){return storeSettings.storeName||'';}
-function applyStoreSettings(){const name=storeSettings.storeName||'';const h=document.getElementById('store-header-name');if(h)h.textContent=name;document.title=name||'POS System';const al=document.getElementById('auth-logo-name');if(al)al.textContent=name||'POS SYSTEM';}
+async function applyStoreSettings(){
+    await loadStoreSettings();  // ← load fresh from Supabase first
+    const name = storeSettings.storeName || '';
+    const h = document.getElementById('store-header-name');
+    if(h) h.textContent = name;
+    document.title = name || 'POS System';
+    const al = document.getElementById('auth-logo-name');
+    if(al) al.textContent = name || 'POS SYSTEM';
+}
+
+// In showAuthScreen()
+async function showAuthScreen(){
+    document.getElementById('auth-screen').classList.add('visible');
+    await applyStoreSettings();  // ← add await
+}
+// In launchApp()
+async function launchApp(user){
+    document.getElementById('auth-screen').classList.remove('visible');
+    document.getElementById('app-main').classList.add('visible');
+    document.getElementById('logged-in-badge').textContent=`👤 ${user.fullname} (${user.role})`;
+    await loadStoreSettings();
+    await applyStoreSettings();  // ← now this re-loads + applies in sequence
+    await loadAllData();
+}
+
 function renderSettingsTab(){document.getElementById('settings-store-name').value=storeSettings.storeName||'';document.getElementById('settings-address1').value=storeSettings.address1||'';document.getElementById('settings-address2').value=storeSettings.address2||'';document.getElementById('settings-phone').value=storeSettings.phone||'';document.getElementById('settings-sb-url').value=localStorage.getItem(SB_URL_KEY)||'';document.getElementById('settings-sb-key').value=localStorage.getItem(SB_KEY_KEY)||'';renderSettingsThemeGrid();updateReceiptPreview();}
 function updateReceiptPreview(){const name=document.getElementById('settings-store-name')?.value.trim()||getStoreName();const addr1=document.getElementById('settings-address1')?.value.trim()||'';const addr2=document.getElementById('settings-address2')?.value.trim()||'';const phone=document.getElementById('settings-phone')?.value.trim()||'';const el=document.getElementById('settings-receipt-preview');if(!el)return;el.innerHTML=`<div style="font-weight:bold;font-size:0.95rem;">${name}</div>`+(addr1?`<div>${addr1}</div>`:'')+`${addr2?`<div>${addr2}</div>`:''}`+(phone?`<div>Mobile Number: ${phone}</div>`:'')+`<div style="color:var(--text-muted);margin-top:10px;font-size:0.75rem;">- - - - - - - - - - - - - - - - - -</div>`;const headerEl=document.getElementById('store-header-name');if(headerEl&&name){headerEl.textContent=name;document.title=name;}}
 async function saveSettingsTab(){const obj={storeName:document.getElementById('settings-store-name').value.trim()||'',address1:document.getElementById('settings-address1').value.trim(),address2:document.getElementById('settings-address2').value.trim(),phone:document.getElementById('settings-phone').value.trim()};await saveStoreSettingsToDB(obj);applyStoreSettings();logActivity('admin',`Store settings updated: "${obj.storeName}"`);showAlert('Store settings saved!','success','Settings Saved');updateReceiptPreview();}
@@ -1756,7 +1767,6 @@ function getRoleLabel(role){return ROLE_LABELS[role]||role.toUpperCase();}
 function getRoleColor(role){return ROLE_COLORS[role]||'var(--text-muted)';}
 
 async function handleSignUp(){
-	const { error } = await db.from('pos_users').insert({ username, fullname, password_hash: simpleHash(password), role: finalRole, emp_id });
     const adminPw=document.getElementById('signup-admin-pw').value;
     const fullname=document.getElementById('signup-fullname').value.trim();
     const username=document.getElementById('signup-username').value.trim();
@@ -2061,96 +2071,13 @@ async function renderUsersTable(){
                             style="padding:4px 8px;background:var(--input-bg-2);border:1px solid var(--border-color);color:var(--text-main);border-radius:4px;font-size:0.78rem;cursor:pointer;">
                             ${roleOptions}
                         </select>
-                       <button class="btn-open-emp-id-card" onclick="openEmpIdCardModal('${u.username.replace(/'/g,"\\'")}')" title=" ID Card" style="padding:10px 14px;"><i class="fas fa-id-badge"></i></button>
-                        <button class="btn-table-action btn-inline-delete" onclick="deleteUserAccount('${u.username.replace(/'/g,"\\'")}')" title="Delete Account" aria-label="Delete Account"><i class="fas fa-trash-alt"></i></button>
-                      </div>`
+                        <button class="btn-open-emp-id-card" onclick="openEmpIdCardModal('${u.username.replace(/'/g,"\\'")}')" title="Generate ID Card" style="padding:5px 8px;"><i class="fas fa-id-badge"></i></button>
+                        <button class="btn-table-action btn-inline-delete" onclick="deleteUserAccount('${u.username.replace(/'/g,"\\'")}')">Delete</button>
+						</div>`
                 }</td>`;
             tbody.appendChild(tr);
         });
     }catch(e){tbody.innerHTML=`<tr><td colspan="6" style="color:var(--danger-color);">Error loading users: ${e.message}</td></tr>`;}
-}
-
-async function openEmpIdCardModal(prefillUsername) {
-    const modal = document.getElementById('emp-id-card-modal');
-    if (!modal) { console.error('emp-id-card-modal not found in DOM'); return; }
-
-    // Show modal first so user sees it open immediately
-    modal.classList.add('active');
-
-    // Reset all fields
-    document.getElementById('empidc-name').value    = '';
-    document.getElementById('empidc-role').value    = 'cashier';
-    document.getElementById('empidc-dept').value    = '';
-    document.getElementById('empidc-contact').value = '';
-    document.getElementById('empidc-empid').value   = '';
-    empIdCardPhotoDataUrl = null;
-    document.getElementById('empidc-photo-preview').style.display     = 'none';
-    document.getElementById('empidc-photo-placeholder').style.display = 'block';
-    document.getElementById('empidc-photo-input').value = '';
-
-    // AWAIT the user list so dropdown is ready before we try to set a value
-    await populateEmpIdCardUserSelect();
-
-    if (prefillUsername) {
-        document.getElementById('empidc-user-select').value = prefillUsername;
-        await empIdCardLoadUser();
-    } else {
-        renderEmpIdCardPreview();
-    }
-}
-
-async function populateEmpIdCardUserSelect() {
-    const sel = document.getElementById('empidc-user-select');
-    if (!sel) return;
-    sel.innerHTML = '<option value="">⏳ Loading...</option>';
-    try {
-        if (!db) throw new Error('DB not ready');
-        const { data: users, error } = await db.from('pos_users').select('*').order('fullname');
-        if (error) throw error;
-        sel.innerHTML = '<option value="">— Choose an employee —</option>';
-        (users || []).forEach(u => {
-            const opt = document.createElement('option');
-            opt.value = u.username;
-            opt.textContent = `${u.fullname} — ${u.emp_id || u.username}`;
-            sel.appendChild(opt);
-        });
-    } catch(e) {
-        sel.innerHTML = '<option value="">— Could not load users —</option>';
-        console.warn('populateEmpIdCardUserSelect error:', e);
-    }
-}
-
-async function empIdCardLoadUser() {
-    const username = document.getElementById('empidc-user-select').value;
-    if (!username) { renderEmpIdCardPreview(); return; }
-    try {
-        const { data: u, error } = await db.from('pos_users').select('*').eq('username', username).single();
-        if (error || !u) { console.warn('User not found:', username); return; }
-
-        document.getElementById('empidc-name').value    = u.fullname || '';
-        document.getElementById('empidc-empid').value   = u.emp_id   || '';
-        document.getElementById('empidc-contact').value = u.username  || '';
-        document.getElementById('empidc-dept').value    = '';          // fill manually
-
-        // Set role dropdown — fallback to cashier if value not in list
-        const roleSelect = document.getElementById('empidc-role');
-        const roleExists = Array.from(roleSelect.options).some(o => o.value === u.role);
-        roleSelect.value = roleExists ? u.role : 'cashier';
-
-        // Photo
-        if (u.emp_photo_base64) {
-            empIdCardPhotoDataUrl = u.emp_photo_base64;
-            const preview = document.getElementById('empidc-photo-preview');
-            preview.src   = u.emp_photo_base64;
-            preview.style.display = 'block';
-            document.getElementById('empidc-photo-placeholder').style.display = 'none';
-        } else {
-            empIdCardPhotoDataUrl = null;
-            document.getElementById('empidc-photo-preview').style.display      = 'none';
-            document.getElementById('empidc-photo-placeholder').style.display  = 'block';
-        }
-        renderEmpIdCardPreview();
-    } catch(e) { console.warn('empIdCardLoadUser error:', e); }
 }
 
 async function changeUserRole(username,newRole){
@@ -2200,11 +2127,11 @@ function buildTelegramReceiptText(s){
     if(s.loyaltyCard)text+=`🪪 Loyalty Card: ${s.loyaltyCard}\n`;
     text+=`💳 Method: ${s.method}${modeLabel}\n`;
     if(s.gcashRef)text+=`📱 GCash Ref: ${s.gcashRef}\n`;
-    text+=`${'─'.repeat(24)}\n`;
+    text+=`${'─'.repeat(28)}\n`;
     s.items.forEach(i=>{text+=`${i.name.toUpperCase()}${i.pricingMode==='wholesale'?' [WS]':''}\n  ${i.qty} x ₱${(i.price||0).toFixed(2)} = ₱${(i.qty*(i.price||0)).toFixed(2)}\n`;});
-    text+=`${'─'.repeat(24)}\n`;
+    text+=`${'─'.repeat(28)}\n`;
     if(s.discount&&s.discount>0)text+=`🎁 Pts Redeemed: −₱${s.discount.toFixed(2)}\n`;
-    text+=`Payment: ₱${s.cash.toFixed(2)}\nChange: ₱${s.change.toFixed(2)}\n*TOTAL: ₱${s.total.toFixed(2)}*\n${'─'.repeat(24)}\n`;
+    text+=`Payment: ₱${s.cash.toFixed(2)}\nChange: ₱${s.change.toFixed(2)}\n*TOTAL: ₱${s.total.toFixed(2)}*\n${'─'.repeat(28)}\n`;
     if(s.earnedPts>0)text+=`⭐ +${s.earnedPts} Loyalty Points Earned!\n`;
     text+=`Thanks for your purchase!`;
     return text;
@@ -2213,7 +2140,7 @@ function buildTelegramReceiptText(s){
 /* SEARCH / KEYBOARD */
 document.getElementById('search-bar').oninput=e=>renderCashierCatalog(e.target.value);
 document.getElementById('search-bar').onkeydown=function(e){if(e.key==='Enter'){const val=e.target.value.trim();const match=systemProducts.find(p=>p.barcode===val);if(match){addItemToRegisterBasket(match.id);e.target.value='';renderCashierCatalog('');}}};
-window.onkeydown=function(e){if(!document.getElementById('app-main').classList.contains('visible'))return;if(e.key==='F1'){e.preventDefault();openCheckoutModal('CASH');}if(e.key==='F2'){e.preventDefault();openCheckoutModal('GCASH');}if(e.key==='F3'){e.preventDefault();openCheckoutModal('CREDIT');}if(e.key==='Escape'){document.getElementById('app-dialog-overlay').classList.remove('show');['admin-modal','checkout-modal','settlement-modal','product-crud-modal'].forEach(closeModal);closeGcashModal();closeAdminGate();closeActivityLogModal();closeThemeDropdown();closeLoyaltyHistory();closeEmpIdCardModal();}};
+window.onkeydown=function(e){if(!document.getElementById('app-main').classList.contains('visible'))return;if(e.key==='F1'){e.preventDefault();openCheckoutModal('CASH');}if(e.key==='F2'){e.preventDefault();openCheckoutModal('GCASH');}if(e.key==='F3'){e.preventDefault();openCheckoutModal('CREDIT');}if(e.key==='Escape'){document.getElementById('app-dialog-overlay').classList.remove('show');['admin-modal','checkout-modal','settlement-modal','product-crud-modal'].forEach(closeModal);closeGcashModal();closeAdminGate();closeActivityLogModal();closeThemeDropdown();closeLoyaltyHistory();}};
 document.getElementById('admin-gate-password').addEventListener('keydown',e=>{if(e.key==='Enter')verifyAdminPassword();});
 document.getElementById('checkout-cash-btn').onclick=()=>openCheckoutModal('CASH');
 document.getElementById('checkout-gcash-sale-btn').onclick=()=>openCheckoutModal('GCASH');
@@ -2777,26 +2704,28 @@ function discardHeldTransaction(idx) {
 ════════════════════════════════════════════════════════════ */
 let idCardPhotoDataUrl = null;
 
-function openIdCardModal(prefillMemberId) {
-    populateIdCardMemberSelect();
-    // Reset fields
-    document.getElementById('idc-name').value = '';
-    document.getElementById('idc-address').value = '';
-    document.getElementById('idc-contact').value = '';
-    document.getElementById('idc-cardno').value = '';
-    document.getElementById('idc-points').value = '';
-    document.getElementById('idc-member-select').value = '';
-    idCardPhotoDataUrl = null;
-    document.getElementById('idc-photo-preview').style.display = 'none';
-    document.getElementById('idc-photo-placeholder').style.display = 'block';
-    document.getElementById('idc-photo-input').value = '';
-    if (prefillMemberId) {
-        document.getElementById('idc-member-select').value = prefillMemberId;
-        idCardLoadMember();
+async function openEmpIdCardModal(prefillUsername) {
+    await populateEmpIdCardUserSelect();  // ← add await here
+    
+    // Reset all fields
+    document.getElementById('empidc-name').value = '';
+    document.getElementById('empidc-role').value = 'cashier';
+    document.getElementById('empidc-dept').value = '';
+    document.getElementById('empidc-contact').value = '';
+    document.getElementById('empidc-empid').value = '';
+    document.getElementById('empidc-user-select').value = '';
+    empIdCardPhotoDataUrl = null;
+    document.getElementById('empidc-photo-preview').style.display = 'none';
+    document.getElementById('empidc-photo-placeholder').style.display = 'block';
+    document.getElementById('empidc-photo-input').value = '';
+    
+    if (prefillUsername) {
+        document.getElementById('empidc-user-select').value = prefillUsername;
+        await empIdCardLoadUser();  // ← add await here too
     } else {
-        renderIdCardPreview();
+        renderEmpIdCardPreview();
     }
-    document.getElementById('id-card-modal').classList.add('active');
+    document.getElementById('emp-id-card-modal').classList.add('active');
 }
 
 function closeIdCardModal() {
@@ -3112,7 +3041,7 @@ async function deleteAllProductItems() {
 ════════════════════════════════════════════════════════════ */
 let empIdCardPhotoDataUrl = null;
 
-async function openEmpIdCardModal(prefillUsername) { 
+function openEmpIdCardModal(prefillUsername) {
     populateEmpIdCardUserSelect();
     // Reset all fields
     document.getElementById('empidc-name').value = '';
@@ -3179,7 +3108,7 @@ async function empIdCardLoadUser() {
     } catch(e) { console.warn('empIdCardLoadUser error:', e); }
 }
 
-async function empIdCardHandlePhoto(event) {
+function empIdCardHandlePhoto(event) {
     const file = event.target.files[0];
     if (!file) return;
     const img = new Image();
