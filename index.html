@@ -681,7 +681,7 @@
 <div id="auth-screen">
     <div class="auth-wrapper">
         <div class="auth-logo">
-            <h1 id="auth-logo-name">POS SYSTEM</h1>
+            <h1 id="auth-logo-name">SEANSO POS SYSTEM</h1>
             <p>Enterprise Point of Sale System</p>
         </div>
         <div class="auth-card">
@@ -737,7 +737,7 @@
 <header>
     <div class="logo-area"><h1 id="store-header-name">POS SYSTEM</h1></div>
     <div class="header-actions">
-      
+        <span class="db-status connected" id="db-status-badge">● Connected Online</span>
         <span class="logged-in-badge" id="logged-in-badge">👤 User</span>
         <div class="theme-picker-wrap" id="header-theme-picker">
             <button class="btn-theme-toggle" onclick="toggleThemeDropdown()" id="theme-toggle-btn">
@@ -1089,8 +1089,7 @@
                         <input type="password" id="new-admin-pw-2" class="form-control" style="max-width:200px;font-size:0.9rem;" placeholder="Confirm new password">
                         <button class="btn-csv" onclick="changeAdminPassword()">Update Password</button>
                         <button style="background:color-mix(in srgb, var(--gcash-color) 10%, var(--panel-bg));color:#60a5fa;border:1px solid color-mix(in srgb, var(--gcash-color) 30%, transparent);padding:8px 16px;border-radius:4px;cursor:pointer;font-size:0.85rem;font-weight:bold;" onclick="openActivityLogModal()">Activity Log</button>
-						<span class="db-status connected" id="db-status-badge">● Connected Online</span>
-					</div>
+                    </div>
                     <div id="admin-pw-change-msg" style="margin-top:8px;font-size:0.82rem;"></div>
                 </div>
                 <div class="users-table-wrapper">
@@ -1681,31 +1680,7 @@ let storeSettings={};
 async function loadStoreSettings(){try{const{data,error}=await db.from('pos_settings').select('*');if(error)throw error;storeSettings={};(data||[]).forEach(row=>storeSettings[row.key]=row.value);}catch(e){try{storeSettings=JSON.parse(localStorage.getItem('pos_store_settings')||'{}');}catch{storeSettings={};}}}
 async function saveStoreSettingsToDB(obj){const rows=Object.entries(obj).map(([key,value])=>({key,value:String(value)}));try{for(const row of rows){await db.from('pos_settings').upsert(row,{onConflict:'key'});}storeSettings={...storeSettings,...obj};}catch(e){localStorage.setItem('pos_store_settings',JSON.stringify(obj));}}
 function getStoreName(){return storeSettings.storeName||'';}
-async function applyStoreSettings(){
-    await loadStoreSettings();  // ← load fresh from Supabase first
-    const name = storeSettings.storeName || '';
-    const h = document.getElementById('store-header-name');
-    if(h) h.textContent = name;
-    document.title = name || 'POS System';
-    const al = document.getElementById('auth-logo-name');
-    if(al) al.textContent = name || 'POS SYSTEM';
-}
-
-// In showAuthScreen()
-async function showAuthScreen(){
-    document.getElementById('auth-screen').classList.add('visible');
-    await applyStoreSettings();  // ← add await
-}
-// In launchApp()
-async function launchApp(user){
-    document.getElementById('auth-screen').classList.remove('visible');
-    document.getElementById('app-main').classList.add('visible');
-    document.getElementById('logged-in-badge').textContent=`👤 ${user.fullname} (${user.role})`;
-    await loadStoreSettings();
-    await applyStoreSettings();  // ← now this re-loads + applies in sequence
-    await loadAllData();
-}
-
+function applyStoreSettings(){const name=storeSettings.storeName||'';const h=document.getElementById('store-header-name');if(h)h.textContent=name;document.title=name||'POS System';const al=document.getElementById('auth-logo-name');if(al)al.textContent=name||'POS SYSTEM';}
 function renderSettingsTab(){document.getElementById('settings-store-name').value=storeSettings.storeName||'';document.getElementById('settings-address1').value=storeSettings.address1||'';document.getElementById('settings-address2').value=storeSettings.address2||'';document.getElementById('settings-phone').value=storeSettings.phone||'';document.getElementById('settings-sb-url').value=localStorage.getItem(SB_URL_KEY)||'';document.getElementById('settings-sb-key').value=localStorage.getItem(SB_KEY_KEY)||'';renderSettingsThemeGrid();updateReceiptPreview();}
 function updateReceiptPreview(){const name=document.getElementById('settings-store-name')?.value.trim()||getStoreName();const addr1=document.getElementById('settings-address1')?.value.trim()||'';const addr2=document.getElementById('settings-address2')?.value.trim()||'';const phone=document.getElementById('settings-phone')?.value.trim()||'';const el=document.getElementById('settings-receipt-preview');if(!el)return;el.innerHTML=`<div style="font-weight:bold;font-size:0.95rem;">${name}</div>`+(addr1?`<div>${addr1}</div>`:'')+`${addr2?`<div>${addr2}</div>`:''}`+(phone?`<div>Mobile Number: ${phone}</div>`:'')+`<div style="color:var(--text-muted);margin-top:10px;font-size:0.75rem;">- - - - - - - - - - - - - - - - - -</div>`;const headerEl=document.getElementById('store-header-name');if(headerEl&&name){headerEl.textContent=name;document.title=name;}}
 async function saveSettingsTab(){const obj={storeName:document.getElementById('settings-store-name').value.trim()||'',address1:document.getElementById('settings-address1').value.trim(),address2:document.getElementById('settings-address2').value.trim(),phone:document.getElementById('settings-phone').value.trim()};await saveStoreSettingsToDB(obj);applyStoreSettings();logActivity('admin',`Store settings updated: "${obj.storeName}"`);showAlert('Store settings saved!','success','Settings Saved');updateReceiptPreview();}
@@ -2704,28 +2679,26 @@ function discardHeldTransaction(idx) {
 ════════════════════════════════════════════════════════════ */
 let idCardPhotoDataUrl = null;
 
-async function openEmpIdCardModal(prefillUsername) {
-    await populateEmpIdCardUserSelect();  // ← add await here
-    
-    // Reset all fields
-    document.getElementById('empidc-name').value = '';
-    document.getElementById('empidc-role').value = 'cashier';
-    document.getElementById('empidc-dept').value = '';
-    document.getElementById('empidc-contact').value = '';
-    document.getElementById('empidc-empid').value = '';
-    document.getElementById('empidc-user-select').value = '';
-    empIdCardPhotoDataUrl = null;
-    document.getElementById('empidc-photo-preview').style.display = 'none';
-    document.getElementById('empidc-photo-placeholder').style.display = 'block';
-    document.getElementById('empidc-photo-input').value = '';
-    
-    if (prefillUsername) {
-        document.getElementById('empidc-user-select').value = prefillUsername;
-        await empIdCardLoadUser();  // ← add await here too
+function openIdCardModal(prefillMemberId) {
+    populateIdCardMemberSelect();
+    // Reset fields
+    document.getElementById('idc-name').value = '';
+    document.getElementById('idc-address').value = '';
+    document.getElementById('idc-contact').value = '';
+    document.getElementById('idc-cardno').value = '';
+    document.getElementById('idc-points').value = '';
+    document.getElementById('idc-member-select').value = '';
+    idCardPhotoDataUrl = null;
+    document.getElementById('idc-photo-preview').style.display = 'none';
+    document.getElementById('idc-photo-placeholder').style.display = 'block';
+    document.getElementById('idc-photo-input').value = '';
+    if (prefillMemberId) {
+        document.getElementById('idc-member-select').value = prefillMemberId;
+        idCardLoadMember();
     } else {
-        renderEmpIdCardPreview();
+        renderIdCardPreview();
     }
-    document.getElementById('emp-id-card-modal').classList.add('active');
+    document.getElementById('id-card-modal').classList.add('active');
 }
 
 function closeIdCardModal() {
