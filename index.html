@@ -2043,22 +2043,36 @@ async function renderUsersTable(){
                 <td style="font-family:monospace;color:var(--accent-color);font-weight:700;letter-spacing:0.5px;">${empId}</td>
                 <td>${new Date(u.created_at).toLocaleDateString()}</td>
                 <td>${isCurrent
-                    ?'<span style="color:var(--text-muted);font-size:0.8rem;">(Active)</span>'
-                    :`<div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:center;">
-                        <select onchange="changeUserRole('${u.username.replace(/'/g,"\\'")}',this.value)"
-                            style="padding:4px 8px;width:5px; background:var(--input-bg-2);border:1px solid var(--border-color);color:var(--text-main);border-radius:4px;font-size:0.78rem;cursor:pointer;">
-                            ${roleOptions}
-                        </select>
-                       <button class="btn-table-action btn-inline-delete" onclick="deleteUserAccount('${u.username.replace(/'/g,"\\'")}')" title="Delete Account">
-							<i class="fa-solid fa-trash-can"></i>
-						</button>
-					   </div>`
+					? '<span style="color:var(--text-muted);font-size:0.8rem;">&nbsp;&nbsp;(Current Active)</span>'
+        : `
+        <div style="display:flex;align-items:center;justify-content:center;gap:8px;white-space:nowrap;">
+            <select
+                onchange="changeUserRole('${u.username.replace(/'/g,"\\'")}',this.value)"
+                style="padding:4px 8px; width:30px;background:var(--input-bg-2);border:1px solid var(--border-color);color:var(--text-main);border-radius:4px;font-size:0.78rem;cursor:pointer;flex:0 0 auto;">
+                ${roleOptions}
+            </select>
+
+            <button
+                class="btn-open-emp-id-card"
+                title="Generate Employee ID Card"
+                onclick="openEmpIdCardModal('${u.username.replace(/'/g,"\\'")}')"
+                style="padding:7px 10px;flex:0 0 auto;">
+                <i class="fas fa-id-badge"></i>
+            </button>
+
+            <button
+                class="btn-table-action btn-inline-delete"
+                onclick="deleteUserAccount('${u.username.replace(/'/g,"\\'")}')"
+                title="Delete Account"
+                style="flex:0 0 auto;">
+                <i class="fa-solid fa-trash-can"></i>
+            </button>
+        </div>`
                 }</td>`;
             tbody.appendChild(tr);
         });
     }catch(e){tbody.innerHTML=`<tr><td colspan="6" style="color:var(--danger-color);">Error loading users: ${e.message}</td></tr>`;}
 }
-
 async function changeUserRole(username,newRole){
     const{error}=await db.from('pos_users').update({role:newRole}).eq('username',username);
     if(error)return showAlert('Role update failed: '+error.message,'danger');
@@ -2987,7 +3001,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!usernameTd) return;
             const username = usernameTd.textContent.trim();
             if (!username) return;
-            const btn = document.createElement('button');
+			const btn = document.createElement('button');
             btn.className = 'btn-open-emp-id-card';
             btn.innerHTML = '<i class="fas fa-id-badge"></i>';
             btn.title = 'Generate Employee ID Card';
