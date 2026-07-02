@@ -2046,11 +2046,7 @@ async function renderUsersTable(){
 					? '<span style="color:var(--text-muted);font-size:0.8rem;">&nbsp;&nbsp;(Current Active)</span>'
         : `
         <div style="display:flex;align-items:center;justify-content:center;gap:8px;white-space:nowrap;">
-            <select
-                onchange="changeUserRole('${u.username.replace(/'/g,"\\'")}',this.value)"
-                style="padding:4px 8px; width:30px;background:var(--input-bg-2);border:1px solid var(--border-color);color:var(--text-main);border-radius:4px;font-size:0.78rem;cursor:pointer;flex:0 0 auto;">
-                ${roleOptions}
-            </select>
+
 
             <button
                 class="btn-open-emp-id-card"
@@ -2067,6 +2063,12 @@ async function renderUsersTable(){
                 style="flex:0 0 auto;">
                 <i class="fa-solid fa-trash-can"></i>
             </button>
+			
+			            <select
+                onchange="changeUserRole('${u.username.replace(/'/g,"\\'")}',this.value)"
+                style="padding:4px 8px; width:30px;background:var(--input-bg-2);border:1px solid var(--border-color);color:var(--text-main);border-radius:4px;font-size:0.78rem;cursor:pointer;flex:0 0 auto;">
+                ${roleOptions}
+            </select>
         </div>`
                 }</td>`;
             tbody.appendChild(tr);
@@ -3109,7 +3111,7 @@ function empIdCardLoadUser() {
 
     if (nameEl)    nameEl.value    = u.fullname || '';
     if (roleEl)    roleEl.value    = u.role || 'cashier';
-    if (contactEl) contactEl.value = u.username || '';
+    if (contactEl) contactEl.value = u.emp_contact || u.username || '';
     if (empidEl)   empidEl.value   = u.emp_id || '';
     if (deptEl)    deptEl.value    = u.emp_dept || '';
 
@@ -3339,15 +3341,17 @@ async function saveEmpIdCardDetails(){
     const dept = document.getElementById('empidc-dept').value.trim();
     const role = document.getElementById('empidc-role').value;
     const empId = document.getElementById('empidc-empid').value.trim();
+    const contact = document.getElementById('empidc-contact').value.trim();
     try{
         const{error}=await db.from('pos_users').update({
             emp_dept: dept,
             role: role,
-            emp_id: empId || null
+            emp_id: empId || null,
+            emp_contact: contact || null
         }).eq('username', username);
 		if(error) throw error;
         const cachedUser = empUsersCache.find(x => x.username === username);
-        if (cachedUser) { cachedUser.emp_dept = dept; cachedUser.role = role; cachedUser.emp_id = empId || null; }
+        if (cachedUser) { cachedUser.emp_dept = dept; cachedUser.role = role; cachedUser.emp_id = empId || null; cachedUser.emp_contact = contact || null; }
         logActivity('admin', `Employee ID card details saved for "${username}" (Dept: ${dept||'—'})`);
         renderUsersTable(); // refresh table in case role changed
         setTimeout(()=>msgEl.textContent='',3000);
