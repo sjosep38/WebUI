@@ -1535,8 +1535,10 @@
             </div>
           </div>
         </div>
-        <button onclick="renderEmpIdCardPreview()" style="background:var(--input-bg);color:var(--text-muted);border:1px solid var(--border-color);padding:9px 16px;border-radius:6px;cursor:pointer;font-size:0.85rem;font-weight:700;width:100%;">🔄 Refresh Preview</button>
-      </div>
+      <button onclick="renderEmpIdCardPreview()" style="background:var(--input-bg);color:var(--text-muted);border:1px solid var(--border-color);padding:9px 16px;border-radius:6px;cursor:pointer;font-size:0.85rem;font-weight:700;width:100%;">🔄 Refresh Preview</button>
+	  <button onclick="saveEmpIdCardDetails()" style="background:linear-gradient(135deg,#0088cc,#00adb5);color:#fff;border:none;padding:9px 16px;border-radius:6px;cursor:pointer;font-size:0.85rem;font-weight:700;width:100%;margin-top:6px;">💾 Save to Database</button>
+	  <div id="empidc-save-msg" style="font-size:0.78rem;text-align:center;"></div>
+	  </div>
       <!-- RIGHT: Preview -->
       <div class="emp-idc-preview-panel">
         <div class="emp-idc-preview-title">Live Card Preview</div>
@@ -2024,6 +2026,7 @@ async function renderUsersTable(){
     try{
         const{data:users,error}=await db.from('pos_users').select('*').order('created_at');
         if(error)throw error;
+        empUsersCache = users || [];   // ← NEW: keep the emp-card generator in sync
         (users||[]).forEach(u=>{
             const isCurrent=currentLoggedInUser&&u.username===currentLoggedInUser.username;
             const roleColor=getRoleColor(u.role);
@@ -2040,15 +2043,16 @@ async function renderUsersTable(){
                 <td style="font-family:monospace;color:var(--accent-color);font-weight:700;letter-spacing:0.5px;">${empId}</td>
                 <td>${new Date(u.created_at).toLocaleDateString()}</td>
                 <td>${isCurrent
-                    ?'<span style="color:var(--text-muted);font-size:0.8rem;">(current user)</span>'
+                    ?'<span style="color:var(--text-muted);font-size:0.8rem;">(Active)</span>'
                     :`<div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:center;">
                         <select onchange="changeUserRole('${u.username.replace(/'/g,"\\'")}',this.value)"
-                            style="padding:4px 8px;background:var(--input-bg-2);border:1px solid var(--border-color);color:var(--text-main);border-radius:4px;font-size:0.78rem;cursor:pointer;">
+                            style="padding:4px 8px;width:5px; background:var(--input-bg-2);border:1px solid var(--border-color);color:var(--text-main);border-radius:4px;font-size:0.78rem;cursor:pointer;">
                             ${roleOptions}
                         </select>
-                        <button class="btn-open-emp-id-card" onclick="openEmpIdCardModal('${u.username.replace(/'/g,"\\'")}')" title="Generate ID Card" style="padding:5px 8px;"><i class="fas fa-id-badge"></i></button>
-                        <button class="btn-table-action btn-inline-delete" onclick="deleteUserAccount('${u.username.replace(/'/g,"\\'")}')">Delete</button>
-						</div>`
+                       <button class="btn-table-action btn-inline-delete" onclick="deleteUserAccount('${u.username.replace(/'/g,"\\'")}')" title="Delete Account">
+							<i class="fa-solid fa-trash-can"></i>
+						</button>
+					   </div>`
                 }</td>`;
             tbody.appendChild(tr);
         });
@@ -2969,6 +2973,30 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 });
 
+document.addEventListener('DOMContentLoaded', () => {
+    const _origRenderUsersTable = renderUsersTable;
+    renderUsersTable = async function() {
+        await _origRenderUsersTable();
+        const rows = document.querySelectorAll('#users-table-body tr');
+        rows.forEach((tr, idx) => {
+            if (tr.querySelector('.btn-open-emp-id-card')) return;
+            const td = tr.querySelector('td:last-child');
+            if (!td) return;
+            // Get the username from the first cell (monospace username column)
+            const usernameTd = tr.querySelector('td:first-child');
+            if (!usernameTd) return;
+            const username = usernameTd.textContent.trim();
+            if (!username) return;
+            const btn = document.createElement('button');
+            btn.className = 'btn-open-emp-id-card';
+            btn.innerHTML = '<i class="fas fa-id-badge"></i>';
+            btn.title = 'Generate Employee ID Card';
+            btn.style.cssText = 'padding:5px 8px;';
+            btn.onclick = () => openEmpIdCardModal(username);
+            td.insertBefore(btn, td.firstChild);
+        });
+    };
+});
 
 async function deleteAllProductItems() {
     // Optional backup link element inside the confirmation modal
@@ -3013,6 +3041,7 @@ async function deleteAllProductItems() {
    EMPLOYEE ID CARD GENERATOR
 ════════════════════════════════════════════════════════════ */
 let empIdCardPhotoDataUrl = null;
+let empUsersCache = []; 
 
 function openEmpIdCardModal(prefillUsername) {
     populateEmpIdCardUserSelect();
@@ -3040,47 +3069,49 @@ function closeEmpIdCardModal() {
     document.getElementById('emp-id-card-modal').classList.remove('active');
 }
 
-async function populateEmpIdCardUserSelect() {
+function populateEmpIdCardUserSelect() {
     const sel = document.getElementById('empidc-user-select');
     sel.innerHTML = '<option value="">— Choose an employee —</option>';
-    try {
-        const { data: users } = await db.from('pos_users').select('*').order('fullname');
-        (users || []).forEach(u => {
-            const opt = document.createElement('option');
-            opt.value = u.username;
-            opt.textContent = `${u.fullname} — ${u.emp_id || u.username}`;
-            sel.appendChild(opt);
-        });
-    } catch(e) { console.warn('Could not load users for EMP card select:', e); }
+    empUsersCache.forEach(u => {
+        const opt = document.createElement('option');
+        opt.value = u.username;
+        opt.textContent = `${u.fullname} — ${u.emp_id || u.username}`;
+        sel.appendChild(opt);
+    });
 }
 
-async function empIdCardLoadUser() {
-    const username = document.getElementById('empidc-user-select').value;
+function empIdCardLoadUser() {
+    const username = document.getElementById('empidc-user-select')?.value;
     if (!username) return;
-    try {
-        const { data: u } = await db.from('pos_users').select('*').eq('username', username).single();
-        if (!u) return;
-        document.getElementById('empidc-name').value    = u.fullname || '';
-        document.getElementById('empidc-role').value   = u.role || 'cashier';
-        document.getElementById('empidc-contact').value = u.username || '';   // email as contact fallback
-        document.getElementById('empidc-empid').value  = u.emp_id || '';
-        document.getElementById('empidc-dept').value   = '';                  // dept not stored, user fills in
-        // Load saved photo if exists
-        if (u.emp_photo_base64) {
-            empIdCardPhotoDataUrl = u.emp_photo_base64;
-            const preview = document.getElementById('empidc-photo-preview');
-            preview.src = u.emp_photo_base64;
-            preview.style.display = 'block';
-            document.getElementById('empidc-photo-placeholder').style.display = 'none';
-        } else {
-            empIdCardPhotoDataUrl = null;
-            document.getElementById('empidc-photo-preview').style.display = 'none';
-            document.getElementById('empidc-photo-placeholder').style.display = 'block';
-        }
-        renderEmpIdCardPreview();
-    } catch(e) { console.warn('empIdCardLoadUser error:', e); }
-}
 
+    const u = empUsersCache.find(x => x.username === username);
+    if (!u) return;
+
+    const nameEl    = document.getElementById('empidc-name');
+    const roleEl    = document.getElementById('empidc-role');
+    const contactEl = document.getElementById('empidc-contact');
+    const empidEl   = document.getElementById('empidc-empid');
+    const deptEl    = document.getElementById('empidc-dept');
+
+    if (nameEl)    nameEl.value    = u.fullname || '';
+    if (roleEl)    roleEl.value    = u.role || 'cashier';
+    if (contactEl) contactEl.value = u.username || '';
+    if (empidEl)   empidEl.value   = u.emp_id || '';
+    if (deptEl)    deptEl.value    = u.emp_dept || '';
+
+    const preview     = document.getElementById('empidc-photo-preview');
+    const placeholder = document.getElementById('empidc-photo-placeholder');
+    if (u.emp_photo_base64) {
+        empIdCardPhotoDataUrl = u.emp_photo_base64;
+        if (preview) { preview.src = u.emp_photo_base64; preview.style.display = 'block'; }
+        if (placeholder) placeholder.style.display = 'none';
+    } else {
+        empIdCardPhotoDataUrl = null;
+        if (preview) preview.style.display = 'none';
+        if (placeholder) placeholder.style.display = 'block';
+    }
+    renderEmpIdCardPreview();
+}
 function empIdCardHandlePhoto(event) {
     const file = event.target.files[0];
     if (!file) return;
@@ -3105,7 +3136,11 @@ function empIdCardHandlePhoto(event) {
         if (username && db) {
             db.from('pos_users').update({ emp_photo_base64: empIdCardPhotoDataUrl }).eq('username', username)
               .then(({ error }) => {
-                if (!error) logActivity('admin', `Employee ID card photo saved for "${username}"`);
+                if (!error) {
+                    const cachedUser = empUsersCache.find(x => x.username === username);
+                    if (cachedUser) cachedUser.emp_photo_base64 = empIdCardPhotoDataUrl;
+                    logActivity('admin', `Employee ID card photo saved for "${username}"`);
+                }
               });
         }
     };
@@ -3277,6 +3312,35 @@ async function launchApp(user){
     await loadStoreSettings();
     await applyStoreSettings();  // ← now this re-loads + applies in sequence
     await loadAllData();
+}
+
+async function saveEmpIdCardDetails(){
+    const username = document.getElementById('empidc-user-select').value;
+    const msgEl = document.getElementById('empidc-save-msg');
+    if(!username){
+        msgEl.style.color='var(--danger-color)';
+        msgEl.textContent='Select an employee from the dropdown first.';
+        return;
+    }
+    const dept = document.getElementById('empidc-dept').value.trim();
+    const role = document.getElementById('empidc-role').value;
+    const empId = document.getElementById('empidc-empid').value.trim();
+    try{
+        const{error}=await db.from('pos_users').update({
+            emp_dept: dept,
+            role: role,
+            emp_id: empId || null
+        }).eq('username', username);
+		if(error) throw error;
+        const cachedUser = empUsersCache.find(x => x.username === username);
+        if (cachedUser) { cachedUser.emp_dept = dept; cachedUser.role = role; cachedUser.emp_id = empId || null; }
+        logActivity('admin', `Employee ID card details saved for "${username}" (Dept: ${dept||'—'})`);
+        renderUsersTable(); // refresh table in case role changed
+        setTimeout(()=>msgEl.textContent='',3000);
+    }catch(e){
+        msgEl.style.color='var(--danger-color)';
+        msgEl.textContent='Save failed: '+e.message;
+    }
 }
 
 document.addEventListener('contextmenuxx',e=>e.preventDefault());
